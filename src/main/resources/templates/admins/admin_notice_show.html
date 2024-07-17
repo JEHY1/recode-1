@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admin_header.css">
+    <link rel="stylesheet" href="/css/adminsCss/admin_notice_show.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/admin_header.js"></script>
+    <title>관리자 - 공지사항 보기</title>
+</head>
+<body>
+    <th:block th:include="layouts/admin_header"></th:block>
+    <main>
+        <div class="box">
+            <p id="boxTitle">공지사항 보기</p>
+            <div id="showBox">
+                <ul>
+                    <li>
+                        <p>제목</p>
+                        <p th:text="${notice.noticeTitle}"></p>
+                    </li>
+                    <li>
+                        <p>내용</p>
+                        <p th:text="${notice.noticeContent}"></p>
+                    </li>
+                    <li>
+                        <p>작성자</p>
+                        <p th:text="${username}"></p>
+                    </li>
+                    <li>
+                        <p>조회수</p>
+                        <p th:text="${notice.noticeViews}"></p>
+                    </li>
+                    <li>
+                        <p>등록일</p>
+                        <p th:text="${#temporals.format(notice.noticeCreateDate, 'yyyy-MM-dd HH:mm:ss')}"></p>
+                    </li>
+                </ul>
+                <div class="buttonBox">
+                    <a th:href="'/admin/notice/' + ${notice.noticeId} + '/insert'">수정</a>
+                    <a href="/admin/notice/index">목록</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

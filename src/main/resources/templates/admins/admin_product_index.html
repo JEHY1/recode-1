@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admin_header.css">
+    <link rel="stylesheet" href="/css/adminsCss/admin_product_index.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/admin_header.js"></script>
+    <script src="/js/admin_product_index.js"></script>
+    <title>관리자 - 상품 목록</title>
+</head>
+<body>
+    <th:block th:include="layouts/admin_header"></th:block>
+    <main>
+        <div class="box">
+            <p id="boxTitle">상품 목록</p>
+            <form id="selectBox">
+                <a href="#">보류</a>
+                <select>
+                    <option value="1" th:selected="${category} == '1'">상품명</option>
+                    <option value="2" th:selected="${category} == '2'">모델명</option>
+                    <option value="3" th:selected="${category} == '3'">판매가</option>
+                    <option value="4" th:selected="${category} == '4'">할인가</option>
+                    <option value="5" th:selected="${category} == '5'">등록일</option>
+                </select>
+                <input type="search" th:value="${param.searchKeyword}">
+                <button type="button">검색</button>
+                <select>
+                    <option value="3" th:selected="${group} == '3'">전체상품</option>
+                    <option value="0" th:selected="${group} == '0'">판매중</option>
+                    <option value="1" th:selected="${group} == '1'">판매완료</option>
+                    <option value="2" th:selected="${group} == '2'">판매보류</option>
+                </select>
+            </form>
+            <div id="indexBox">
+                <table>
+                    <colgroup>
+                        <col width="70px">
+                        <col width="70px">
+                        <col width="150px">
+                        <col width="393px">
+                        <col width="180px">
+                        <col width="180px">
+                        <col width="150px">
+                        <col width="150px">
+                        <col width="155px">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="all"></th>
+                            <th>No</th>
+                            <th>구분</th>
+                            <th>상품명 (모델명)</th>
+                            <th>판매가</th>
+                            <th>할인가</th>
+                            <th>판매여부</th>
+                            <th>등록일</th>
+                            <th>관리</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="product : ${products}" th:style="${product.productSold == 2 ? 'background-color: #eee;' : ''}"> <!-- 리스트 하나 -->
+                            <td><input type="checkbox" th:value="${product.productId}" class="check"></td>
+                            <td th:text="${productStat.count + (nowPage-1)*10}">1</td>
+                            <td th:text="${product.productCategory}"></td>
+                            <td><a th:href="'/admin/product/' + ${product.productId} + '/show'" th:text="${product.productName + ' (' + product.productModel + ')'}"></a></td>
+                            <td th:text="${product.productRegularPrice}"></td>
+                            <td th:text="${product.productDiscountPrice != null ? product.productDiscountPrice : '-'}"></td>
+                            <th:block th:switch="${product.productSold}">
+                                <td th:case="0">판매중</td>
+                                <td th:case="1">판매완료</td>
+                                <td th:case="2">판매보류</td>
+                            </th:block>
+                            <td th:text="${#temporals.format(product.productRegistrationDate, 'yyyy-MM-dd')}"></td>
+                            <td>
+                                <a th:href="'/admin/product/' + ${product.productId} + '/show'">보기</a>
+                                <a th:href="'/admin/product/' + ${product.productId} + '/delete?page=' + ${products.getNumberOfElements() != 1 ? nowPage-1 : nowPage-2} + '&group=' + ${group} + '&category=' + ${category} + '&searchKeyword=' + ${searchKeyword}">보류</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="pageBox">
+                <a th:href="${products.hasPrevious() ? '/admin/product/index?page=' + (nowPage-2) + '&group=' + group + '&category=' + category + '&searchKeyword=' + searchKeyword : 'javascript:void(0)'}" th:style="${products.hasPrevious() ? '' : 'color:#ccc'}">〈</a>
+                <a href="#" th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/admin/product/index?page=' + (page - 1) + '&group=' + group + '&category=' + category +'&searchKeyword=' + searchKeyword}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }"></a>
+                <a th:href="${products.hasNext() ? '/admin/product/index?page=' + nowPage + '&group=' + group + '&category=' + category + '&searchKeyword=' + searchKeyword : 'javascript:void(0)'}" th:style="${products.hasNext() ? '' : 'color:#ccc'}">〉</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

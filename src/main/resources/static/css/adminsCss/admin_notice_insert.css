@@ -1,0 +1,73 @@
+main { /* main 크기 고정 */
+    width: 1823px;
+}
+.box {
+    width: 910px;
+    margin: 0 auto;
+}
+#boxTitle { /* 제목 */
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    font-size: 25px;
+    font-weight: bold;
+}
+#insertBox {
+    padding: 20px 40px 40px 40px;
+    border-radius: 30px;
+    background-color: #f7f7f7;
+    margin-bottom: 40px;
+}
+#insertBox ul {
+    list-style: none;
+    padding: 0;
+}
+#insertBox ul li {
+    padding: 25px 10px;
+}
+#insertBox ul li label {
+    display: inline-block;
+    width: 200px;
+    padding: 7px 0;
+    font-weight: bold;
+    vertical-align: top;
+}
+#insertBox ul li input {
+    box-sizing: border-box;
+    padding: 7px;
+    width: 600px;
+}
+#insertBox ul li textarea {
+    box-sizing: border-box;
+    padding: 7px;
+    width: 600px;
+    height: 300px;
+    vertical-align: top;
+}
+.buttonBox {
+    text-align: center;
+    margin-top: 30px;
+}
+.buttonBox button:nth-child(1) {
+    background-color: #548235;
+    width: 80px;
+    padding: 10px;
+    border: 1px solid #548235;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+.buttonBox a:nth-child(2) {
+    box-sizing: border-box;
+    display: inline-block;
+    text-decoration: none;
+    background-color: white;
+    width: 80px;
+    padding: 10px;
+    border: 1px solid #548235;
+    border-radius: 10px;
+    color: #548235;
+    margin-left: 10px;
+}
+
+

@@ -1,0 +1,104 @@
+<header xmlns:sec="http://www.w3.org/1999/xhtml">
+    <a id="logo" href="/"></a>
+    <ul>
+        <li>
+            <a href="/etc/brand">브랜드</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)">상품</a>
+            <ul>
+                <li><a href="/product/productGroup?productCategory=크로스백">크로스백</a></li>
+                <li><a href="/product/productGroup?productCategory=숄더백">숄더백</a></li>
+                <li><a href="/product/productGroup?productCategory=클러치">클러치</a></li>
+                <li><a href="/product/productGroup?productCategory=지갑">지갑</a></li>
+                <li><a href="/product/productGroup?productCategory=백팩">백팩</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0)">커뮤니티</a>
+            <ul>
+                <li><a href="/notices">공지사항</a></li>
+                <li><a href="/qnaList">상품문의</a></li>
+                <li><a href="/reviews">리뷰</a></li>
+            </ul>
+        </li>
+    </ul>
+    <div id="iconBox">
+        <ul>
+            <li>
+                <a href="javascript:void(0)"></a>
+            </li>
+            <li>
+                <a href="javascript:void(0)"></a>
+                <ul>
+                    <li><a href="/login" sec:authorize="isAnonymous()">로그인</a></li>
+                    <li><a href="/join/new" sec:authorize="isAnonymous()">회원가입</a></li>
+                    <li><a href="/logout" sec:authorize="isAuthenticated()">로그아웃</a></li>
+                    <li><a href="/admin/product/index" sec:authorize="hasRole('ADMIN')">관리자페이지</a></li>
+                    <li><a href="/user/myPage" sec:authorize="isAuthenticated()">마이페이지</a></li>
+                    <li><a href="/user/orderCheck" sec:authorize="isAuthenticated()">주문조회</a></li>
+                    <li><a href="/user/cart" sec:authorize="isAuthenticated()">장바구니(<span>0</span>)</a></li>
+                    <li><a href="/product/productGroup?recentViewProduct=1" sec:authorize="isAuthenticated()">최근본상품</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:void(0)"></a>
+            </li>
+        </ul>
+    </div>
+</header>
+<nav xmlns:sec="http://www.w3.org/1999/xhtml">
+    <a href="javascript:void(0)">✕</a>
+    <div id="naviBox">
+        <ul>
+            <li>
+                <p>상품</p>
+                <ul>
+                    <li><a href="/product/productGroup?productCategory=크로스백">크로스백</a></li>
+                    <li><a href="/product/productGroup?productCategory=숄더백">숄더백</a></li>
+                    <li><a href="/product/productGroup?productCategory=클러치">클러치</a></li>
+                    <li><a href="/product/productGroup?productCategory=지갑">지갑</a></li>
+                    <li><a href="/product/productGroup?productCategory=백팩">백팩</a></li>
+                </ul>
+            </li>
+            <li>
+                <p>커뮤니티</p>
+                <ul>
+                    <li><a href="/noticeList">공지사항</a></li>
+                    <li><a href="/qnaList">상품문의</a></li>
+                    <li><a href="/reviews">리뷰</a></li>
+                </ul>
+            </li>
+            <li>
+                <p>내계정</p>
+                <ul>
+                    <li><a href="/login" sec:authorize="isAnonymous()">로그인</a></li>
+                    <li><a href="/join/new" sec:authorize="isAnonymous()">회원가입</a></li>
+                    <li><a href="/logout" sec:authorize="isAuthenticated()">로그아웃</a></li>
+                    <li><a href="/admin/product/index" sec:authorize="hasRole('ADMIN')">관리자페이지</a></li>
+                    <li><a href="/user/myPage">마이페이지</a></li>
+                    <li><a href="/user/orderCheck">주문조회</a></li>
+                    <li><a href="/user/cart">장바구니(<span>0</span>)</a></li>
+                    <li><a href="#">최근본상품(<span>0</span>)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div id="search">
+    <a href="javascript:void(0)">✕</a>
+    <div id="searchBox">
+        <p>Search</p>
+        <form>
+            <input id="searchBar" type="search" placeholder="검색어를 입력해주세요">
+            <button id="productSearch-btn" type="button"></button>
+        </form>
+        <div class="d-hidden d-fixed" id="searchedField" style="background-color: white; width: 600px;"></div>
+    </div>
+</div>
+<div xmlns:th="http://www.w3.org/1999/xhtml" id="notice" th:if="${msg}">
+    <div>
+        <p th:text="${msg}"></p>
+        <a href="javascript:void(0)">확인</a>
+    </div>
+</div>

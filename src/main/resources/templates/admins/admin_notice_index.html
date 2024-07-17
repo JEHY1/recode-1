@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admin_header.css">
+    <link rel="stylesheet" href="/css/adminsCss/admin_notice_index.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/admin_header.js"></script>
+    <script src="/js/admin_notice_index.js"></script>
+    <title>관리자 - 공지사항 목록</title>
+</head>
+<body>
+    <th:block th:include="layouts/admin_header"></th:block>
+    <main>
+        <div class="box">
+            <p id="boxTitle">공지사항 목록</p>
+            <form id="selectBox">
+                <a href="#">삭제</a>
+                <select>
+                    <option value="1" th:selected="${category} == '1'">제목</option>
+                    <option value="2" th:selected="${category} == '2'">작성자</option>
+                    <option value="3" th:selected="${category} == '3'">등록일</option>
+                </select>
+                <input type="search" th:value="${param.searchKeyword}">
+                <button type="button">검색</button>
+                <a href="/admin/notice/insert">공지사항 등록</a>
+            </form>
+            <div id="indexBox">
+                <table>
+                    <colgroup>
+                        <col width="70px">
+                        <col width="70px">
+                        <col width="150px">
+                        <col width="673px">
+                        <col width="160px">
+                        <col width="70px">
+                        <col width="150px">
+                        <col width="155px">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="all"></th>
+                            <th>No</th>
+                            <th>구분</th>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>조회수</th>
+                            <th>등록일</th>
+                            <th>관리</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="notice : ${notices}"> <!-- 리스트 하나 -->
+                            <td><input type="checkbox" th:value="${notice.noticeId}" class="check"></td>
+                            <td th:text="${noticeStat.count + (nowPage-1)*10}"></td>
+                            <td>공지사항</td>
+                            <td><a th:href="'/admin/notice/' + ${notice.noticeId} + '/show'" th:text="${notice.noticeTitle}"></a></td>
+                            <td th:text="${notice.username}"></td>
+                            <td th:text="${notice.noticeViews}"></td>
+                            <td th:text="${#temporals.format(notice.noticeCreateDate, 'yyyy-MM-dd')}"></td>
+                            <td>
+                                <a th:href="'/admin/notice/' + ${notice.noticeId} + '/show'">보기</a>
+                                <a th:href="'/admin/notice/' + ${notice.noticeId} + '/delete?page=' + ${notices.getNumberOfElements() != 1 ? nowPage-1 : nowPage-2} + '&category=' + ${category} + '&searchKeyword=' + ${searchKeyword}">삭제</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="pageBox">
+                <a th:href="${notices.hasPrevious() ? '/admin/notice/index?page=' + (nowPage-2) + '&category=' + category + '&searchKeyword=' + searchKeyword : 'javascript:void(0)'}" th:style="${notices.hasPrevious() ? '' : 'color:#ccc'}">〈</a>
+                <a href="#" th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/admin/notice/index?page=' + (page - 1) + '&category=' + category +'&searchKeyword=' + searchKeyword}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }"></a>
+                <a th:href="${notices.hasNext() ? '/admin/notice/index?page=' + nowPage + '&category=' + category + '&searchKeyword=' + searchKeyword : 'javascript:void(0)'}" th:style="${notices.hasNext() ? '' : 'color:#ccc'}">〉</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

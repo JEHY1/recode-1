@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="/css/admin_header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/admin_header.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <style>
+
+    #menu > img { /* 헤더 이미지 설정 (bootStarp 충돌) */
+      width: 80px;
+      padding: 25px;
+    }
+
+    .d-hidden{
+      display: none;
+    }
+
+    .d-fixed{
+      position: fixed;
+    }
+
+    .cursor{
+      cursor: pointer;
+    }
+    #userInfo{
+      width: 500px;
+      background-color: #CCC;
+    }
+
+    .bg-white{
+      background-color: white;
+    }
+
+    .bg-gray{
+      background-color: gray;
+    }
+
+    .color-white{
+      color:white;
+    }
+
+    .color-blue{
+      color: blue;
+    }
+    .border-y{
+      border-top: 2px solid gray;
+      border-bottom: 2px solid gray;
+    }
+
+    .border-b{
+      border-bottom: 1px solid gainsboro;
+    }
+
+    .border-y-1{
+      border-top: 1px solid gainsboro;
+      border-bottom: 1px solid gainsboro;
+    }
+  </style>
+</head>
+<body>
+<th:block th:include="layouts/admin_header"></th:block>
+<div style="width:1823px;">
+  <div style="height: 160px;">
+    <div class="cursor" style="width: 50px; height: 50px; font-weight: 700;" onclick="window.history.back()">EXIT</div>
+  </div>
+
+  <div class="row mx-auto" style="height: 35px; width: 1823px;">
+    <div class="col-auto" style="width: 500px;"></div>
+    <div class="col-auto">선택항목 상태변경</div>
+    <select class="col-auto me-4" style="width: 180px; height:30px;" id="statusSel">
+      <option class="d-hidden">선택</option>
+      <option>결제완료</option>
+      <option>배송준비중</option>
+      <option>배송중</option>
+      <option>배송완료</option>
+      <option>주문취소</option>
+      <option>반품진행</option>
+      <option>반품완료</option>
+    </select>
+    <button class="col-auto btn btn-secondary py-0" id="selectedStatusChange-btn" type="button" style="height: 30px;">변경하기</button>
+  </div>
+
+  <div class="main mx-auto row" style="width: 1823px; height: 844px;">
+    <div id="userInfo" class="h-100 col-auto">
+      <div class="row w-100 mx-auto" style="height: 400px;">
+        <div class="row w-100 mx-auto border-y mt-3" style="height: 34px;">
+          결제 정보
+        </div>
+
+        <div class="row w-100 mx-auto">
+          <div class="col-3 ms-2 p-0">구매자</div>
+          <div class="col" th:text="${customerName}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto">
+          <div class="col-3 ms-2 p-0">결제일</div>
+          <div class="col" th:text="${#temporals.format(payment.paymentDate, 'yyyy-MM-dd HH:mm:ss')}">0000-00-00 00:00:00</div>
+        </div>
+
+        <div class="row w-100 mx-auto">
+          <div class="col-3 ms-2 p-0">결제수단</div>
+          <div class="col" th:text="${payment.paymentType}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto" th:if="${payment.paymentBank != null}">
+          <div class="col-3 ms-2 p-0">입금은행</div>
+          <div class="col" th:text="${payment.paymentBank}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto" th:if="${payment.paymentDepositor != null}">
+          <div class="col-3 ms-2 p-0">입금자명</div>
+          <div class="col" th:text="${payment.paymentDepositor}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto" th:if="${payment.paymentAccountNumber !=null}">
+          <div class="col-3 ms-2 p-0">계좌번호</div>
+          <div class="col" th:text="${payment.paymentAccountNumber}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto" th:if="${payment.paymentCard != null}">
+          <div class="col-3 ms-2 p-0" >카드사</div>
+          <div class="col" th:text="${payment.paymentCard}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto" th:if="${payment.paymentCardNumber != null}">
+          <div class="col-3 ms-2 p-0">카드번호</div>
+          <div class="col" th:text="${payment.paymentCardNumber}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto" th:if="${payment.paymentInstallment != null}">
+          <div class="col-3 ms-2 p-0">할부기간</div>
+          <div class="col" th:text="${payment.paymentInstallment}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto" th:if="${payment.paymentPhoneCompany != null}">
+          <div class="col-3 ms-2 p-0">통신사</div>
+          <div class="col" th:text="${payment.paymentPhoneCompany}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto" th:if="${payment.paymentMicropaymentPhone != null}">
+          <div class="col-3 ms-2 p-0">전화번호</div>
+          <div class="col" th:text="${payment.paymentMicropaymentPhone}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto">
+          <div class="col-3 ms-2 p-0">결제금액</div>
+          <div class="col" th:text="${payment.paymentPrice}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto">
+          <div class="col-3 ms-2 p-0">상태</div>
+          <div class="col" th:text="${payment.paymentStatus}">test(sss)</div>
+        </div>
+      </div>
+
+
+      <div class="row w-100 mx-auto" style="height: 400px;">
+        <div class="row w-100 mx-auto border-y mt-3" style="height: 34px;">
+          배송정보
+        </div>
+
+
+
+        <div class="row w-100 mx-auto">
+          <div class="col-3 ms-2 p-0 d-flex align-items-center">배송지</div>
+          <div class="col d-flex align-items-center" th:text="${payment.paymentAddress}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto">
+          <div class="col-3 ms-2 p-0 d-flex align-items-center">택배수령인</div>
+          <div class="col d-flex align-items-center" th:text="${payment.paymentRecipientName}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto">
+          <div class="col-3 ms-2 p-0 d-flex align-items-center">수령인 <br> 전화번호</div>
+          <div class="col d-flex align-items-center" th:text="${payment.paymentRecipientPhone}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto">
+          <div class="col-3 ms-2 p-0 d-flex align-items-center">요청사항</div>
+          <div class="col d-flex align-items-center" th:text="${payment.paymentDeliveryRequest}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto" th:if="${payment.paymentFrontDoorSecret != null}">
+          <div class="col-3 ms-2 p-0 d-flex align-items-center">현관 <br> 비밀번호</div>
+          <div class="col d-flex align-items-center" th:text="${payment.paymentFrontDoorSecret}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto" th:if="${payment.paymentDeliveryBoxNum != null}">
+          <div class="col-3 ms-2 p-0 d-flex align-items-center">택배함 번호</div>
+          <div class="col d-flex align-items-center" th:text="${payment.paymentDeliveryBoxNum}">test(sss)</div>
+        </div>
+
+        <div class="row w-100 mx-auto">
+          <div class="col-3 ms-2 p-0 d-flex align-items-center">배송비</div>
+          <div class="col d-flex align-items-center" th:text="${payment.paymentDeliveryFee}">test(sss)</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col row-auto w-100 mx-auto">
+
+      <div class="w-100" style="height:808px;">
+        <div class="border-y row mx-auto w-100 my-0" style="height: 35px;">
+          <input type="checkbox" class="col-auto" id="allItemSelectCheckBox">
+          <div class="col-auto" style="width: 100px;">No.</div>
+          <div class="col-6 text-center">주문 상품</div>
+          <div class="col text-center" style="width: 150px;">금액</div>
+          <div class="col text-center">상태</div>
+        </div>
+
+        <div th:each="orderDetail : ${orderDetailList}" class="border-b row mx-auto w-100 selectable" style="height: 150px;">
+          <input type="checkbox" class="col-auto itemSelectCheckBox">
+          <input type="hidden" th:value="${orderDetail.paymentDetailId}">
+          <div class="col-auto number d-flex align-items-center" style="width: 100px;">1</div>
+          <div class="col-6 d-flex align-items-center"><img th:src="'http://192.168.106.12/fileServer' + ${orderDetail.productRepImgSrc}" style="width: 130px; height: 130px;"> <div class="ms-3" th:text="${orderDetail.productName}"></div></div>
+          <div class="col text-center d-flex align-items-center justify-content-center" style="width: 150px;" th:text="${orderDetail.productPrice}">금액</div>
+          <div class="col d-flex align-items-center justify-content-center">
+            <div>
+              <div class="mb-2 text-center" th:text="${orderDetail.paymentDetailStatus}"></div>
+              <select class="itemStatusSel">
+                <option class="d-hidden">변경하기</option>
+                <option>결제완료</option>
+                <option>배송준비중</option>
+                <option>배송중</option>
+                <option>배송완료</option>
+                <option>주문취소</option>
+                <option>반품진행</option>
+                <option>반품완료</option>
+              </select>
+            </div>
+          </div>
+          <!--        <div class="col text-center d-flex align-items-center justify-content-center" th:text="${orderDetail.paymentDetailStatus}">상태</div>-->
+        </div>
+
+
+        <!--      <div th:each="orderInfo : ${orderInfoList}" class="border-b row mx-auto w-100 selectable" style="height: 75px;">-->
+        <!--        <input type="hidden" th:value="${orderInfo.paymentId}">-->
+        <!--        <input type="checkbox" class="col-auto">-->
+        <!--        <div class="col-auto d-flex align-items-center number" style="width: 100px;">1</div>-->
+        <!--        <div class="col d-flex align-items-center text-center" th:text="${#temporals.format(orderInfo.paymentDate, 'yyyy-MM-dd HH:mm:ss')}">2024-06-24</div>-->
+        <!--        <div class="col-6 d-flex align-items-center" th:text="${orderInfo.productName}">주문 상품</div>-->
+        <!--        <div class="col d-flex align-items-center justify-content-center p-0" th:text="${orderInfo.userRealName}">구매자(실명)</div>-->
+        <!--        <div class="col d-flex align-items-center justify-content-center" th:text="${orderInfo.paymentPrice}">금액</div>-->
+        <!--        <div class="col text-center" th:text="${orderInfo.paymentStatus}">상태</div>-->
+        <!--      </div>-->
+
+      </div>
+
+      <div class="row mt-auto d-hidden">
+        <button class="col-auto ms-auto"><</button>
+        <div class="col-auto p-0 text-center" style="width: 50px;">1</div>
+        <button class="col-auto me-auto">></button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="/js/orderDetailManager.js"></script>
+</body>
+</html>

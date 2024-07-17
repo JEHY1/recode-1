@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>OrderManager</title>
+  <link rel="stylesheet" href="/css/admin_header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/admin_header.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+
+    #menu > img { /* 헤더 이미지 설정 (bootStarp 충돌) */
+      width: 80px;
+      padding: 25px;
+    }
+
+    .d-hidden{
+      display: none;
+    }
+
+    .d-fixed{
+      position: fixed;
+    }
+
+    .fs-18{
+      font-size: 18px;
+    }
+
+    #searchBar{
+      width: 500px;
+      background-color: #CCC;
+    }
+
+    .bg-white{
+      background-color: white;
+    }
+
+    .bg-gray{
+      background-color: gray;
+    }
+
+    .color-white{
+      color:white;
+    }
+
+    .color-blue{
+      color: blue;
+    }
+    .border-y{
+      border-top: 2px solid gray;
+      border-bottom: 2px solid gray;
+    }
+
+    .border-b{
+      border-bottom: 1px solid gainsboro;
+    }
+
+    .productNameField:hover{
+      background-color: gray;
+    }
+
+    .userNameField:hover{
+      background-color: gray;
+    }
+
+    .selectable:hover{
+      background-color: gainsboro;
+    }
+
+    #selectedPage-btn{
+      background-color: green;
+      border-radius: 5px;
+      color: white;
+    }
+
+  </style>
+
+
+</head>
+<body style="width: 1920px;">
+<th:block th:include="layouts/admin_header"></th:block>
+<div class="main" style="width: 1823px;">
+  <div style="height: 195px; width: 1823px; font-size: 18px;">
+    <div class="row w-100 h-100 mx-auto">
+      <div class="col-auto" style="width: 420px; background-color: #CCC; ">
+        <div class="row h-100 w-100 mx-auto text-center">
+          <div class="col mt-auto" style="font-size: 40px; font-weight: 700;">주문관리</div>
+        </div>
+      </div>
+
+      <div class="col-auto" style="width: 540px;">
+        <div class="row mx-auto w-100" style="height: 160px;"></div>
+
+        <div class="row mx-auto" style="height: 35px;">
+          <div class="ps-0 col-auto">선택항목 상태변경</div>
+          <select class="col-auto me-4" id="statusSel" style="width: 180px; height:30px;">
+            <option class="d-hidden">선택</option>
+            <option>결제완료</option>
+            <option>배송준비중</option>
+            <option>배송중</option>
+            <option>배송완료</option>
+            <option>주문취소</option>
+            <option>반품진행</option>
+            <option>반품완료</option>
+          </select>
+          <button class="col-auto btn btn-secondary py-0" type="button" id="selectedStatusChange-btn" style="height: 30px;">변경하기</button>
+        </div>
+      </div>
+
+      <div class="col-auto" style="width: 800px;">
+        <input type="hidden" id="totalPaymentCount" th:value="${orderInfoPage.totalPaymentCount}">
+        <input type="hidden" id="totalDeposit" th:value="${orderInfoPage.totalDeposit}">
+        <input type="hidden" id="totalDepositCount" th:value="${orderInfoPage.totalDepositCount}">
+
+        <input type="hidden" id="totalPaymentNonCount" th:value="${orderInfoPage.totalPaymentNonCount}">
+        <input type="hidden" id="totalPaymentNonDeposit" th:value="${orderInfoPage.totalPaymentNonDeposit}">
+        <input type="hidden" id="totalPaymentNonDepositCount" th:value="${orderInfoPage.totalPaymentNonDepositCount}">
+
+        <input type="hidden" id="totalPaymentCompleteCount" th:value="${orderInfoPage.totalPaymentCompleteCount}">
+        <input type="hidden" id="totalPaymentCompleteDeposit" th:value="${orderInfoPage.totalPaymentCompleteDeposit}">
+        <input type="hidden" id="totalPaymentCompleteDepositCount" th:value="${orderInfoPage.totalPaymentCompleteDepositCount}">
+
+        <input type="hidden" id="totalPaymentCancelCount" th:value="${orderInfoPage.totalPaymentCancelCount}">
+        <input type="hidden" id="totalPaymentCancelDeposit" th:value="${orderInfoPage.totalPaymentCancelDeposit}">
+        <input type="hidden" id="totalPaymentCancelDepositCount" th:value="${orderInfoPage.totalPaymentCancelDepositCount}">
+
+<!--        <div class="row mx-auto w-100 d-hidden" style="195px;">-->
+<!--          <h2 class="text-center m-0 mt-1" id="chartTitle1" style="font-size: 10px;">주문별 건수</h2>-->
+<!--          <canvas id="paymentChart" style="height: 180px;"></canvas>-->
+<!--        </div>-->
+
+<!--        <div class="row mx-auto w-100" style="195px;">-->
+<!--          <h2 class="text-center m-0 mt-1" id="chartTitle2" style="font-size: 10px;">주문별 건수</h2>-->
+<!--          <canvas id="paymentDetailChart" style="height: 180px;"></canvas>-->
+<!--        </div>-->
+
+        <div class="row mx-auto ms-3 w-100" style="195px;">
+          <h2 class="text-center m-0 mt-1" id="chartTitle3" style="font-size: 10px;">통계</h2>
+          <canvas id="paymentPriceChart" style="height: 180px;"></canvas>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="main mx-auto row" style="width: 1823px; height: 844px;">
+    <div id="searchBar" class="h-100 col-auto p-0" style="width: 420px;">
+      <!--    <div class="d-fixed" style="width: 500px; height: 800px; background-color: green;"></div>-->
+      <div class="row mx-auto w-100 pt-5">
+        <div class="col-auto p-0 px-1" style="width: 90px;">상품이름</div>
+        <input type="text" class="col me-2" id="productNameSearch" placeholder="상품이름">
+      </div>
+      <div style="width: 320px;  background-color:white; left:170px ;" class="d-fixed" id="productNameSearchedField">
+      </div>
+
+
+      <div class="row mx-auto w-100 pt-2">
+        <div class="col-auto p-0 px-1" style="width: 90px;">구매자ID</div>
+        <input type="text" class="col me-2" placeholder="구매자ID" id="userRealNameSearch">
+      </div>
+      <div style="width: 320px;  background-color:white; left:170px ;" class="d-fixed " id="UserRealNameSearchedField">
+      </div>
+
+      <input type="hidden" id="currentYear" th:value="${serverDate.currentYear}">
+      <input type="hidden" id ="currentMonthAndDay" th:value="${serverDate.currentMonthAndDay}">
+      <input type="hidden" id="startYear" th:value="${serverDate.startYear}">
+      <input type="hidden" id="startMonth" th:value="${serverDate.startMonth}">
+      <input type="hidden" id="startDay" th:value="${serverDate.startDay}">
+      <input type="hidden" id="endYear" th:value="${serverDate.endYear}">
+      <input type="hidden" id="endMonth" th:value="${serverDate.endMonth}">
+      <input type="hidden" id="endDay" th:value="${serverDate.endDay}">
+      <div class="row mx-auto w-100 pt-5">
+        <div class="col-auto p-0 px-1" style="width: 90px;">기간</div>
+        <div type="button" class="text-center col-auto me-auto border bg-white p-0 period-btn" style="width: 80px;" onclick="getPeriod(this)">3개월<input type="hidden" value="3"></div>
+        <div type="button" class="text-center col-auto mx-auto border bg-white p-0 period-btn" style="width: 80px;" onclick="getPeriod(this)">6개월<input type="hidden" value="6"></div>
+        <div type="button" class="text-center col-auto mx-auto border bg-white p-0 period-btn" style="width: 80px;" onclick="getPeriod(this)">12개월<input type="hidden" value="12"></div>
+        <div type="button" class="text-center col-auto mx-auto me-2 border bg-white p-0 period-btn" style="width: 80px;" onclick="getPeriod(this)">전체<input type="hidden" value="120"></div>
+      </div>
+
+      <div class="row mx-auto w-100 pt-2">
+        <div class="col-auto p-0 px-1" style="width: 90px;">시작일</div>
+        <div class="row col mx-auto w-100 p-0">
+          <select class="col-4" id="startYearSel">
+          </select>
+          <div class="col-auto ps-1">년</div>
+
+          <select class="col p-0" style="width: 50px;" id="startMonthSel">
+            <option value="01">1</option>
+            <option value="02">2</option>
+            <option value="03">3</option>
+            <option value="04">4</option>
+            <option value="05">5</option>
+            <option value="06">6</option>
+            <option value="07">7</option>
+            <option value="08">8</option>
+            <option value="09">9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+          </select>
+          <div class="col-auto ps-1">월</div>
+
+          <select class="col p-0" style="width: 50px;" id="startDaySel">
+            <option value="01">1</option>
+            <option value="02">2</option>
+            <option value="03">3</option>
+            <option value="04">4</option>
+            <option value="05">5</option>
+            <option value="06">6</option>
+            <option value="07">7</option>
+            <option value="08">8</option>
+            <option value="09">9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+            <option>13</option>
+            <option>14</option>
+            <option>15</option>
+            <option>16</option>
+            <option>17</option>
+            <option>18</option>
+            <option>19</option>
+            <option>20</option>
+            <option>21</option>
+            <option>22</option>
+            <option>23</option>
+            <option>24</option>
+            <option>25</option>
+            <option>26</option>
+            <option>27</option>
+            <option>28</option>
+            <option>29</option>
+            <option>30</option>
+            <option>31</option>
+          </select>
+          <div class="col-auto ps-1 pe-2">일</div>
+        </div>
+      </div>
+
+      <div class="row mx-auto w-100 pt-2">
+        <div class="col-auto p-0 px-1" style="width: 90px;">종료일</div>
+        <div class="row col mx-auto w-100 p-0">
+          <select class="col-4" id="endYearSel">
+          </select>
+          <div class="col-auto ps-1">년</div>
+
+          <select class="col p-0" style="width: 50px;" id="endMonthSel">
+            <option value="01">1</option>
+            <option value="02">2</option>
+            <option value="03">3</option>
+            <option value="04">4</option>
+            <option value="05">5</option>
+            <option value="06">6</option>
+            <option value="07">7</option>
+            <option value="08">8</option>
+            <option value="09">9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+          </select>
+          <div class="col-auto ps-1">월</div>
+
+          <select class="col p-0" style="width: 50px;" id="endDaySel">
+            <option value="01">1</option>
+            <option value="02">2</option>
+            <option value="03">3</option>
+            <option value="04">4</option>
+            <option value="05">5</option>
+            <option value="06">6</option>
+            <option value="07">7</option>
+            <option value="08">8</option>
+            <option value="09">9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+            <option>13</option>
+            <option>14</option>
+            <option>15</option>
+            <option>16</option>
+            <option>17</option>
+            <option>18</option>
+            <option>19</option>
+            <option>20</option>
+            <option>21</option>
+            <option>22</option>
+            <option>23</option>
+            <option>24</option>
+            <option>25</option>
+            <option>26</option>
+            <option>27</option>
+            <option>28</option>
+            <option>29</option>
+            <option>30</option>
+            <option>31</option>
+          </select>
+          <div class="col-auto ps-1 pe-2">일</div>
+        </div>
+      </div>
+
+      <div class="row mx-auto w-100 pt-5">
+        <div class="col-auto p-0 px-1" style="width: 90px;">최소금액</div>
+        <input type="text" class="col me-2" id="minPrice" placeholder="최소금액">
+      </div>
+
+      <div class="row mx-auto w-100 pt-2">
+        <div class="col-auto p-0 px-1" style="width: 90px;">최대금액</div>
+        <input type="text" class="col me-2" id="maxPrice" placeholder="최대금액">
+      </div>
+
+      <div class="row mx-auto w-100 pt-5">
+        <div class="col-auto p-0 px-1" style="width: 90px;">주문상태</div>
+        <select class="col me-2" id="paymentStatusSel">
+          <option>전체</option>
+          <option>결제완료</option>
+          <option>배송준비중</option>
+          <option>배송중</option>
+          <option>배송완료</option>
+          <option>주문취소</option>
+          <option>반품진행</option>
+          <option>반품완료</option>
+        </select>
+      </div>
+
+      <div class="row mx-auto w-100 pt-2">
+        <div class="col-auto p-0 px-1" style="width: 90px;">상품상태</div>
+        <select class="col me-2" id="paymentDetailStatusSel">
+          <option>전체</option>
+          <option>결제완료</option>
+          <option>배송준비중</option>
+          <option>배송중</option>
+          <option>배송완료</option>
+          <option>주문취소</option>
+          <option>반품진행</option>
+          <option>반품완료</option>
+        </select>
+      </div>
+
+      <div class="row mx-auto w-100 pt-5 d-hidden">
+        <div class="col-5 mx-auto" style="border: 1px solid gray; background-color: gray; color:white;">주문별 보기</div>
+        <div class="col-5 mx-auto" style="border: 1px solid gray; background-color: white;">상품별 보기</div>
+      </div>
+
+
+      <div class="row mx-auto w-100 pt-5">
+        <button type="button" class="col-11 mx-auto" id="search-btn">조회</button>
+      </div>
+    </div>
+
+    <div class="col row-auto w-100 mx-auto">
+
+      <div class="w-100" style="height:808px;">
+        <div class="border-y row mx-auto w-100 my-0" style="height: 35px;">
+          <input type="checkbox" class="col-auto" id="allSelectCheckBox" autocomplete="off">
+          <div class="col-auto" style="width: 100px;">No.</div>
+          <div class="col-auto text-center" style="width: 150px;">날짜</div>
+          <div class="col-5">주문 상품</div>
+          <div class="col-auto text-center p-0" style="width: 150px;">구매자(실명)</div>
+          <div class="col-auto text-center px-1" style="width: 150px;">금액</div>
+          <div class="col text-center">상태</div>
+        </div>
+
+        <div id="itemField">
+          <div th:each="orderInfoList : ${orderInfoPage.paymentInfo}" class="d-hidden">
+            <div th:each="orderInfo : ${orderInfoList}" class="border-b row mx-auto w-100" style="height: 75px;">
+              <input type="checkbox" class="col-auto itemCheckBox" autocomplete="off">
+              <input type="hidden" th:id="'paymentId' + ${orderInfo.paymentId}" th:value="${orderInfo.paymentId}">
+              <div class="col row mx-auto p-0 selectable">
+                <div class="col-auto d-flex align-items-center number" style="width: 100px;">1</div>
+                <div class="col-auto d-flex align-items-center text-center" th:text="${#temporals.format(orderInfo.paymentDate, 'yyyy-MM-dd HH:mm:ss')}" style="width: 150px;">2024-06-24</div>
+                <div class="col-auto d-flex align-items-center" th:text="${orderInfo.productName}" style="width: 572px;">주문 상품</div>
+                <div class="col-auto d-flex align-items-center justify-content-center p-0" th:text="${orderInfo.userRealName}" style="width: 150px;">구매자(실명)</div>
+                <div class="col-auto d-flex align-items-center justify-content-center price px-1" th:text="${orderInfo.paymentPrice}" style="width: 150px;">금액</div>
+                <div class="col d-flex align-items-center justify-content-center" th:text="${orderInfo.paymentStatus}">상태</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row mt-auto" id="pageBar">
+        <input type="hidden" id="pageSize">
+        <input type="hidden" id="currentPageNum">
+        <button class="col-auto ms-auto" id="prevPage-btn"><</button>
+        <div class="col-auto">
+          <div class="row w-auto mx-auto p-0 text-center" id="pageSelectField">
+          </div>
+        </div>
+
+        <button class="col-auto me-auto" id="nextPage-btn">></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="/js/orderManager.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>후기내용</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h2>후기내용</h2>
+<div>
+    <table>
+        <tr>
+            <td>1</td>
+            <td class="txtEm">
+                <p th:text="${myReview.reviewTitle}"></p>
+            </td>
+            <td th:text="${myReview.userId}"></td>
+            <td th:text="${#temporals.format(myReview.reviewCreateDate, 'yyyy-MM-dd')}"></td>
+            <td>
+                <div class="star-rating">
+                    <label th:each="star : ${#numbers.sequence(1, 5)}"
+                           th:classappend="${star <= myReview.reviewScore} ? 'red' : ''"></label>
+                </div>
+            </td>
+            <td th:text="${myReview.reviewViews}"></td>
+        </tr>
+        <tr>
+            <div>
+                <td class="txtBody" colspan="6">
+                    <div>
+                        <a href="">
+                            <img class="userProImg" th:src="@{/img/fritag007.jpg}">
+                        </a>
+                    </div>
+                    <p th:text="${myReview.reviewContent}"></p>
+                </td>
+            </div>
+        </tr>
+    </table>
+</div>
+<div class="btnDiv">
+    <a href="/myreview/list" class="back-btn">목록</a>
+</div>
+<th:block th:include="layouts/footer"></th:block>
+</body>
+</html>

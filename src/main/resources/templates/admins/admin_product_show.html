@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admin_header.css">
+    <link rel="stylesheet" href="/css/adminsCss/admin_product_show.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/admin_header.js"></script>
+    <script src="/js/admin_product_show.js"></script>
+    <title>관리자 - 상품 보기</title>
+</head>
+<body>
+    <th:block th:include="layouts/admin_header"></th:block>
+    <main>
+        <div class="box">
+            <p id="boxTitle">상품 보기</p>
+            <div id="showBox">
+                <ul>
+                    <li>
+                        <p>구분</p>
+                        <p th:text="${product.productCategory}"></p>
+                    </li>
+                    <li>
+                        <p>상품명</p>
+                        <p th:text="${product.productName}"></p>
+                    </li>
+                    <li>
+                        <p>대표 이미지</p>
+                        <div>
+                            <img th:if="${product.productRepresentativeImgSrc != ''}" th:src="'http://192.168.106.12/fileServer' + ${product.productRepresentativeImgSrc}">
+                            <p th:if="${product.productRepresentativeImgSrc == ''}">첨부된 이미지가 없습니다.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <p>판매가</p>
+                        <p th:text="${product.productRegularPrice}"></p>
+                    </li>
+                    <li>
+                        <p>할인가</p>
+                        <p th:text="${product.productDiscountPrice != null ? product.productDiscountPrice : '-'}"></p>
+                    </li>
+                    <li>
+                        <p>모델명</p>
+                        <p th:text="${product.productModel}"></p>
+                    </li>
+                    <li>
+                        <p>색상</p>
+                        <p th:text="${product.productColor}"></p>
+                    </li>
+                    <li>
+                        <p>유형</p>
+                        <p th:text="${product.productType}"></p>
+                    </li>
+                    <li>
+                        <p>규격</p>
+                        <p th:text="${product.productSize}"></p>
+                    </li>
+                    <li>
+                        <p>재질</p>
+                        <p th:text="${product.productMaterial}"></p>
+                    </li>
+                    <li>
+                        <p>상세 이미지</p>
+                        <div>
+                            <img th:each="productImg : ${productImgs}" th:src="'http://192.168.106.12/fileServer' + ${productImg.productImgSrc}">
+                            <p th:if="${productImgs.isEmpty()}">첨부된 이미지가 없습니다.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <p>판매여부</p>
+                        <p th:text="${product.productSold == 1 ? '판매완료' : '판매중'}"></p>
+                    </li>
+                    <li>
+                        <p>등록일</p>
+                        <p th:text="${#temporals.format(product.productRegistrationDate, 'yyyy-MM-dd HH:mm:ss')}"></p>
+                    </li>
+                </ul>
+                <div class="buttonBox">
+                    <a th:href="'/admin/product/' + ${product.productId} + '/insert'">수정</a>
+                    <a href="/admin/product/index">목록</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECODE 상품후기 페이지</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/boardCss/reViewTxt.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/header.js"></script>
+</head>
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+
+<div class="container">
+    <div class="content">
+        <div class="titleArea">
+            <h2>후기내용</h2>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <td>1</td>
+                    <td class="txtEm">
+                        <p th:text="${review.reviewTitle}"></p>
+                    </td>
+                    <td th:text="${review.userId}"></td>
+                    <td th:text="${#temporals.format(review.reviewCreateDate, 'yyyy-MM-dd')}"></td>
+
+                    <td>
+                        <div class="star-rating">
+                            <label th:each="star : ${#numbers.sequence(1, 5)}"
+                                   th:classappend="${star <= review.reviewScore} ? 'red' : ''"></label>
+                        </div>
+                    </td>
+                    <td th:text="${review.reviewViews}"></td>
+                </tr>
+                <tr>
+                    <div>
+                        <td class="txtBody" colspan="6">
+                            <div th:if="${#lists.size(reviewImgs) > 0}">
+                                <a href="">
+                                    <img class="userProImg" th:each="img : ${reviewImgs}" th:src="@{/img/{imgSrc}(imgSrc=${img})}">
+                                </a>
+                            </div>
+                            <p th:text="${review.reviewContent}"></p>
+                        </td>
+                    </div>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="btnDiv">
+        <a href="/reviews" class="back-btn">목록</a>
+    </div>
+</div>
+
+<th:block th:include="layouts/footer"></th:block>
+</body>
+
+</html>

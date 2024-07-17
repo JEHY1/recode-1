@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>DB 연결 확인용</title>
+</head>
+<body>
+
+<button type="button" id="testButton">call test/test</button>
+
+<input type="text" placeholder="GPTQuery" id="GPTQueryInput">
+<button type="button" id="querySend-btn">send</button>
+
+<script>
+    function httpRequest(url, method, body){
+        return fetch(url, {
+            method: method,
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: body
+        });
+    }
+
+    document.getElementById('testButton').addEventListener('click', () => {
+        console.log('click');
+        let body = new URLSearchParams();
+
+        body.append('testValue1', 'asditj');
+        body.append('testValue2', 'rhashdgd122');
+
+        fetch(`/test/test`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: body
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            window.location.href = data;
+
+        });
+    });
+
+    const querySendButton = document.getElementById('querySend-btn');
+
+    if(querySendButton){
+        querySendButton.addEventListener('click', () => {
+            let body = JSON.stringify({
+                query: document.getElementById('GPTQueryInput').value
+            });
+
+            httpRequest(`/GPTQueryTest`, 'POST', body)
+            .then(response => {
+                if(response.ok){
+                    console.log(response.json());
+                }
+            });
+        });
+    }
+
+
+</script>
+<input type="checkbox" id="testCheckBox">
+
+<form action="/user/address/management2" method="post">
+    <input type="hidden" value="2" name="addressId">
+    <button type="submit">call test/test (form action)</button>
+</form>
+
+<div sec:authorize="isAuthenticated()">
+    <div>member</div>
+</div>
+
+<div sec:authorize="isAnonymous()">
+    <div>anonymous</div>
+</div>
+
+<div>
+    주소 테이블
+    <div th:each="address : ${addresses}">
+        <div th:text="${address.addressId}"></div>
+        <div th:text="${address.userId}"></div>
+        <div th:text="${address.addressPostalCode}"></div>
+        <div th:text="${address.addressRoadNameAddress}"></div>
+        <div th:text="${address.addressDetailAddress}"></div>
+        <div th:text="${address.addressRecipientName}"></div>
+        <div th:text="${address.addressRecipientPhone}"></div>
+        <div th:text="${address.addressDeliveryRequest}"></div>
+        <div th:text="${address.addressFrontDoorSecret}"></div>
+        <div th:text="${address.addressDeliveryBoxNum}"></div>
+        <div th:text="${address.addressNickname}"></div>
+        <div th:text="${address.addressDefault}"></div>
+        <hr>
+    </div>
+</div>
+<hr>
+<hr>
+<hr>
+<div>
+    장바구니 테이블
+    <div th:each="cart : ${carts}">
+        <div th:text="${cart.cartId}"></div>
+        <div th:text="${cart.userId}"></div>
+        <div th:text="${cart.productId}"></div>
+        <hr>
+    </div>
+</div>
+<hr>
+<hr>
+<hr>
+<div>
+    방문기록 테이블
+    <div th:each="history : ${historys}">
+        <div th:text="${history.historyId}"></div>
+        <div th:text="${history.productId}"></div>
+        <div th:text="${history.userId}"></div>
+        <hr>
+    </div>
+</div>
+<hr>
+<hr>
+<hr>
+<div>
+    공지 테이블
+    <div th:each="notice : ${notices}">
+        <div th:text="${notice.noticeId}"></div>
+        <div th:text="${notice.userId}"></div>
+        <div th:text="${notice.noticeTitle}"></div>
+        <div th:text="${notice.noticeContent}"></div>
+        <div th:text="${notice.noticeCreateDate}"></div>
+        <div th:text="${notice.noticeViews}"></div>
+        <hr>
+    </div>
+</div>
+<hr>
+<hr>
+<hr>
+<div>
+    결제 테이블
+    <div th:each="payment : ${payments}">
+        <div th:text="${payment.paymentId}"></div>
+        <div th:text="${payment.userId}"></div>
+        <div th:text="${payment.paymentPrice}"></div>
+        <div th:text="${payment.paymentDate}"></div>
+        <div th:text="${payment.paymentType}"></div>
+        <div th:text="${payment.paymentBank}"></div>
+        <div th:text="${payment.paymentAccountNumber}"></div>
+        <div th:text="${payment.paymentCard}"></div>
+        <div th:text="${payment.paymentInstallment}"></div>
+        <div th:text="${payment.paymentMicropaymentPhone}"></div>
+        <div th:text="${payment.paymentDepositor}"></div>
+        <div th:text="${payment.paymentStatus}"></div>
+        <div th:text="${payment.paymentPostalCode}"></div>
+        <div th:text="${payment.paymentAddress}"></div>
+        <div th:text="${payment.paymentDeliveryRequest}"></div>
+        <div th:text="${payment.paymentRecipientName}"></div>
+        <div th:text="${payment.paymentRecipientPhone}"></div>
+        <div th:text="${payment.paymentDeliveryFee}"></div>
+        <div th:text="${payment.paymentFrontDoorSecret}"></div>
+        <div th:text="${payment.paymentDeliveryBoxNum}"></div>
+        <hr>
+    </div>
+</div>
+<hr>
+<hr>
+<hr>
+<div>
+    결제 상세 테이블
+    <div th:each="paymentDetail : ${paymentDetails}">
+        <div th:text="${paymentDetail.paymentDetailId}"></div>
+        <div th:text="${paymentDetail.paymentId}"></div>
+        <div th:text="${paymentDetail.productId}"></div>
+        <div th:text="${paymentDetail.paymentDetailStatus}"></div>
+        <div th:text="${paymentDetail.paymentDetailPrice}"></div>
+        <hr>
+    </div>
+</div>
+<hr>
+<hr>
+<hr>
+<div>
+    상품 테이블
+    <div th:each="product : ${products}">
+        <div th:text="${product.productId}"></div>
+        <div th:text="${product.productName}"></div>
+        <div th:text="${product.productRegularPrice}"></div>
+        <div th:text="${product.productDiscountPrice}"></div>
+        <div th:text="${product.productModel}"></div>
+        <div th:text="${product.productSize}"></div>
+        <div th:text="${product.productMaterial}"></div>
+        <div th:text="${product.productRepresentativeImgSrc}"></div>
+        <div th:text="${product.productRegistrationDate}"></div>
+        <div th:text="${product.productCategory}"></div>
+        <div th:text="${product.productSold}"></div>
+        <div th:text="${product.productColor}"></div>
+        <div th:text="${product.productType}"></div>
+        <hr>
+    </div>
+</div>
+<hr>
+<hr>
+<hr>
+<div>
+    상품 이미지 테이블
+    <div th:each="productImg : ${productImgs}">
+        <div th:text="${productImg.productImgId}"></div>
+        <div th:text="${productImg.productId}"></div>
+        <div th:text="${productImg.productImgSrc}"></div>
+        <hr>
+    </div>
+</div>
+<hr>
+<hr>
+<hr>
+<div>
+    QnA 테이블
+    <div th:each="QnA : ${QnAs}">
+        <div th:text="${QnA.QnAId}"></div>
+        <div th:text="${QnA.userId}"></div>
+        <div th:text="${QnA.productId}"></div>
+        <div th:text="${QnA.QnAQuestionTitle}"></div>
+        <div th:text="${QnA.QnAQuestionContent}"></div>
+        <div th:text="${QnA.QnAAnswer}"></div>
+        <div th:text="${QnA.QnACreateDate}"></div>
+        <div th:text="${QnA.QnAViews}"></div>
+        <div th:text="${QnA.QnAAnswerDate}"></div>
+        <hr>
+    </div>
+</div>
+<hr>
+<hr>
+<hr>
+<div>
+    리뷰 테이블
+    <div th:each="review : ${reviews}">
+        <div th:text="${review.reviewId}"></div>
+        <div th:text="${review.userId}"></div>
+        <div th:text="${review.productId}"></div>
+        <div th:text="${review.reviewTitle}"></div>
+        <div th:text="${review.reviewContent}"></div>
+        <div th:text="${review.reviewCreateDate}"></div>
+        <div th:text="${review.reviewScore}"></div>
+        <div th:text="${review.reviewViews}"></div>
+        <hr>
+    </div>
+</div>
+<hr>
+<hr>
+<hr>
+<div>
+    리뷰 이미지 테이블
+    <div th:each="reviewImg : ${reviewImgs}">
+        <div th:text="${reviewImg.reviewImgId}"></div>
+        <div th:text="${reviewImg.reviewId}"></div>
+        <div th:text="${reviewImg.reviewImgSrc}"></div>
+        <hr>
+    </div>
+</div>
+<hr>
+<hr>
+<hr>
+<div>
+    유저 테이블
+    <div th:each="user : ${users}">
+        <div th:text="${user.userId}"></div>
+        <div th:text="${user.username}"></div>
+        <div th:text="${user.userPassword}"></div>
+        <div th:text="${user.userRealName}"></div>
+        <div th:text="${user.userPhone}"></div>
+        <div th:text="${user.userEmail}"></div>
+        <div th:text="${user.userSubmitDate}"></div>
+        <div th:text="${user.userRole}"></div>
+        <hr>
+    </div>
+</div>
+
+<button type="button" id="test-btn">test Button</button>
+<script src="/js/test.js"></script>
+</body>
+</html>

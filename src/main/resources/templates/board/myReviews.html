@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECODE 내 후기현황</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/boardCss/reviewList.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/header.js"></script>
+</head>
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+<div class="container">
+    <div class="content">
+        <div class="titleArea">
+            <h2>내 후기현황</h2>
+        </div>
+        <div class="tabArea">
+            <button class="tabButton" onclick="showTab('writableReviews')">작성 가능한 후기</button>
+            <button class="tabButton" onclick="showTab('writtenReviews')">작성한 후기</button>
+        </div>
+        <div id="writableReviews" class="tabContent">
+            <table>
+                <thead>
+                <tr>
+                    <td><input type="checkbox" onclick="selectAll(this)"></td>
+                    <td>번호</td>
+                    <td>구매 날짜</td>
+                    <td>상품 이미지</td>
+                    <td>상품명</td>
+                    <td>결제금액</td>
+                    <td>기능</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product, iterStat : ${purchasedProducts}">
+                    <td><input type="checkbox" th:value="${product.productId}"></td>
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${product.purchaseDate}"></td>
+                    <td>
+                        <img th:src="@{/img/{imageName}(imageName=${product.imageName})}" alt="상품 이미지">
+                    </td>
+                    <td th:text="${product.productName}"></td>
+                    <td th:text="${product.price}"></td>
+                    <td>
+                        <button onclick="writeReview(${product.productId})">후기등록</button>
+                        <button onclick="deleteProduct(${product.productId})">삭제</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="btnDiv">
+                <button onclick="deleteSelected()">삭제</button>
+            </div>
+        </div>
+        <div id="writtenReviews" class="tabContent" style="display:none;">
+            <table>
+                <thead>
+                <tr>
+                    <td><input type="checkbox" onclick="selectAll(this)"></td>
+                    <td>번호</td>
+                    <td>구매 날짜</td>
+                    <td>상품 이미지</td>
+                    <td>상품명</td>
+                    <td>결제금액</td>
+                    <td>기능</td>
+                </tr>
+                </thead>
+                <tbody>
+<!--                <tr th:each="review, iterStat : ${writtenReviews}">-->
+<!--                    <td><input type="checkbox" th:value="${review.reviewId}"></td>-->
+<!--                    <td th:text="${iterStat.index + 1 + (pageNumber * 10)}"></td>-->
+<!--                    <td th:text="${review.purchaseDate}"></td>-->
+<!--                    <td>-->
+<!--                        <img th:src="@{/img/{imageName}(imageName=${review.imageName})}" alt="상품 이미지">-->
+<!--                    </td>-->
+<!--                    <td th:text="${review.productName}"></td>-->
+<!--                    <td th:text="${review.price}"></td>-->
+<!--                    <td>-->
+<!--                        <a th:href="@{/myreview/{id}(id=${review.reviewId})}">상세보기</a>-->
+<!--                        <button onclick="deleteReview(${review.reviewId})">삭제</button>-->
+<!--                    </td>-->
+<!--                </tr>-->
+                </tbody>
+            </table>
+            <a th:href="@{/myreview/list(page=0)}">&lt;&lt;</a>
+
+            <th:block th:each="page : ${#numbers.sequence(startPage, lastPage)}">
+                <a th:if="${page != currentPage}" th:href="@{/myreview/list(page=${page - 1})}" th:text="${page}"></a>
+                <strong th:if="${page == currentPage}" th:text="${page}" style="color : red "></strong>
+            </th:block>
+
+            <a th:href="@{/myreview/list(page=${totalPages - 1})}">&gt;&gt;</a>
+        </div>
+    </div>
+</div>
+<th:block th:include="layouts/footer"></th:block>
+</body>
+</html>

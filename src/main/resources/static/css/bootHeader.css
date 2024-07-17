@@ -1,0 +1,347 @@
+* {
+    margin: 0;
+    font-size: 20px;
+}
+
+body {
+    width: 1903px;
+    margin: auto;
+}
+
+/* header css */
+header {
+    width: 1903px;
+    text-align: center;
+    line-height: 160px;
+    height: 160px;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    z-index: 1040; /* Bootstrap modal z-index is 1050 */
+    background-color: white; /* To avoid background transparency issues */
+}
+
+#logo {
+    display: inline-block;
+    background-image: url('/images/logo_img/logo.png');
+    width: 150px;
+    height: 140px;
+    margin: 10px 50px;
+    background-size: 150px;
+}
+
+header > ul { /* 대분류 ul */
+    list-style: none;
+    padding: 0;
+    display: inline-block;
+    width: 1200px;
+    box-sizing: content-box !important; /* 박스 사이징 변경 */
+}
+
+header > ul > li {
+    display: inline-block;
+    position: relative;
+    box-sizing: content-box !important; /* 박스 사이징 변경 */
+}
+
+header > ul > li > a {
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    text-shadow: 0 0 3px white;
+    padding: 0 30px;
+    width: 150px;
+    box-sizing: content-box !important; /* 박스 사이징 변경 */
+    font-size: 27px;
+}
+
+header > ul > li:hover > a {
+    color: #548235;
+    font-weight: bold;
+}
+
+header > ul > li:hover > ul {
+    display: block;
+}
+
+header > ul > li > ul { /* 중분류 ul */
+    list-style: none;
+    padding: 15px 30px;
+    position: absolute;
+    top: 161px;
+    left: 38px;
+    text-align: left;
+    width: 72px !important; /* 중요도 높이기 */
+    background-color: #ffffffee;
+    display: none;
+    line-height: 40px;
+    box-sizing: content-box !important; /* 박스 사이징 변경 */
+}
+
+header > ul > li > ul > li > a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+}
+
+header > ul > li > ul > li > a:hover {
+    color: #548235;
+    font-weight: bold;
+}
+
+#iconBox { /* 아이콘 박스 */
+    margin-right: 50px;
+}
+
+#iconBox > ul {
+    list-style: none;
+    padding: 0;
+}
+
+#iconBox > ul > li {
+    display: inline-block;
+    position: relative;
+}
+
+#iconBox > ul > li:nth-child(1) > a { /* search 아이콘 */
+    display: inline-block;
+    background-image: url('/images/icon_img/search.png');
+    width: 40px;
+    height: 40px;
+    background-size: 40px;
+    vertical-align: middle;
+}
+
+#iconBox > ul > li:nth-child(2) > a { /* 마이페이지 아이콘 */
+    display: inline-block;
+    background-image: url('/images/icon_img/user.png');
+    width: 40px;
+    height: 40px;
+    background-size: 40px;
+    vertical-align: middle;
+    margin-left: 33px;
+
+}
+
+#iconBox > ul > li:nth-child(2) > ul {
+    list-style: none;
+    padding: 0;
+    position: absolute;
+    top: 161px;
+    left: -30px;
+    text-align: left;
+    width: 127px;
+    padding: 15px 30px;
+    background-color: #ffffffee;
+    display: none;
+    line-height: 40px;
+    box-sizing: content-box !important; /* 박스 사이징 변경 */
+}
+
+#iconBox > ul > li:nth-child(2):hover > ul {
+    display: block;
+}
+
+#iconBox > ul > li:nth-child(2) > ul > li > a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+}
+
+#iconBox > ul > li:nth-child(2) > ul > li > a:hover {
+    color: #548235;
+    font-weight: bold;
+}
+
+#iconBox > ul > li:nth-child(3) > a { /* nav 아이콘 */
+    display: inline-block;
+    background-image: url('/images/icon_img/array.png');
+    width: 40px;
+    height: 40px;
+    background-size: 40px;
+    vertical-align: middle;
+    margin-left: 33px;
+}
+
+/* nav css */
+nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffffdd;
+    backdrop-filter: blur(3px);
+    z-index: 1050; /* Ensure nav appears above other elements */
+}
+
+nav > a { /* ✕ 표시 */
+    position: absolute;
+    top: 60px;
+    right: 70px;
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+}
+
+#naviBox {
+    position: relative;
+    width: 600px;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#naviBox ul {
+    list-style: none;
+    padding: 0;
+}
+
+#naviBox > ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+#naviBox > ul > li {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#naviBox > ul > li > p {
+    font-weight: bold;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+#naviBox > ul > li > ul > li {
+    line-height: 36px;
+}
+
+#naviBox > ul > li > ul > li > a {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+}
+
+/* searchBox css */
+#search {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 120px 0;
+    background-color: #ffffffdd;
+    backdrop-filter: blur(3px);
+    z-index: 1050; /* Ensure search appears above other elements */
+}
+
+#search > a { /* ✕ 표시 */
+    position: absolute;
+    top: 60px;
+    right: 70px;
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+}
+
+#searchBox {
+    position: relative;
+    width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#searchBox p {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+#searchBox form {
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+#searchBox form input {
+    width: 90%;
+    vertical-align: middle;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    height: 50px;
+    padding: 12px 12px 12px 15px;
+}
+
+#searchBox form button {
+    background-image: url('/images/icon_img/search.png');
+    width: 25px;
+    height: 25px;
+    background-size: 25px;
+    border: none;
+    background-color: white;
+    vertical-align: middle;
+    margin: 0 15px 0 10px;
+}
+
+/* notice css */
+#notice {
+    display: none; /* Hide by default */
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #eeeeee95;
+    backdrop-filter: blur(3px);
+    z-index: 1050; /* Ensure notice appears above other elements */
+}
+
+#notice > div {
+    background-color: white;
+    border: 1px solid #548235;
+    position: relative;
+    width: 330px;
+    height: 180px;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    border-radius: 7px;
+}
+
+#notice > div > p {
+    margin-top: 55px;
+    font-size: 16px;
+}
+
+#notice > div > a {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 7px 12px;
+    border: 1px solid #548235;
+    border-radius: 12px;
+    background-color: #548235;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.color-blue{
+    color: blue;
+}
+
+.productNameField:hover{
+    background-color: gainsboro;
+}
+
+.d-fixed{
+    position: fixed;
+}
+
+.d-hidden{
+    display: none;
+}

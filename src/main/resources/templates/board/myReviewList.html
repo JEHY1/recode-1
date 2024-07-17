@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내가 작성한 리뷰</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/boardCss/reviews.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/header.js"></script>
+</head>
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+<div class="container">
+    <div class="content">
+        <div class="titleArea">
+            <h2>내가 작성한 리뷰</h2>
+        </div>
+        <div id="writtenReviews">
+            <table>
+                <thead>
+                <tr>
+                    <td><input type="checkbox" onclick="selectAll(this)"></td>
+                    <td>번호</td>
+                    <td>구매 날짜</td>
+                    <td>상품 이미지</td>
+                    <td>상품명</td>
+                    <td>결제금액</td>
+                    <td>기능</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="review, iterStat : ${writtenReviews}">
+                    <td><input type="checkbox" th:value="${review.reviewId}"></td>
+                    <td th:text="${iterStat.index + 1 + (pageNumber * 10)}"></td>
+                    <td th:text="${review.reviewCreateDate}"></td>
+                    <td>
+                        <img th:src="'http://192.168.106.12' + ${review.reviewRepImg}" alt="상품 이미지">
+                    </td>
+                    <td th:text="${review.productName}"></td>
+                    <td th:text="금액"></td>
+                    <td>
+                        <div class="btnDiv">
+                            <a th:href="@{/myreview/edit/{id}(id=${review.reviewId})}">수정</a>
+                        </div>
+                        <div class="btnDiv">
+                            <button onclick="deleteReview(${review.reviewId})">삭제</button>
+                        </div>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <a th:href="@{/myreview/list(page=0)}">&lt;&lt;</a>
+
+            <th:block th:each="page : ${#numbers.sequence(startPage, lastPage)}">
+                <a th:if="${page != currentPage}" th:href="@{/myreview/list(page=${page - 1})}" th:text="${page}"></a>
+                <strong th:if="${page == currentPage}" th:text="${page}" style="color : red "></strong>
+            </th:block>
+
+            <a th:href="@{/myreview/list(page=${totalPages - 1})}">&gt;&gt;</a>
+        </div>
+    </div>
+</div>
+<th:block th:include="layouts/footer"></th:block>
+</body>
+</html>

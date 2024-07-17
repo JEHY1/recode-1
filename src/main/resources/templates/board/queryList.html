@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RECODE 상품문의 페이지</title>
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/boardCss/queryList.css">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/header.js"></script>
+</head>
+<body>
+
+<th:block th:include="layouts/header"></th:block>
+
+<div class="container">
+  <div class="content">
+    <div class="titleArea">
+      <h2>상품문의</h2>
+    </div>
+    <form>
+      <table>
+        <tr th:each="qna, iterStat : ${list.content}">
+          <td th:text="${iterStat.index + 1 + (pageNumber * 10)}"></td>
+          <td>
+            <div>
+              <a th:href="@{/qna/{id}(id=${qna.qnAId})}">
+                <img class="userProImg" src="">
+              </a>
+            </div>
+          </td>
+          <td class="txtEm">
+            <a th:href="@{/qna/{id}(id=${qna.qnAId})}" th:text="${qna.qnAQuestionTitle}"></a>
+          </td>
+          <td th:text="${qna.userId}"></td>
+          <td th:text="${#temporals.format(qna.qnACreateDate, 'yyyy-MM-dd')}"></td>
+          <td th:text="${qna.qnAViews}"></td>
+          <td>
+
+        </tr>
+      </table>
+
+      <a th:href="@{/qnalist(page=0)}">&lt;&lt;</a>
+
+      <th:block th:each="page : ${#numbers.sequence(startPage, lastPage)}">
+        <a th:if="${page != currentPage}" th:href="@{/qnalist(page=${page - 1})}" th:text="${page}"></a>
+        <strong th:if="${page == currentPage}" th:text="${page}" style="color : red "></strong>
+      </th:block>
+
+      <a th:href="@{/qnalist(page=${totalPages - 1})}">&gt;&gt;</a>
+    </form>
+  </div>
+</div>
+<th:block th:include="layouts/footer"></th:block>
+</body>
+</html>

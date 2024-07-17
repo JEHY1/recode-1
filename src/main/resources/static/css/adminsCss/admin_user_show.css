@@ -1,0 +1,139 @@
+main { /* main 크기 고정 */
+    width: 1823px;
+}
+.box {
+    width: 910px;
+    margin: 0 auto;
+}
+#boxTitle { /* 제목 */
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    font-size: 25px;
+    font-weight: bold;
+}
+#showBox {
+    padding: 20px 40px 40px 40px;
+    border-radius: 30px;
+    background-color: #f7f7f7;
+    margin-bottom: 40px;
+}
+#showBox ul {
+    list-style: none;
+    padding: 0;
+}
+#showBox ul li {
+    padding: 25px 10px;
+}
+#showBox ul li > p:nth-child(1) {
+    display: inline-block;
+    width: 200px;
+    padding: 7px 0;
+    font-weight: bold;
+    vertical-align: top;
+}
+#showBox ul li > p:nth-child(2) {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 600px;
+    padding: 7px 9px;
+}
+#showBox ul li > div:nth-child(2) { /* 배송지 scroll 박스 */
+    display: inline-block;
+    box-sizing: border-box;
+    width: 600px;
+    padding: 7px;
+    height: 330px;
+    overflow-y: scroll;
+    border: 1px solid #eee;
+
+}
+#showBox ul li > div:nth-child(2) > div { /* 배송지 추가 */
+    border-bottom: 1px solid #ccc;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+#showBox ul li > div:nth-child(2) > div:last-child { /* 마지막 영역 선 제거 */
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+#showBox ul li > div:nth-child(2) > div > p {
+    padding: 3px 0;
+}
+#showBox ul li > div:nth-child(2) > div > p > span:nth-child(1) {
+    display: inline-block;
+    width: 85px;
+    color: #888;
+    font-weight: bold;
+    vertical-align: top;
+    padding: 7px 0;
+}
+#showBox ul li > div:nth-child(2) > div > p > span:nth-child(2) {
+    display: inline-block;
+    width: 440px;
+    padding: 7px 9px;
+    box-sizing: border-box;
+}
+#showBox ul li > div:nth-child(2) > div > p:nth-of-type(1) > span:nth-child(2) > span:nth-child(1) {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 300px;
+}
+#showBox ul li > div:nth-child(2) > div > p:nth-of-type(1) > span:nth-child(2) > span:nth-child(2) { /* 기본 배송지 */
+    font-size: 15px;
+    display: inline-block;
+    border: 1px solid #548235;
+    color: #548235;
+    border-radius: 10px;
+    padding: 2px 5px;
+    vertical-align: top;
+    margin-left: 6px;
+}
+#showBox ul li > div:nth-child(2) > div > p:nth-of-type(4) > span:nth-child(2) > span {
+    display: block;
+    padding: 6px 0;
+}
+#showBox ul li > div:nth-child(2) > div > p:nth-of-type(4) > span:nth-child(2) > span:first-child {
+    padding-top: 0;
+}
+#showBox ul li > div:nth-child(2) > div > p:nth-of-type(4) > span:nth-child(2) > span:last-child {
+    padding-bottom: 0;
+
+}
+#showBox ul li > p > span {
+    margin-right: 20px;
+}
+#showBox ul li > p > span > label {
+    margin-left: 7px;
+}
+.buttonBox {
+    text-align: center;
+    margin-top: 30px;
+}
+.buttonBox a:nth-child(1) {
+    display: inline-block;
+    box-sizing: border-box;
+    background-color: #548235;
+    width: 80px;
+    padding: 10px;
+    border: 1px solid #548235;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+}
+.buttonBox a:nth-child(2) {
+    display: inline-block;
+    box-sizing: border-box;
+    background-color: white;
+    width: 80px;
+    padding: 10px;
+    border: 1px solid #548235;
+    border-radius: 10px;
+    color: #548235;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+

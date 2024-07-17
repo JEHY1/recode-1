@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admin_header.css">
+    <link rel="stylesheet" href="/css/adminsCss/admin_review_show.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/admin_header.js"></script>
+    <title>관리자 - 리뷰 보기</title>
+</head>
+<body>
+    <th:block th:include="layouts/admin_header"></th:block>
+    <main>
+        <div class="box">
+            <p id="boxTitle">리뷰 보기</p>
+            <div id="showBox">
+                <div>
+                    <img th:src="'http://192.168.106.12/fileServer' + ${product.productRepresentativeImgSrc}">
+                    <a th:href="'/admin/product/' + ${product.productId} + '/show'" th:text="${product.productName}"></a>
+                </div>
+                <ul>
+                    <li>
+                        <p>제목</p>
+                        <p th:text="${review.reviewTitle}"></p>
+                        <p></p>
+                    </li>
+                    <li>
+                        <p>내용</p>
+                        <p th:text="${review.reviewContent}"></p>
+                    </li>
+                    <li>
+                        <p>이미지</p>
+                        <div>
+                            <img th:each="reviewImg : ${reviewImgs}" th:src="'http://192.168.106.12/fileServer' + ${reviewImg.reviewImgSrc}">
+                            <p th:if="${reviewImgs.isEmpty()}">첨부된 이미지가 없습니다.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <p>별점</p>
+                        <p th:text="${review.reviewScore}"></p>
+                    </li>
+                    <li>
+                        <p>작성자</p>
+                        <p th:text="${username}"></p>
+                    </li>
+                    <li>
+                        <p>조회수</p>
+                        <p th:text="${review.reviewViews}"></p>
+                    </li>
+                    <li>
+                        <p>등록일</p>
+                        <p th:text="${#temporals.format(review.reviewCreateDate, 'yyyy-MM-dd HH:mm:ss')}"></p>
+                    </li>
+                </ul>
+                <div class="buttonBox">
+                    <a th:href="'/admin/review/' + ${review.reviewId} + '/delete?page=0&category=0&searchKeyword='">삭제</a>
+                    <a href="/admin/review/index">목록</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

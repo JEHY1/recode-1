@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECODE 문의 내용 페이지</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/boardCss/qnaTxt.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/header.js"></script>
+</head>
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+
+<div class="container">
+    <div class="content">
+        <div class="titleArea">
+            <h2>문의내용</h2>
+        </div>
+        <table>
+            <tr>
+                <td class="txtEm" th:text="${qna.qnAId}"></td>
+                <td class="txtEm" th:text="${qna.qnAQuestionTitle}"></td>
+                <td th:text="${qna.userId}"></td>
+                <td th:text="${#temporals.format(qna.qnACreateDate, 'yyyy-MM-dd')}">2024-06-12</td>
+                <td th:text="${qna.qnAViews}"></td>
+            </tr>
+            <tr>
+                <td colspan="6" class="txtBody" th:text="${qna.qnAQuestionContent}"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="btnDiv">
+        <a href="/qnalist" class="back-btn">목록</a>
+    </div>
+</div>
+<th:block th:include="layouts/footer"></th:block>
+</body>
+</html>

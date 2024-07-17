@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+<title>OrderCheck</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/bootHeader.css">
+<link rel="stylesheet" href="/css/footer.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/header.js"></script>
+
+
+<style>
+  .d-hidden{
+    display: none;
+  }
+
+  .border-x{
+    border-top: 2px solid gainsboro;
+    border-bottom: 2px solid gainsboro;
+  }
+
+  .border-b{
+    border-bottom: 1px solid gainsboro;
+  }
+
+  .border-b-header{
+    border-bottom: 1px solid rgb(204, 204, 204) !important;
+  }
+
+  .border-r{
+    border-right: 1px solid gainsboro;
+  }
+
+  .fs-50{
+    font-size: 50px;
+  }
+
+  .fs-35{
+    font-size: 35px;
+  }
+
+  .fw-b{
+    font-weight: bolder;
+  }
+
+  .bg-lightGray{
+    background-color: #f8f9fa;
+  }
+
+  .bg-white{
+    background-color: white;
+  }
+
+  .bg-gray{
+    background-color: gray;
+  }
+
+  .color-white{
+    color: white;
+  }
+
+  .color-gray{
+    color: gray;
+  }
+
+  .br-5{
+    border-radius: 5px;
+    border: solid 1px gainsboro;
+  }
+
+  .cursor{
+    cursor: pointer;
+  }
+
+  select:focus{
+    border-color: green;
+  }
+
+  .orderManage-btn{
+    width: 190px;
+    height: 50px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    color: gray;
+    background-color: white;
+  }
+
+  .move-btn{
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    background-color: #548235;
+    color: white;
+    color-white;
+    border-radius: 25px;
+    width: 50px;
+    height: 100px;
+    font-size: 35px;
+  }
+
+  .move-btn div:hover{
+    color: black;
+  }
+
+
+
+
+
+
+.selectedPage-btn{
+    background-color : #548235 !important;
+    color : white !important;
+  }
+
+  .page-btn{
+    font-size: 25px;
+    width : 47px;
+    height: 47px;
+    padding : 7px;
+    border-radius: 50%;
+    border: none;
+    background-color: white;
+  }
+
+  .page-btn:hover{
+    background-color: gainsboro;
+  }
+
+  #nextPage-btn{
+    font-size: 25px;
+    background-color: white;
+    border: none;
+  }
+
+  #prevPage-btn{
+    font-size: 25px;
+    background-color: white;
+    border: none;
+  }
+
+  #nextPage-btn:hover{
+    color: gray;
+  }
+  #nextPage-btn:disabled:hover{
+    color: gainsboro;
+  }
+
+  #prevPage-btn:hover{
+    color: gray;
+  }
+  #prevPage-btn:disabled:hover{
+    color: gainsboro;
+  }
+
+  button:disabled{
+    color: gainsboro;
+  }
+
+
+
+
+
+</style>
+
+</head>
+<body>
+<th:block th:include="layouts/header"></th:block>
+<th:block th:include="layouts/scroll"></th:block>
+
+<div class="mx-auto" style="width: 1250px; padding-top: 200px;">
+  <div class="mx-auto text-center pb-5" style="font-size: 46px; font-weight: bolder;">주문 내역 조회</div>
+  <div class="mx-auto border mb-4" style="background-color: #548235; border-radius: 5px; color: white;">
+
+    <div class="row py-3">
+      <div class="col">
+        <div class="text-center fs-35 fw-b" th:text="${orderCheckInfos.nonDepositCount}">0</div>
+        <div class="text-center">결제완료</div>
+      </div>
+
+      <div class="col-auto d-flex align-items-center justify-content-center fs-50">&#10095;</div>
+
+      <div class="col">
+        <div class="text-center fs-35 fw-b" th:text="${orderCheckInfos.deliveryReadyCount}">0</div>
+        <div class="text-center">배송준비중</div>
+      </div>
+
+      <div class="col-auto d-flex align-items-center justify-content-center fs-50">&#10095;</div>
+
+      <div class="col">
+        <div class="text-center fs-35 fw-b" th:text="${orderCheckInfos.deliveryInCount}">0</div>
+        <div class="text-center">배송중</div>
+      </div>
+
+      <div class="col-auto d-flex align-items-center justify-content-center fs-50">&#10095;</div>
+
+      <div class="col">
+        <div class="text-center fs-35 fw-b" th:text="${orderCheckInfos.deliveryCompleteCount}">0</div>
+        <div class="text-center">배송완료</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-lightGray mb-4" style="border-radius: 15px;">
+      <div class="row w-100 mx-auto">
+        <div class="col-auto fw-b mx-3 py-4">구매기간</div>
+        <div class="col-10 row py-4">
+          <button th:class="${(unitPeriod == null || unitPeriod == 1) ? 'color-white bg-gray me-3 br-5' : 'bg-white me-3 br-5'}" style="width: 100px;" onclick="location.href='/user/orderCheck?unitPeriod=1'">1개월</button>
+          <button th:class="${unitPeriod == 3 ? 'color-white bg-gray me-3 br-5' : 'bg-white me-3 br-5'}" style="width: 100px;" onclick="location.href='/user/orderCheck?unitPeriod=3'">3개월</button>
+          <button th:class="${unitPeriod == 6 ? 'color-white bg-gray me-3 br-5' : 'bg-white me-3 br-5'}" style="width: 100px;" onclick="location.href='/user/orderCheck?unitPeriod=6'">6개월</button>
+          <button th:class="${unitPeriod == 12 ? 'color-white bg-gray br-5' : 'bg-white br-5'}" style="width: 100px;" onclick="location.href='/user/orderCheck?unitPeriod=12'">12개월</button>
+          <div class="col-6"></div>
+          <input type="hidden" id="currentYear" th:value="${period.currentYear}">
+          <input type="hidden" id="currentMonthAndDay" th:value="${period.currentMonthAndDay}">
+          <input type="hidden" id="searchedStartYear" th:value="${period.startYear}">
+          <input type="hidden" id="searchedStartMonth" th:value="${period.startMonth}">
+          <input type="hidden" id="searchedStartDay" th:value="${period.startDay}">
+          <input type="hidden" id="searchedEndYear" th:value="${period.endYear}">
+          <input type="hidden" id="searchedEndMonth" th:value="${period.endMonth}">
+          <input type="hidden" id="searchedEndDay" th:value="${period.endDay}">
+
+          <select class="col-2 mt-4 br-5" id="startYear">
+          </select><div class="col-auto mt-4">년</div>
+          <select class="col mt-4 br-5 px-2" id="startMonth">
+            <option value="01">1</option>
+            <option value="02">2</option>
+            <option value="03">3</option>
+            <option value="04">4</option>
+            <option value="05">5</option>
+            <option value="06">6</option>
+            <option value="07">7</option>
+            <option value="08">8</option>
+            <option value="09">9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+          </select><div class="col-auto mt-4">월</div>
+          <select class="col mt-4 br-5 px-2" id="startDay">
+            <option value="01">1</option>
+            <option value="02">2</option>
+            <option value="03">3</option>
+            <option value="04">4</option>
+            <option value="05">5</option>
+            <option value="06">6</option>
+            <option value="07">7</option>
+            <option value="08">8</option>
+            <option value="09">9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+            <option>13</option>
+            <option>14</option>
+            <option>15</option>
+            <option>16</option>
+            <option>17</option>
+            <option>18</option>
+            <option>19</option>
+            <option>20</option>
+            <option>21</option>
+            <option>22</option>
+            <option>23</option>
+            <option>24</option>
+            <option>25</option>
+            <option>26</option>
+            <option>27</option>
+            <option>28</option>
+            <option>29</option>
+            <option>30</option>
+            <option>31</option>
+          </select><div class="col-auto mt-4">일</div>
+          <div class="col-auto mt-4 me-2">~</div>
+
+          <select class="col-2 mt-4 br-5" id="endYear">
+          </select>
+          <div class="col-auto mt-4">년</div>
+          <select class="col mt-4 br-5 px-2" id="endMonth">
+            <option value="01">1</option>
+            <option value="02">2</option>
+            <option value="03">3</option>
+            <option value="04">4</option>
+            <option value="05">5</option>
+            <option value="06">6</option>
+            <option value="07">7</option>
+            <option value="08">8</option>
+            <option value="09">9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+          </select><div class="col-auto mt-4">월</div>
+          <select class="col mt-4 br-5 px-2" id="endDay">
+            <option value="01">1</option>
+            <option value="02">2</option>
+            <option value="03">3</option>
+            <option value="04">4</option>
+            <option value="05">5</option>
+            <option value="06">6</option>
+            <option value="07">7</option>
+            <option value="08">8</option>
+            <option value="09">9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+            <option>13</option>
+            <option>14</option>
+            <option>15</option>
+            <option>16</option>
+            <option>17</option>
+            <option>18</option>
+            <option>19</option>
+            <option>20</option>
+            <option>21</option>
+            <option>22</option>
+            <option>23</option>
+            <option>24</option>
+            <option>25</option>
+            <option>26</option>
+            <option>27</option>
+            <option>28</option>
+            <option>29</option>
+            <option>30</option>
+            <option>31</option>
+          </select><div class="col-auto mt-4">일</div>
+        </div>
+        <div class="col-auto ms-auto cursor d-flex align-items-center justify-content-center" style="background-color: #9BCE26; border-top-right-radius: 15px; border-bottom-right-radius: 15px; color:white;" id="view-btn">조회</div>
+      </div>
+  </div>
+
+  <div class="bg-lightGray border-x">
+    <div class="row w-100 mx-auto">
+      <div class="col-3 text-center fw-b">주문일자</div>
+      <div class="col text-center fw-b">상품</div>
+      <div class="col-2 text-center fw-b">주문금액</div>
+      <div class="col-2 text-center fw-b">상태</div>
+    </div>
+  </div>
+
+  <th:block th:each="orderCheckInfo : ${orderCheckInfos.orderCheckInfoList}">
+    <div class="row w-100 mx-auto border-b">
+      <div class="col-3 d-flex align-items-center justify-content-center border-r border-b" th:text="${#temporals.format(orderCheckInfo.orderDate, 'yyyy-MM-dd')}">주문일자</div>
+
+      <div class="col p-0">
+        <div th:each="detail : ${orderCheckInfo.paymentDetails}" class="row w-100 mx-auto p-0 border-b">
+          <div class="col-auto text-center" style="width: 520px; height: 130px;">
+            <div class="row h-100">
+              <img class="p-0 ms-2 my-auto " th:src="'http://192.168.106.12/fileServer' + ${detail.productRepImgSrc}" style="width: 90px; height: 90px;">
+              <div class="col d-flex align-items-center" th:text="${detail.productName}">상품이름</div>
+            </div>
+          </div>
+          <div class="col d-flex align-items-center justify-content-center price" th:text="${detail.paymentDetailPrice}">주문금액</div>
+          <div class="col row my-auto">
+            <div class="d-flex align-items-center justify-content-center" th:text="${detail.paymentDetailStatus}"></div>
+            <input type="hidden" th:value="${detail.paymentDetailId}">
+            <button th:if="${detail.paymentDetailStatus.equals('결제완료') || detail.paymentDetailStatus.equals('배송준비중') || detail.paymentDetailStatus.equals('배송중')}" type="button" class="mt-2 orderManage-btn">주문취소</button>
+            <button th:if="${detail.paymentDetailStatus.equals('배송완료')}" type="button" class="mt-2 orderManage-btn">반품신청</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </th:block>
+
+  <div class="border-b mb-5 row w-100 mx-auto" th:if="${orderCheckInfos.orderCheckInfoList.isEmpty()}">
+    <img class="mx-auto p-0 mt-4 mb-2" src="/images/icon_img/exclamationMark.png" style="width: 200px; height: 200px;">
+    <div class="text-center py-2 color-gray">기간내 주문내역이 없습니다.</div>
+  </div>
+
+  <div class="row w-100 mx-auto mt-5" style="height: 47px;" th:if="${orderCheckInfos.totalPage != 0}">
+    <input type="hidden" id="totalPageSize" th:value="${orderCheckInfos.totalPage}">
+    <button class="col-auto ms-auto" id="prevPage-btn">〈</button>
+    <div class="col-auto d-flex align-items-center justify-content-center" id="pageButtonField">
+    </div>
+    <button class="col-auto me-auto" id="nextPage-btn">〉</button>
+  </div>
+
+</div>
+
+<th:block th:include="layouts/footer"></th:block>
+<script src="/js/orderCheck.js"></script>
+<script src="/js/scroll.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECODE 브랜드 소개 페이지</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/etc/brand.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/header.js"></script>
+</head>
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+<div class="container">
+    <div class="content">
+        <div class="titleArea">
+            <h2>BRAND</h2>
+        </div>
+        <div class="imgBox">
+            <!--            아래 이미지 경로 수정여부 물어봐야됨-->
+            <img src="/images/banners/brandBanner2.png">
+        </div>
+        <div class="titleArea2">
+            <p class="text_tit">가치를 새로 입히다. 재해석 재배치</p>
+            <p class="text_box">환경, 사회구조, 체계 지속가능한 ESG 혁신을 선도할 브랜드 RE;CODE</p>
+        </div>
+    </div>
+
+</div>
+<th:block th:include="layouts/footer"></th:block>
+</body>
+
+</html>

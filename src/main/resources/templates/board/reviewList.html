@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECODE 사용후기 페이지</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/boardCss/reViews.css">
+    <script src="/js/reViews.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/header.js"></script>
+</head>
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+<div class="container">
+    <div class="content">
+        <div class="titleArea">
+            <h2>사용후기</h2>
+        </div>
+        <form>
+            <table id="userReviewList">
+                <tr th:each="review, iterStat : ${reviews.content}">
+                    <td th:text="${iterStat.index + 1 + (pageNumber * 10)}"></td>
+                    <td>
+                        <div>
+                            <a th:href="@{/review/{id}(id=${review.review.reviewId})}">
+                                <img class="reviewImg" th:if="${#lists.size(review.imgUrls) > 0}" th:src="${review.imgUrls[0]}" alt="empty">
+                            </a>
+                        </div>
+                    </td>
+                    <td class="txtEm">
+                        <a th:href="@{/review/{id}(id=${review.review.reviewId})}" th:text="${review.review.reviewTitle}"></a>
+                    </td>
+                    <td th:text="${review.review.userId}"></td>
+                    <td th:text="${#temporals.format(review.review.reviewCreateDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${review.review.reviewViews}"></td>
+                    <td>
+                        <div class="star-rating">
+                            <label th:each="star : ${#numbers.sequence(1, 5)}"
+                                   th:classappend="${star <= review.review.reviewScore} ? 'red' : ''"></label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <!-- 페이징 처리 -->
+            <a th:href="@{/reviews(page=0)}">&lt;&lt;</a>
+
+            <th:block th:each="page : ${#numbers.sequence(startPage, lastPage)}">
+                <a th:if="${page != currentPage}" th:href="@{/reviews(page=${page - 1})}" th:text="${page}"></a>
+                <strong th:if="${page == currentPage}" th:text="${page}" style="color : red "></strong>
+            </th:block>
+
+            <a th:href="@{/reviews(page=${totalPages - 1})}">&gt;&gt;</a>
+        </form>
+    </div>
+</div>
+<th:block th:include="layouts/footer"></th:block>
+</body>
+</html>

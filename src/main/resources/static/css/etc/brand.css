@@ -1,0 +1,42 @@
+.container {
+    width: 1903px;
+    min-width: 500px;
+    text-align: center;
+    margin-top: 180px
+}
+.content {
+    margin-top: 40px;
+    text-align: center;
+}
+.imgBox {
+    width: 1735px;
+    height: 788px;
+    margin: 0 84px;
+    border: 1px solid #ccc;
+    background-color: #eee;
+}
+.titleArea {
+    margin-top: 20px;
+    margin-bottom: 60px;
+    min-height: 30px;
+    text-align: center;
+}
+.titleArea > h2 {
+    color: #2e2e2e;
+    font-size: 26px;
+}
+.titleArea2 {
+    margin-top: 5%;
+    margin-bottom: 60px;
+    min-height: 30px;
+    text-align: center;
+}
+.titleArea2 p:nth-child(1){
+    color: #2e2e2e;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+.titleArea2 p:nth-child(2){
+    color: #bbb;
+    font-size: 15px;
+}

@@ -1,0 +1,117 @@
+/* 슬라이드 */
+#slideBox {
+    overflow: hidden;
+    position: relative;
+}
+#slideBox > ul {
+    width: 5709px;
+    list-style: none;
+    padding: 0;
+    font-size: 0;
+}
+#slideBox > ul > li {
+    display: inline-block;
+}
+#slideBox > div {
+    width: 600px;
+    height: 1px;
+    background-color: #eee;
+    position: absolute;
+    bottom: 100px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+#slideBox > div > span {
+    width: 200px;
+    height: 3px;
+    background-color: white;
+    position: absolute;
+    top: -1px;
+}
+#newBox {
+    margin: 200px 76.5px 0 76.5px;
+    overflow: hidden;
+}
+#newBox > p:nth-child(1) {
+    font-weight: bold;
+    font-size: 40px;
+    text-align: center;
+}
+#newBox > p:nth-child(2) {
+    color: #999;
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+#newBox > .productBox {
+    display: grid;
+    width: 3522px;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 600px;
+    grid-gap: 22px;
+}
+/* grid 안 product css */
+.productBox > div > img {
+    width: 421px;
+    height: 421px;
+}
+.productBox > div > p:nth-of-type(1) {
+    font-size: 28px;
+    padding: 15px 0;
+    font-weight: bold;
+}
+.productBox > div > p:nth-of-type(2) {
+    font-size: 23px;
+    color: #999;
+}
+.productBox > div > p:nth-of-type(3) {
+    font-size: 25px;
+    padding-top: 12px;
+    line-height: 58px;
+}
+.productBox > div > p:nth-of-type(3) > span:nth-child(1) {
+    font-size: 23px;
+    color: #999;
+    text-decoration: line-through;
+}
+.productBox > div > p:nth-of-type(3) > span:nth-child(2) {
+    font-size: 25px;
+    margin-left: 12px;
+}
+.productBox > div > p:nth-of-type(3) > span:nth-child(3) {
+    display: inline-block;
+    font-size: 25px;
+    margin-left: 20px;
+    border-radius: 50%;
+    background-color: #eee;
+    padding: 12px 10px;
+    width: 50px;
+    text-align: center;
+    line-height: 34px;
+}
+/* grid 안 product css 끝 */
+#bestBox {
+    margin-top: 200px;
+}
+#bestBox > p:nth-child(1) {
+    font-weight: bold;
+    font-size: 40px;
+    text-align: center;
+}
+#bestBox > p:nth-child(2) {
+    color: #999;
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+#bestBox > .productBox {
+    display: grid;
+    margin: 0 auto;
+    width: 1750px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 600px);
+    grid-gap: 22px;
+}

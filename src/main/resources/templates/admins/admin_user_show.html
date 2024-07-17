@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admin_header.css">
+    <link rel="stylesheet" href="/css/adminsCss/admin_user_show.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/admin_header.js"></script>
+    <title>관리자 - 회원정보 보기</title>
+</head>
+<body>
+    <th:block th:include="layouts/admin_header"></th:block>
+    <main>
+        <div class="box">
+            <p id="boxTitle">회원정보 보기</p>
+            <div id="showBox">
+                <ul>
+                    <li>
+                        <p>아이디</p>
+                        <p th:text="${user.username}"></p>
+                    </li>
+                    <li>
+                        <p>비밀번호</p>
+                        <p>**********</p>
+                    </li>
+                    <li>
+                        <p>이름</p>
+                        <p th:text="${user.userRealName}"></p>
+                    </li>
+                    <li>
+                        <p>연락처</p>
+                        <p th:text="${user.userPhone}"></p>
+                    </li>
+                    <li>
+                        <p>이메일</p>
+                        <p th:text="${user.userEmail}"></p>
+                    </li>
+                    <li>
+                        <p>배송지</p>
+                        <p th:if="${addresses.isEmpty()}">추가된 배송지가 없습니다.</p> <!-- 추가된 배송지가 없을 경우 -->
+                        <div th:if="${!addresses.isEmpty()}">
+                            <div th:each="address : ${addresses}"> <!-- 배송지 추가 -->
+                                <p>
+                                    <span>배송지명</span>
+                                    <span>
+                                        <span th:text="${address.addressNickname}">집</span>
+                                        <span th:if="${address.addressDefault == 1}">기본배송지</span> <!-- 기본배송지의 경우 -->
+                                    </span>
+                                </p>
+                                <p>
+                                    <span>이름</span>
+                                    <span th:text="${address.addressRecipientName}"></span>
+                                </p>
+                                <p>
+                                    <span>연락처</span>
+                                    <span th:text="${address.addressRecipientPhone}"></span>
+                                </p>
+                                <p>
+                                    <span>주소</span>
+                                    <span>
+                                        <span th:text="${address.addressPostalCode}"></span>
+                                        <span th:text="${address.addressRoadNameAddress}"></span>
+                                        <span th:text="${address.addressDetailAddress}"></span>
+                                    </span>
+                                </p>
+                                <p>
+                                    <span>요청사항</span>
+                                    <span th:text="${address.addressDeliveryRequest}"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <p>수신동의</p>
+                        <p>
+                            <span><input type="checkbox" id="sms" disabled th:checked="${user.userSmsAgreement}"><label for="sms">SMS</label></span>
+                            <span><input type="checkbox" id="email" disabled th:checked="${user.userEmailAgreement}"><label for="email">Email</label></span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>권한</p>
+                        <p th:text="${user.userRole}"></p>
+                    </li>
+                    <li>
+                        <p>가입일</p>
+                        <p th:text="${#temporals.format(user.userSubmitDate, 'yyyy-MM-dd HH:mm:ss')}"></p>
+                    </li>
+                    <li>
+                        <p>탈퇴일</p>
+                        <p th:text="${user.userDeleteDate == null ? '-' : #temporals.format(user.userDeleteDate, 'yyyy-MM-dd')}"></p>
+                    </li>
+                </ul>
+                <div class="buttonBox">
+                    <a th:href="'/admin/user/' + ${user.userId} + '/edit'">수정</a>
+                    <a href="/admin/user/index">목록</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

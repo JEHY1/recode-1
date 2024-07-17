@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admin_header.css">
+    <link rel="stylesheet" href="/css/adminsCss/admin_qna_show.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/admin_header.js"></script>
+    <title>관리자 - 상품문의/답변 보기</title>
+</head>
+<body>
+    <th:block th:include="layouts/admin_header"></th:block>
+    <main>
+        <div class="box">
+            <p class="boxTitle">상품문의 보기</p>
+            <div id="showBox">
+                <div>
+                    <img th:src="'http://192.168.106.12/fileServer' + ${product.productRepresentativeImgSrc}">
+                    <a th:href="'/admin/product/' + ${product.productId} + '/show'" th:text="${product.productName}"></a>
+                </div>
+                <ul>
+                    <li>
+                        <p>제목</p>
+                        <p th:text="${QnA.qnAQuestionTitle}"></p>
+                        <p></p>
+                    </li>
+                    <li>
+                        <p>내용</p>
+                        <p th:text="${QnA.qnAQuestionContent}"></p>
+                    </li>
+                    <li>
+                        <p>작성자</p>
+                        <p th:text="${username}"></p>
+                    </li>
+                    <li>
+                        <p>조회수</p>
+                        <p th:text="${QnA.qnAViews}"></p>
+                    </li>
+                    <li>
+                        <p>등록일</p>
+                        <p th:text="${#temporals.format(QnA.qnACreateDate, 'yyyy-MM-dd HH:mm:ss')}"></p>
+                    </li>
+                </ul>
+                <div class="buttonBox">
+                    <a th:href="'/admin/qna/' + ${QnA.qnAId} + '/delete?page=0&group=1&category=0&searchKeyword='">삭제</a>
+                    <a href="/admin/qna/index">목록</a>
+                </div>
+            </div>
+            <div id="answerBox">
+                <p class="boxTitle">답변 보기</p>
+                <div>
+                    <p th:utext="${QnA.qnAAnswer != null ? '<span>등록일</span>' + #temporals.format(QnA.qnAAnswerDate, 'yyyy-MM-dd HH:mm:ss') : ''}"></p>
+                    <p th:text="${QnA.qnAAnswer}"></p>
+                    <div class="buttonBox">
+                        <a th:href="'/admin/qna/' + ${QnA.qnAId} + '/insert'">수정</a>
+                        <a th:href="'/admin/qna/' + ${QnA.qnAId} + '/answer/delete'">삭제</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
