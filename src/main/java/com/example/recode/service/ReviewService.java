@@ -166,16 +166,30 @@ public class ReviewService {
 
     @Transactional
     public void saveReview(ReviewSubmitRequest request, Principal principal) {
-        Review review = Review.builder()
-                .userId(userService.getUserId(principal))
-                .productId(request.getProductId())
-                .reviewTitle(request.getReviewTitle())
-                .reviewContent(request.getReviewContent())
-                .reviewScore(request.getReviewScore())
-                .reviewViews(0)
-                .build();
+        Review review = null;
+        if(request.getReviewId() != null) {
+            review = findById(request.getReviewId()).updateReview(request); // 리뷰 수정
+        }
+        else {
+            review = Review.builder()
+                    .userId(userService.getUserId(principal))
+                    .productId(request.getProductId())
+                    .reviewTitle(request.getReviewTitle())
+                    .reviewContent(request.getReviewContent())
+                    .reviewScore(request.getReviewScore())
+                    .reviewViews(0)
+                    .build();
 
-        reviewRepository.save(review);
+            reviewRepository.save(review);
+        }
+
+        // files 등록할 경우 저장
+        if(!request.getFiles().get(0).isEmpty()) {
+            // 상품정보 수정 시 새로 업로드 하는 파일이 있으면 DB 에서 기존 productImg 삭제
+            if(request.getReviewId() != null) {
+                getReviewImgFindByReviewId(request.getReviewId()).forEach(reviewImg -> reviewImgRepository.deleteById(reviewImg.getReviewImgId()));
+            }
+        }
 
         int index = 1;
         for (MultipartFile file : request.getFiles()) {

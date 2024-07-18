@@ -1,5 +1,6 @@
 package com.example.recode.domain;
 
+import com.example.recode.dto.ReviewSubmitRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -57,6 +58,13 @@ public class Review {
 
     public Review updateViews(){ //조회수 증가
         this.reviewViews++;
+        return this;
+    }
+
+    public Review updateReview(ReviewSubmitRequest dto) {
+        this.reviewTitle = dto.getReviewTitle();
+        this.reviewContent = dto.getReviewContent();
+        this.reviewScore = dto.getReviewScore();
         return this;
     }
 }

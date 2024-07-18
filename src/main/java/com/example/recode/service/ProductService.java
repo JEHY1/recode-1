@@ -67,10 +67,10 @@ public class ProductService {
     public ProductDetailViewResponse getProductInfoByProductId(long productId, Principal principal){
         List<String> productDetailImgs = findProductImgByProductId(productId).stream().map(productImg -> productImg.getProductImgSrc()).toList();
         Product product = findProductByProductId(productId);
-        
+
         // 상품 조회수 증가
         product.IncProductViewCount();
-        
+
         //히스토리 등록
         if(principal != null){
             long userId = userService.getUserId(principal);
@@ -156,7 +156,7 @@ public class ProductService {
             fileUpload(request.getProductRepImg(), product.getProductId(), extension, "productRep", "RepImg", null);
         }
 
-        // productImg 등록할 경우 저장
+        // productExtImg 등록할 경우 저장
         if(!request.getProductExtImg().get(0).isEmpty()) {
             // 상품정보 수정 시 새로 업로드 하는 파일이 있으면 DB 에서 기존 productImg 삭제
             if(request.getProductId() != null) {
@@ -167,7 +167,7 @@ public class ProductService {
             int imgNum = 1;
             for(MultipartFile img : request.getProductExtImg()){
                 originalFileName = img.getOriginalFilename();
-                extensionIndex = originalFileName.lastIndexOf(".") == -1 ? 0 : originalFileName.lastIndexOf(".");
+                extensionIndex = originalFileName.lastIndexOf(".");
                 extension = originalFileName.substring(extensionIndex);
 
                 //파일 업로드 (application.properties 에 저장한 경로/images/productDetail/)

@@ -57,12 +57,14 @@ main { /* main 크기 고정 */
 }
 #showBox ul li div:nth-child(2) {
     display: inline-block;
+    width: 400px;
     vertical-align: top;
 }
 #showBox ul li div:nth-child(2) img {
     max-width: 100px;
     max-height: 100px;
     padding: 10px;
+    vertical-align: top;
 }
 #showBox ul li div:nth-child(2) p {
     padding: 7px 9px;

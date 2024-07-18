@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 public class ReviewSubmitRequest {
 
+    private Long reviewId;
     private Long productId;
     private String reviewTitle;
     private String reviewContent;
