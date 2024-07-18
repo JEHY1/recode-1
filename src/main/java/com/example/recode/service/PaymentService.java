@@ -152,6 +152,7 @@ public class PaymentService {
                 .orElseThrow(() -> new IllegalArgumentException("not found payment"));
     }
 
+
     public List<PaymentDetail> findPaymentDetailByPaymentId(long paymentId){
         return paymentDetailRepository.findByPaymentId(paymentId)
                 .orElseThrow(() -> new IllegalArgumentException("not found paymentDetail"));

@@ -1,38 +1,30 @@
 package com.example.recode.dto;
 
 import com.example.recode.domain.Review;
-import jakarta.persistence.Column;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
 @Getter
-@Setter
-@ToString
-public class MyWrittenReview {
+public class ReviewPhotoResponse {
 
     private long reviewId;
-    private String productName;
+    private String username;
     private String reviewTitle;
-    private String reviewContent;
     private LocalDateTime reviewCreateDate;
     private int reviewScore;
     private int reviewViews;
-    private String reviewRepImg;
+    private String reviewImgSrc;
 
-    @Builder
-    public MyWrittenReview(Review review, String productName, String reviewRepImg) {
+    public ReviewPhotoResponse(Review review, String username, String reviewImgSrc) {
         this.reviewId = review.getReviewId();
-        this.productName = productName;
+        this.username = username;
         this.reviewTitle = review.getReviewTitle();
-        this.reviewContent = review.getReviewTitle();
         this.reviewCreateDate = review.getReviewCreateDate();
         this.reviewScore = review.getReviewScore();
         this.reviewViews = review.getReviewViews();
-        this.reviewRepImg = reviewRepImg;
+        this.reviewImgSrc = reviewImgSrc;
     }
 }

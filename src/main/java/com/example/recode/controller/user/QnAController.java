@@ -2,13 +2,18 @@ package com.example.recode.controller.user;
 
 import com.example.recode.domain.QnA;
 import com.example.recode.domain.Review;
+import com.example.recode.domain.User;
+import com.example.recode.dto.QnAPhotoViewResponse;
+import com.example.recode.dto.QnAViewResponse;
 import com.example.recode.service.QnAService;
+import com.example.recode.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,39 +26,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class QnAController {
 
-    private final QnAService qnaService;
+    private final QnAService qnAService;
+    private final UserService userService;
 
-    @GetMapping("/qnaList")
-    public String getAllQnAs(Model model, Pageable pageable) {
-        // 명시적으로 페이지 크기를 설정하는 경우 (10개씩 출력)
-        int pageSize = 10;
-        Pageable pageRequest = PageRequest.of(pageable.getPageNumber(), pageSize, Sort.by("QnAId").ascending());
+    @GetMapping("/community/qna/list")
+    public String getAllQnAs(Model model, @PageableDefault(page = 0, size = 10, sort = "qnAId", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<QnA> list = qnaService.getAllQnAs(pageRequest);
+        Page<QnAPhotoViewResponse> qnAList = qnAService.qnAPhotoViewList(pageable);
+        model.addAttribute("QnAs", qnAList);
 
-        int firstPage = list.getNumber() + 1;
-        int totalPages = list.getTotalPages();
-        int startPage = Math.max(firstPage - 4, 1);
-        int lastPage = Math.min(firstPage + 5, totalPages);
-
-        model.addAttribute("list", list);
-        model.addAttribute("firstPage", firstPage);
+        // 페이징 관련 변수
+        int nowPage = qnAList.getPageable().getPageNumber()+1; // 현재 페이지 (pageable이 갖고 있는 페이지는 0부터이기 때문에 +1)
+        int block = (int) Math.ceil(nowPage/5.0); // 페이지 구간 (5페이지 - 1구간)
+        int startPage = (block - 1) * 5 + 1; // 블럭에서 보여줄 시작 페이지
+        int lastPage = qnAList.getTotalPages() == 0 ? 1 : qnAList.getTotalPages(); // 존재하는 마지막 페이지
+        int endPage = Math.min(startPage + 4, lastPage); // 블럭에서 보여줄 마지막 페이지
+        model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
-        model.addAttribute("lastPage", lastPage);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("currentPage", firstPage);
-        model.addAttribute("pageNumber", pageable.getPageNumber());
+        model.addAttribute("endPage", endPage);
+
 
         return "/board/queryList";
     }
 
-    @GetMapping("/qna/{id}")
+    @GetMapping("/community/qna/{id}")
     public String getQnaById(@PathVariable Long id, Model model) {
-        QnA qna = qnaService.findById(id);
+        QnA qna = qnAService.findById(id);
         model.addAttribute("qna", qna);
 //        0715 updateView 메서드를 호출하여 조회수를 증가시키도록 수정
 //        조회수 증가
-        qnaService.updateView(id);
+        qnAService.updateView(id);
+
+        String username = userService.getUsername(qna.getUserId());
+        model.addAttribute("username", username);
+        System.err.println(username);
+
         return "/board/queryTxt";
     }
 

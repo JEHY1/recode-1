@@ -2,14 +2,12 @@
     width: 1903px;
     min-width: 500px;
     text-align: center;
-    margin-top: 180px
+    margin-top: 220px
 }
 .content {
-    margin-top: 40px;
     text-align: center;
 }
 .titleArea {
-    margin-top: 20px;
     margin-bottom: 60px;
     min-height: 30px;
     text-align: center;
@@ -125,13 +123,11 @@ tr > td:nth-child(4), td:nth-child(5){
     padding: 0;
     position: relative;
     width: 1em;
-    z-index: 10;
     line-height: 1; /* label 내부의 컨텐츠가 중앙에 오도록 설정 */
 }
 
 .star-rating label:before {
     content: '\2605';
-    position: absolute;
 }
 
 .star-rating .red {

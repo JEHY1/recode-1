@@ -25,22 +25,6 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
     private final UserService userService;
 
-
-    public Page<Notice> getAllNotices(Pageable pageable) {
-        return noticeRepository.findAll(pageable);
-    }
-
-    public NoticeDto convertEntityToDto(Notice notice) {
-        NoticeDto noticeDTO = new NoticeDto();
-        noticeDTO.setNoticeId(notice.getNoticeId());
-        noticeDTO.setUsername(userService.findById(notice.getUserId()).getUsername());
-        noticeDTO.setNoticeCreateDate(notice.getNoticeCreateDate());
-        noticeDTO.setNoticeTitle(notice.getNoticeTitle());
-        noticeDTO.setNoticeContent(notice.getNoticeContent());
-        noticeDTO.setNoticeViews(notice.getNoticeViews());
-        return noticeDTO;
-    }
-
     @Transactional
     public Notice save(NoticeRequest dto, Principal principal) { // 공지사항 등록&수정
 
@@ -81,14 +65,6 @@ public class NoticeService {
         return findById(noticeId).updateViews();
     }
 
-//    public void processInteger(Integer to) {
-//        if (to != null) {
-//            int intValue = to.intValue();
-//            // intValue를 사용하는 코드 작성
-//        } else {
-//            // to가 null인 경우 처리할 로직 추가
-//        }
-//    }
 
     public Page<NoticeViewResponse> noticeViewList(Pageable pageable) { // 페이징 처리한 Page<NoticeViewResponse> 가져옴
         Page<Notice> noticeList = noticeRepository.findAll(pageable); // 페이징 처리한 Page<Notice>

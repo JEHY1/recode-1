@@ -1,11 +1,10 @@
 package com.example.recode.controller.user;
 import com.example.recode.domain.Review;
-import com.example.recode.dto.MyWrittenReview;
-import com.example.recode.dto.ReviewDto;
-import com.example.recode.dto.ReviewSubmitRequest;
-import com.example.recode.dto.ReviewWithImagesResponse;
+import com.example.recode.domain.ReviewImg;
+import com.example.recode.dto.*;
 import com.example.recode.service.ReviewService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.recode.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,53 +15,57 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class ReviewController {
 
-    @Autowired
-    private ReviewService reviewService;
 
+    private final ReviewService reviewService;
+    private final UserService userService;
 
-    @GetMapping("/reviews")
-    public String getAllReviews(Model model, Pageable pageable) {
-        // 페이지 크기를 설정하는 경우 (10개씩 출력)
-        int pageSize = 10;
-        Pageable pageRequest = PageRequest.of(pageable.getPageNumber(), pageSize, Sort.by("reviewId").ascending());
+    @GetMapping("/community/review/list")
+    public String getAllReviews(Model model, @PageableDefault(page = 0, size = 10, sort = "reviewId", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<ReviewWithImagesResponse> list = reviewService.getAllReviewWithImages(pageRequest);
+        Page<ReviewPhotoResponse> reviewList = reviewService.reviewPhotoViewList(pageable);
+        model.addAttribute("reviews", reviewList);
 
-        int firstPage = list.getNumber() + 1;
-        int totalPages = list.getTotalPages();
-        int startPage = Math.max(firstPage - 4, 1);
-        int lastPage = Math.min(firstPage + 5, totalPages);
-
-        model.addAttribute("reviews", list);
-        model.addAttribute("firstPage", firstPage);
+        // 페이징 관련 변수
+        int nowPage = reviewList.getPageable().getPageNumber()+1; // 현재 페이지 (pageable이 갖고 있는 페이지는 0부터이기 때문에 +1)
+        int block = (int) Math.ceil(nowPage/5.0); // 페이지 구간 (5페이지 - 1구간)
+        int startPage = (block - 1) * 5 + 1; // 블럭에서 보여줄 시작 페이지
+        int lastPage = reviewList.getTotalPages() == 0 ? 1 : reviewList.getTotalPages(); // 존재하는 마지막 페이지
+        int endPage = Math.min(startPage + 4, lastPage); // 블럭에서 보여줄 마지막 페이지
+        model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
-        model.addAttribute("lastPage", lastPage);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("currentPage", firstPage);
-        model.addAttribute("pageNumber", pageable.getPageNumber());
+        model.addAttribute("endPage", endPage);
 
         return "/board/reviewList";
     }
 
 
-    @GetMapping("/review/{reviewId}") //리뷰 상세보기
+    @GetMapping("/community/review/{reviewId}") //리뷰 상세보기
     public String getReviewById(@PathVariable Long reviewId, Model model) {
-        ReviewWithImagesResponse reviewWithImagesResponse = reviewService.getReviewWithImages(reviewId);
-        model.addAttribute("review", reviewWithImagesResponse.getReview());
-        model.addAttribute("reviewImgs", reviewWithImagesResponse.getImgUrls());
+
+        Review reviewEntity = reviewService.getReviewFindById(reviewId);
+        model.addAttribute("review", reviewEntity);
+        List<ReviewImg> reviewImgList = reviewService.getReviewImgFindByReviewId(reviewEntity.getReviewId());
+        model.addAttribute("reviewImgs", reviewImgList);
+        String username = userService.getUsername(reviewEntity.getUserId());
+        model.addAttribute("username", username);
+
+
         reviewService.updateViewCount(reviewId); // 조회수 증가 - 사용자 페이지에서 하기
 
         return "/board/reviewTxt";
     }
 
     @GetMapping("/reviewPost")
-    public String showReviewForm(Model model) {
+    public String showReviewForm(@RequestParam long paymentDetailId, long productId, Model model) {
         model.addAttribute("reviewDto", new ReviewDto());
-        model.addAttribute("productId", 2L); // 임시상품 아이디
+        model.addAttribute("productId", productId);
+        model.addAttribute("paymentDetailId", paymentDetailId);
         return "/board/reviewPost";
     }
 
@@ -70,29 +73,21 @@ public class ReviewController {
     public String postReview(@ModelAttribute ReviewSubmitRequest request, Model model, Principal principal) {
         reviewService.saveReview(request, principal);
 
-        return "redirect:/reviews";
+        return "redirect:/myReviews?tap=1";
     }
 
-    //마이페이지 리뷰
+    //마이페이지 리뷰(작성가능한 항목)
     @GetMapping("/myReviews")
-    public String getAllMyReviews(Model model, Pageable pageable) {
-        int pageSize = 10;
-        Pageable pageRequest = PageRequest.of(pageable.getPageNumber(), pageSize, Sort.by("reviewId").ascending());
+    public String getAllMyReviews(Model model, @RequestParam(defaultValue = "0") int page1, @RequestParam(defaultValue = "0") int page2, @RequestParam(required = false, defaultValue = "0") int tap,Principal principal) {
 
-        Page<MyWrittenReview> list = reviewService.myWrittenReview(pageRequest);
+        Pageable pageable1 = PageRequest.of(page1, 10);
+        Pageable pageable2 = PageRequest.of(page2, 10);
 
-        int firstPage = list.getNumber() + 1;
-        int totalPages = list.getTotalPages();
-        int startPage = Math.max(firstPage - 4, 1);
-        int lastPage = Math.min(firstPage + 5, totalPages);
+        System.err.println(reviewService.myWrittenReview(pageable2, principal));
 
-        model.addAttribute("list", list);
-        model.addAttribute("firstPage", firstPage);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("lastPage", lastPage);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("currentPage", firstPage);
-        model.addAttribute("pageNumber", pageable.getPageNumber());
+        model.addAttribute("writableReviewPage", reviewService.myWritableReview(pageable1, principal));
+        model.addAttribute("writtenReviewPage", reviewService.myWrittenReview(pageable2, principal));
+
 
         return "/board/myReviews";
     }
@@ -109,28 +104,6 @@ public class ReviewController {
         return "board/myReviewTxt";
     }
 
-    //마이페이지 리뷰리스트
-    @GetMapping("/myReview/list")
-    public String getWrittenReviews(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
-
-        Page<MyWrittenReview> writtenReviews = reviewService.myWrittenReview(pageable);
-
-        int firstPage = writtenReviews.getNumber() + 1;
-        int totalPages = writtenReviews.getTotalPages();
-        int startPage = Math.max(firstPage - 4, 1);
-        int lastPage = Math.min(firstPage + 5, totalPages);
-        System.err.println(writtenReviews.getContent());
-
-        model.addAttribute("writtenReviews", writtenReviews);
-        model.addAttribute("firstPage", firstPage);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("lastPage", lastPage);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("currentPage", firstPage);
-        model.addAttribute("pageNumber", pageable.getPageNumber());
-
-        return "/board/myReViewList";
-    }
 }
 
 

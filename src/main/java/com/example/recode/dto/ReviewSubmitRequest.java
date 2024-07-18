@@ -13,6 +13,7 @@ public class ReviewSubmitRequest {
 
     private Long reviewId;
     private Long productId;
+    private Long paymentDetailId;
     private String reviewTitle;
     private String reviewContent;
     private LocalDate reviewCreateDate;

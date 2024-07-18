@@ -69,7 +69,7 @@
             </div>
             <div id="pageBox">
                 <a th:href="${notices.hasPrevious() ? '/admin/notice/index?page=' + (nowPage-2) + '&category=' + category + '&searchKeyword=' + searchKeyword : 'javascript:void(0)'}" th:style="${notices.hasPrevious() ? '' : 'color:#ccc'}">〈</a>
-                <a href="#" th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/admin/notice/index?page=' + (page - 1) + '&category=' + category +'&searchKeyword=' + searchKeyword}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }"></a>
+                <a th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/admin/notice/index?page=' + (page - 1) + '&category=' + category +'&searchKeyword=' + searchKeyword}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }"></a>
                 <a th:href="${notices.hasNext() ? '/admin/notice/index?page=' + nowPage + '&category=' + category + '&searchKeyword=' + searchKeyword : 'javascript:void(0)'}" th:style="${notices.hasNext() ? '' : 'color:#ccc'}">〉</a>
             </div>
         </div>

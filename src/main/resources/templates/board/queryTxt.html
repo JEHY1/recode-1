@@ -18,23 +18,30 @@
 <div class="container">
     <div class="content">
         <div class="titleArea">
-            <h2>문의내용</h2>
+            <h2>상품문의</h2>
         </div>
         <table>
             <tr>
-                <td class="txtEm" th:text="${qna.qnAId}"></td>
-                <td class="txtEm" th:text="${qna.qnAQuestionTitle}"></td>
-                <td th:text="${qna.userId}"></td>
-                <td th:text="${#temporals.format(qna.qnACreateDate, 'yyyy-MM-dd')}">2024-06-12</td>
+                <td>질문</td>
+                <td class="txtEm">
+                    <span th:text="${qna.qnAAnswer != null? '답변완료' : '미완료'}" th:style="${qna.qnAAnswer != null ? 'background-color:#548235; color:white;' : 'color:#548235;'}"></span>
+                    <span th:utext="${qna.qnAQuestionTitle}"></span>
+                </td>
+                <td th:text="${username}"></td>
+                <td th:text="${#temporals.format(qna.qnACreateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${qna.qnAViews}"></td>
             </tr>
             <tr>
                 <td colspan="6" class="txtBody" th:text="${qna.qnAQuestionContent}"></td>
             </tr>
         </table>
+        <div id="Answer" th:if="${qna.qnAAnswer} != null">
+            <p>↳ 답변 <span th:text="${#temporals.format(qna.qnAAnswerDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+            <p th:text="${qna.qnAAnswer}"></p>
+        </div>
     </div>
-    <div class="btnDiv">
-        <a href="/qnalist" class="back-btn">목록</a>
+    <div class="btnDiv" th:style="${qna.qnAAnswer != null ? 'border-top: 1px solid #eee;' : ''}">
+        <a href="/community/qna/list" class="back-btn">목록</a>
     </div>
 </div>
 <th:block th:include="layouts/footer"></th:block>

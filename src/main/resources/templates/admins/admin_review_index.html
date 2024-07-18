@@ -55,7 +55,7 @@
                     <tbody>
                         <tr th:each="review : ${reviews}"> <!-- 리스트 하나 -->
                             <td><input type="checkbox" th:value="${review.reviewId}" class="check"></td>
-                            <td th:text="${reviewStat.count}"></td>
+                            <td th:text="${reviewStat.count + (nowPage-1)*10}"></td>
                             <td>리뷰</td>
                             <td th:text="${review.productName}">지갑 블루블랙</td>
                             <td><a th:href="'/admin/review/' + ${review.reviewId} + '/show'" th:text="${review.reviewTitle}"></a></td>
@@ -72,7 +72,7 @@
             </div>
             <div id="pageBox">
                 <a th:href="${reviews.hasPrevious() ? '/admin/review/index?page=' + (nowPage-2) + '&category=' + category + '&searchKeyword=' + searchKeyword : 'javascript:void(0)'}" th:style="${reviews.hasPrevious() ? '' : 'color:#ccc'}">〈</a>
-                <a href="#" th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/admin/review/index?page=' + (page - 1) + '&category=' + category +'&searchKeyword=' + searchKeyword}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }"></a>
+                <a th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/admin/review/index?page=' + (page - 1) + '&category=' + category +'&searchKeyword=' + searchKeyword}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }"></a>
                 <a th:href="${reviews.hasNext() ? '/admin/review/index?page=' + nowPage + '&category=' + category + '&searchKeyword=' + searchKeyword : 'javascript:void(0)'}" th:style="${reviews.hasNext() ? '' : 'color:#ccc'}">〉</a>
             </div>
         </div>

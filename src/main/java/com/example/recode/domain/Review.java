@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "review_tb")
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
@@ -27,6 +27,9 @@ public class Review {
 
     @Column(name = "product_id", nullable = false)
     private long productId;
+
+    @Column(name = "payment_detail_id", nullable = false)
+    private long paymentDetailId;
 
     @Column(name = "review_title", nullable = false)
     private String reviewTitle;
@@ -45,10 +48,11 @@ public class Review {
     private int reviewViews;
 
     @Builder
-    public Review(long reviewId, long userId, long productId, String reviewTitle, String reviewContent, LocalDateTime reviewCreateDate, int reviewScore, int reviewViews) {
+    public Review(long reviewId, long userId, long productId, long paymentDetailId,  String reviewTitle, String reviewContent, LocalDateTime reviewCreateDate, int reviewScore, int reviewViews) {
         this.reviewId = reviewId;
         this.userId = userId;
         this.productId = productId;
+        this.paymentDetailId = paymentDetailId;
         this.reviewTitle = reviewTitle;
         this.reviewContent = reviewContent;
         this.reviewCreateDate = reviewCreateDate;

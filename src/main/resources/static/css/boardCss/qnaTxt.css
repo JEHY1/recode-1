@@ -2,14 +2,12 @@
     width: 1903px;
     min-width: 500px;
     text-align: center;
-    margin-top: 180px
+    margin-top: 220px
 }
 .content {
-    margin-top: 40px;
     text-align: center;
 }
 .titleArea {
-    margin-top: 20px;
     margin-bottom: 60px;
     min-height: 30px;
     text-align: center;
@@ -53,6 +51,20 @@ tr > td:nth-child(2) {
     text-align: left;
     font-size: 13px;
 }
+tr > td:nth-child(2) > span:nth-child(1) {
+    display: inline-block;
+    width: 40px;
+    font-size: 10px;
+    padding: 1.3px 3px;
+    border: 1px solid #548235;
+    text-align: center;
+    vertical-align: top;
+    margin-right: 15px;
+    border-radius: 5px;
+}
+tr > td:nth-child(2) > span:nth-child(2) {
+    font-size: 13px;
+}
 tr > td:nth-child(3) {
     width: 200px;
 }
@@ -77,7 +89,7 @@ tr > td:nth-child(4), td:nth-child(5){
     margin: 5px;
 }
 .btnDiv {
-    margin:20px;
+    margin: 30px 20px 20px;
     text-align: left;
     color: #ccc;
     text-decoration: none;
@@ -89,4 +101,28 @@ tr > td:nth-child(4), td:nth-child(5){
     text-decoration: none;
     font-weight: bold;
     border: 1px solid black;
+}
+#Answer {
+    display: inline-block;
+    width: 1750px;
+    padding: 30px;
+    margin-top: 20px;
+    background-color: #eee;
+    border-radius: 20px;
+}
+#Answer p {
+    font-size: 13px;
+    text-align: left;
+}
+#Answer p:nth-child(1) {
+    margin-bottom: 15px;
+}
+#Answer p span {
+    margin-left: 10px;
+    font-size: 13px;
+    color: #999;
+}
+#Answer p:nth-child(2) {
+    line-height: 25px;
+    margin-left: 10px;
 }

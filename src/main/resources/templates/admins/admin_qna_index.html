@@ -77,7 +77,7 @@
             </div>
             <div id="pageBox">
                 <a th:href="${QnAs.hasPrevious() ? '/admin/qna/index?page=' + (nowPage-2) + '&group=' + group + '&category=' + category + '&searchKeyword=' + searchKeyword : 'javascript:void(0)'}" th:style="${QnAs.hasPrevious() ? '' : 'color:#ccc'}">〈</a>
-                <a href="#" th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/admin/qna/index?page=' + (page - 1) + '&group=' + group + '&category=' + category + '&searchKeyword=' + searchKeyword}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }"></a>
+                <a th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/admin/qna/index?page=' + (page - 1) + '&group=' + group + '&category=' + category + '&searchKeyword=' + searchKeyword}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }"></a>
                 <a th:href="${QnAs.hasNext() ? '/admin/qna/index?page=' + nowPage + '&group=' + group + '&category=' + category + '&searchKeyword=' + searchKeyword : 'javascript:void(0)'}" th:style="${QnAs.hasNext() ? '' : 'color:#ccc'}">〉</a>
             </div>
         </div>

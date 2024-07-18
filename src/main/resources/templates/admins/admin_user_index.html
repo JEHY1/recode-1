@@ -79,7 +79,7 @@
             </div>
             <div id="pageBox">
                 <a th:href="${users.hasPrevious() ? '/admin/user/index?page=' + (nowPage-2) + '&group=' + group + '&category=' + category + '&searchKeyword=' + searchKeyword : 'javascript:void(0)'}" th:style="${users.hasPrevious() ? '' : 'color:#ccc'}">〈</a>
-                <a href="#" th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/admin/user/index?page=' + (page - 1) + '&group=' + group + '&category=' + category +'&searchKeyword=' + searchKeyword}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }">1</a>
+                <a th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/admin/user/index?page=' + (page - 1) + '&group=' + group + '&category=' + category +'&searchKeyword=' + searchKeyword}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }">1</a>
                 <a th:href="${users.hasNext() ? '/admin/user/index?page=' + nowPage + '&group=' + group + '&category=' + category + '&searchKeyword=' + searchKeyword : 'javascript:void(0)'}" th:style="${users.hasNext() ? '' : 'color:#ccc'}">〉</a>
             </div>
         </div>

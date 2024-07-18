@@ -7,9 +7,99 @@
     <title>RECODE 내 후기현황</title>
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/boardCss/reviewList.css">
+    <link rel="stylesheet" href="/css/boardCss/reViews.css">
+    <link rel="stylesheet" href="/css/scroll.css">
     <script src="/js/jquery.js"></script>
     <script src="/js/header.js"></script>
+
+    <style>
+        #writablePrevPage-btn{
+          font-size: 25px;
+          background-color: white;
+          border: none;
+        }
+        #writablePrevPage-btn:hover{
+            color: gray;
+        }
+        #writablePrevPage-btn:disabled:hover{
+            color: gainsboro;
+        }
+
+        #writableNextPage-btn{
+            font-size: 25px;
+            background-color: white;
+            border: none;
+        }
+
+        #writableNextPage-btn:hover{
+            color: gray;
+        }
+        #writableNextPage-btn:disabled:hover{
+            color: gainsboro;
+        }
+
+
+        #writtenPrevPage-btn{
+          font-size: 25px;
+          background-color: white;
+          border: none;
+        }
+        #writtenPrevPage-btn:hover{
+            color: gray;
+        }
+        #writtenPrevPage-btn:disabled:hover{
+            color: gainsboro;
+        }
+
+        #writtenNextPage-btn{
+            font-size: 25px;
+            background-color: white;
+            border: none;
+        }
+
+        #writtenNextPage-btn:hover{
+            color: gray;
+        }
+        #writtenNextPage-btn:disabled:hover{
+            color: gainsboro;
+        }
+
+
+
+        .page-btn{
+            font-size: 25px;
+            width : 47px;
+            height: 47px;
+            padding : 7px;
+            border-radius: 50%;
+            border: none;
+            background-color: white;
+        }
+
+        .selectedPage-btn{
+            background-color : #548235 !important;
+            color : white !important;
+        }
+
+        .page-btn:hover{
+            background-color: gainsboro;
+        }
+
+        .row{--bs-gutter-x:1.5rem;--bs-gutter-y:0;display:flex;flex-wrap:wrap;margin-top:calc(var(--bs-gutter-y) * -1);margin-right:calc(var(--bs-gutter-x) * -.5);margin-left:calc(var(--bs-gutter-x) * -.5)}.row>*{flex-shrink:0;width:100%;max-width:100%;padding-right:calc(var(--bs-gutter-x) * .5);padding-left:calc(var(--bs-gutter-x) * .5);margin-top:var(--bs-gutter-y)}
+        .col-auto{flex:0 0 auto;width:auto}
+        .ms-auto{margin-left:auto!important}
+        .w-100{width:100%!important}
+        .mx-auto{margin-right:auto!important;margin-left:auto!important}
+        .mt-5{margin-top:3rem!important}
+        .d-flex{display:flex!important}
+        .align-items-center{align-items:center!important}
+        .justify-content-center{justify-content:center!important}
+        .p-0{padding:0!important}
+        .mx-1{margin-right:.25rem!important;margin-left:.25rem!important}
+        .me-auto{margin-right:auto!important}
+    </style>
+
+
 </head>
 
 <body>
@@ -20,35 +110,44 @@
             <h2>내 후기현황</h2>
         </div>
         <div class="tabArea">
-            <button class="tabButton" onclick="showTab('writableReviews')">작성 가능한 후기</button>
-            <button class="tabButton" onclick="showTab('writtenReviews')">작성한 후기</button>
+            <button id="showWritableReview-btn">작성 가능한 후기</button>
+            <button id="showWrittenReview-btn">작성한 후기</button>
+            <input type="hidden" id="currentTap">
         </div>
-        <div id="writableReviews" class="tabContent">
+        <div id="writtenReviews" class="tabContent">
             <table>
                 <thead>
                 <tr>
-                    <td><input type="checkbox" onclick="selectAll(this)"></td>
+                    <td><input type="checkbox"></td>
                     <td>번호</td>
-                    <td>구매 날짜</td>
-                    <td>상품 이미지</td>
+                    <td>작성 날짜</td>
+                    <td>리뷰 이미지</td>
+                    <td>제목</td>
                     <td>상품명</td>
-                    <td>결제금액</td>
+                    <td>평점</td>
                     <td>기능</td>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="product, iterStat : ${purchasedProducts}">
-                    <td><input type="checkbox" th:value="${product.productId}"></td>
-                    <td th:text="${iterStat.index + 1}"></td>
-                    <td th:text="${product.purchaseDate}"></td>
+                <tr th:each="review, iterStat : ${writtenReviewPage.myWrittenReviewList}">
+
+                    <td><input type="checkbox" th:value="${review.reviewId}"></td>
+                    <td class="writtenReviewNum"></td>
+                    <td th:text="${review.reviewCreateDate}"></td>
                     <td>
-                        <img th:src="@{/img/{imageName}(imageName=${product.imageName})}" alt="상품 이미지">
+                        <img th:src="'http://192.168.106.12/fileServer' + ${review.reviewRepImg}" alt="상품 이미지" style="padding: 0px; width: 100px; height: 100px;">
                     </td>
-                    <td th:text="${product.productName}"></td>
-                    <td th:text="${product.price}"></td>
+                    <td th:text="${review.reviewTitle}"></td>
+                    <td th:text="${review.productName}"></td>
                     <td>
-                        <button onclick="writeReview(${product.productId})">후기등록</button>
-                        <button onclick="deleteProduct(${product.productId})">삭제</button>
+                        <div class="star-rating">
+                            <label th:each="star : ${#numbers.sequence(1, 5)}"
+                                   th:classappend="${star <= review.reviewScore} ? 'red' : ''"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <button onclick="writeReview(${review.productId})">리뷰 수정</button>
+                        <button onclick="deleteProduct(${review.productId})">삭제</button>
                     </td>
                 </tr>
                 </tbody>
@@ -56,48 +155,61 @@
             <div class="btnDiv">
                 <button onclick="deleteSelected()">삭제</button>
             </div>
+
+            <div class="row w-100 mx-auto mt-5" style="height: 47px;" th:if="${writtenReviewPage.totalPages != 0}">
+                <input type="hidden" id="writtenReviewTotalPageSize" th:value="${writtenReviewPage.totalPages}">
+                <button class="col-auto ms-auto" id="writtenPrevPage-btn">〈</button>
+                <div class="col-auto d-flex align-items-center justify-content-center" id="writtenReviewsPageButtonField">
+                </div>
+                <button class="col-auto me-auto" id="writtenNextPage-btn">〉</button>
+            </div>
         </div>
-        <div id="writtenReviews" class="tabContent" style="display:none;">
+
+        <div id="writableReviews" class="tabContent">
             <table>
                 <thead>
                 <tr>
-                    <td><input type="checkbox" onclick="selectAll(this)"></td>
                     <td>번호</td>
                     <td>구매 날짜</td>
                     <td>상품 이미지</td>
                     <td>상품명</td>
-                    <td>결제금액</td>
                     <td>기능</td>
                 </tr>
                 </thead>
                 <tbody>
-<!--                <tr th:each="review, iterStat : ${writtenReviews}">-->
-<!--                    <td><input type="checkbox" th:value="${review.reviewId}"></td>-->
-<!--                    <td th:text="${iterStat.index + 1 + (pageNumber * 10)}"></td>-->
-<!--                    <td th:text="${review.purchaseDate}"></td>-->
-<!--                    <td>-->
-<!--                        <img th:src="@{/img/{imageName}(imageName=${review.imageName})}" alt="상품 이미지">-->
-<!--                    </td>-->
-<!--                    <td th:text="${review.productName}"></td>-->
-<!--                    <td th:text="${review.price}"></td>-->
-<!--                    <td>-->
-<!--                        <a th:href="@{/myreview/{id}(id=${review.reviewId})}">상세보기</a>-->
-<!--                        <button onclick="deleteReview(${review.reviewId})">삭제</button>-->
-<!--                    </td>-->
-<!--                </tr>-->
+                    <tr th:each="review, iterStat : ${writableReviewPage.myWritableReviewList}">
+
+                        <td class="writableReviewNum"></td>
+                        <td th:text="${review.paymentCreateDate}"></td>
+                        <td>
+                            <img th:src="'http://192.168.106.12/fileServer' + ${review.productRepImg}" alt="상품 이미지" style="padding: 0px; width: 100px; height: 100px;">
+                        </td>
+                        <td th:text="${review.productName}"></td>
+
+                        <td>
+                            <button th:onclick="|location.href='/reviewPost?paymentDetailId=${review.paymentDetailId}&productId=${review.productId}'|">후기등록</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-            <a th:href="@{/myreview/list(page=0)}">&lt;&lt;</a>
-
-            <th:block th:each="page : ${#numbers.sequence(startPage, lastPage)}">
-                <a th:if="${page != currentPage}" th:href="@{/myreview/list(page=${page - 1})}" th:text="${page}"></a>
-                <strong th:if="${page == currentPage}" th:text="${page}" style="color : red "></strong>
-            </th:block>
-
-            <a th:href="@{/myreview/list(page=${totalPages - 1})}">&gt;&gt;</a>
+            <div class="row w-100 mx-auto mt-5" style="height: 47px;" th:if="${writableReviewPage.totalPage != 0}">
+                <input type="hidden" id="writableReviewTotalPageSize" th:value="${writableReviewPage.totalPage}">
+                <button class="col-auto ms-auto" id="writablePrevPage-btn">〈</button>
+                <div class="col-auto d-flex align-items-center justify-content-center" id="writableReviewsPageButtonField">
+                </div>
+                <button class="col-auto me-auto" id="writableNextPage-btn">〉</button>
+            </div>
         </div>
     </div>
+
+
+
+
 </div>
 <th:block th:include="layouts/footer"></th:block>
+<th:block th:include="layouts/scroll"></th:block>
+<script src="/js/scroll.js"></script>
+<script src="/js/myReviews.js"></script>
+
 </body>
 </html>

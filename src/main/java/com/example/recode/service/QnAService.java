@@ -4,11 +4,7 @@ import com.example.recode.domain.Notice;
 import com.example.recode.domain.Product;
 import com.example.recode.domain.QnA;
 import com.example.recode.domain.User;
-import com.example.recode.dto.NoticeViewResponse;
-import com.example.recode.dto.ProductDetailQnAViewResponse;
-import com.example.recode.dto.QnAViewResponse;
-import com.example.recode.dto.QnaAnswerRequest;
-import com.example.recode.dto.QnaSubmitRequest;
+import com.example.recode.dto.*;
 import com.example.recode.repository.QnARepository;
 import com.example.recode.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -310,13 +306,16 @@ public class QnAService {
         }
     }
 
-    public Page<QnA> getAllQnAs(Pageable pageable) {
-        return qnARepository.findAll(pageable);
-    }
-
     @Transactional
     public QnA updateView(Long qnAId) {
         return findById(qnAId).updateViews();
+    }
+
+    public Page<QnAPhotoViewResponse> qnAPhotoViewList(Pageable pageable) { // 페이징 처리한 Page<QnAPhotoViewResponse> 가져옴
+        Page<QnA> qnAList = qnARepository.findAll(pageable); // 페이징 처리한 Page<QnA>
+        Page<QnAPhotoViewResponse> qnAPhotoViewList = qnAList.map(qnA -> new QnAPhotoViewResponse(qnA, productService.findProductByProductId(qnA.getProductId()), userService.getUsername(qnA.getUserId())));
+
+        return qnAPhotoViewList;
     }
 
 }

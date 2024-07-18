@@ -2,7 +2,6 @@ package com.example.recode.service;
 
 import com.example.recode.domain.*;
 import com.example.recode.dto.*;
-import com.example.recode.repository.ProductRepository;
 import com.example.recode.repository.ReviewImgRepository;
 import com.example.recode.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,7 +38,6 @@ public class ReviewService {
     private final ReviewImgRepository reviewImgRepository;
     private final UserService userService;
     private final ProductService productService;
-    private final ReviewImgService reviewImgService; // reviewImgService 필드추가
     private final PaymentService paymentService;
 
     public Review getReviewFindById(Long reviewId) { // reviewId로 Review 가져오기
@@ -68,11 +65,6 @@ public class ReviewService {
         getReviewFindAll().forEach(review -> list.add(new ReviewResponse(review, userService.getUsername(review.getUserId()), productService.findProductByProductId(review.getProductId()).getProductName())));
 
         return list;
-    }
-
-
-    public Page<Review> getAllReview(Pageable pageable) {
-        return reviewRepository.findAll(pageable);
     }
 
     public Page<ReviewResponse> reviewViewList(Pageable pageable) { // 페이징 처리한 Page<ReviewResponse> 가져옴
@@ -138,32 +130,6 @@ public class ReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("Review not found"));
     }
 
-    public ReviewWithImagesResponse getReviewWithImages(Long reviewId) {
-        Review review = getReviewFindById(reviewId);
-        List<ReviewImg> reviewImgs = reviewImgService.getReviewImgFindByReviewId(reviewId);
-        List<String> imgUrls = new ArrayList<>();
-        if (reviewImgs != null) {
-            for (ReviewImg img : reviewImgs) {
-                imgUrls.add(img.getReviewImgSrc());
-            }
-        }
-        return new ReviewWithImagesResponse(review, imgUrls);
-    }
-
-    public Page<ReviewWithImagesResponse> getAllReviewWithImages(Pageable pageable) {
-        Page<Review> reviews = getAllReview(pageable);
-        return reviews.map(review -> {
-            List<ReviewImg> reviewImgs = getReviewImgFindByReviewId(review.getReviewId());
-            List<String> imgUrls = new ArrayList<>();
-            if (reviewImgs != null) {
-                for (ReviewImg img : reviewImgs) {
-                    imgUrls.add(img.getReviewImgSrc());
-                }
-            }
-            return new ReviewWithImagesResponse(review, imgUrls);
-        });
-    }
-
     @Transactional
     public void saveReview(ReviewSubmitRequest request, Principal principal) {
         Review review = null;
@@ -174,6 +140,7 @@ public class ReviewService {
             review = Review.builder()
                     .userId(userService.getUserId(principal))
                     .productId(request.getProductId())
+                    .paymentDetailId(request.getPaymentDetailId())
                     .reviewTitle(request.getReviewTitle())
                     .reviewContent(request.getReviewContent())
                     .reviewScore(request.getReviewScore())
@@ -229,23 +196,33 @@ public class ReviewService {
         }
     }
 
-    public Page<MyWrittenReview> myWrittenReview(Pageable pageable){
+    public MyWrittenReviewResponse myWrittenReview(Pageable pageable, Principal principal){
         System.err.println("callMyWrittenReview");
-        Page<Review> reviews = reviewRepository.findAll(pageable);
+        Page<Review> reviews = reviewRepository.findAllByUserId(userService.getUserId(principal), pageable)
+                .orElseThrow(() -> new IllegalArgumentException("not found review"));
 
-        List<MyWrittenReview> reviewList = reviews.getContent().stream().map(this::toMyWrittenReview).collect(Collectors.toList());
+        reviews.getTotalPages();
+
+        List<MyWrittenReview> reviewList = new ArrayList<>();
         Page<MyWrittenReview> reviewPage = new PageImpl<>(reviewList, pageable, reviewList.size());
+        if(!reviews.isEmpty()){
+            reviewList = reviews.getContent().stream().map(this::toMyWrittenReview).collect(Collectors.toList());
+            reviewPage = new PageImpl<>(reviewList, pageable, reviewList.size());
+        }
 
-        return reviewPage;
+
+        return MyWrittenReviewResponse.builder()
+                .myWrittenReviewList(reviewPage)
+                .totalPages(reviews.getTotalPages())
+                .build();
     }
 
     public MyWrittenReview toMyWrittenReview(Review review){
-        List<ReviewImg> reviewImgs = reviewImgService.getReviewImgFindByReviewId(review.getReviewId());
+        List<ReviewImg> reviewImgs = getReviewImgFindByReviewId(review.getReviewId());
         Product product = productService.findProductByProductId(review.getProductId());
 
         return MyWrittenReview.builder()
                 .review(review)
-                .username(userService.getUsername(review.getUserId()))
                 .productName(product.getProductName())
                 .reviewRepImg(!reviewImgs.isEmpty() ? reviewImgs.get(0).getReviewImgSrc() : null)
                 .build();
@@ -254,5 +231,60 @@ public class ReviewService {
     @Transactional
     public Review updateViewCount(long reviewId){
         return findById(reviewId).updateViews();
+    }
+
+    public MyWritableReviewResponse myWritableReview(Pageable pageable, Principal principal) {
+        List<Long> paymentIdList = paymentService.findPaymentByPrincipal(principal).stream().map(Payment::getPaymentId).collect(Collectors.toList());
+        List<PaymentDetail> paymentDetailList = paymentService.findPaymentDetailByPaymentIdIn(paymentIdList);
+
+        List<Review> reviews = reviewRepository.findAllByUserId(userService.getUserId(principal))
+                .orElseThrow(() -> new IllegalArgumentException("not found review"));
+
+        List<Long> writtenReviewPaymentDetailIdList = reviews.stream().map(Review::getPaymentDetailId).collect(Collectors.toList());
+
+        List<PaymentDetail> paymentDetailList2 = new ArrayList<>();
+        paymentDetailList.forEach(paymentDetail -> {
+            boolean isInclude = false;
+            for(Review review : reviews){
+                if(review.getProductId() == paymentDetail.getProductId()){
+                    isInclude = true;
+                    break;
+                }
+            }
+            if(!isInclude && paymentDetail.getPaymentDetailStatus().equals("배송완료")){
+                paymentDetailList2.add(paymentDetail);
+            }
+        });
+
+
+        int totalPage = paymentDetailList2.size() / pageable.getPageSize() + 1;
+        System.err.println("start : " + pageable.getPageNumber() * pageable.getPageSize());
+        System.err.println("end : " + Math.min(pageable.getPageNumber() * pageable.getPageSize() + pageable.getPageSize(), paymentDetailList2.size()));
+        List<PaymentDetail> subList = paymentDetailList2.subList(pageable.getPageNumber() * pageable.getPageSize(), Math.min(pageable.getPageNumber() * pageable.getPageSize() + pageable.getPageSize(), paymentDetailList2.size()));
+        List<MyWritableReview> subMyWriteableReviewList = subList.stream().map(this::toMyWriteableReview).collect(Collectors.toList());
+        Page<MyWritableReview> myWriteableReviewPage = new PageImpl<>(subMyWriteableReviewList, pageable, subMyWriteableReviewList.size());
+
+        return MyWritableReviewResponse.builder()
+                .myWritableReviewList(myWriteableReviewPage)
+                .totalPage(totalPage)
+                .build();
+    }
+
+    public MyWritableReview toMyWriteableReview(PaymentDetail paymentDetail){
+        Product product = productService.findProductByProductId(paymentDetail.getProductId());
+        return MyWritableReview.builder()
+                .paymentDetailId(paymentDetail.getPaymentDetailId())
+                .productId(product.getProductId())
+                .paymentCreateDate(paymentService.findPaymentByPaymentId(paymentDetail.getPaymentId()).getPaymentDate())
+                .productRepImg(product.getProductRepresentativeImgSrc())
+                .productName(product.getProductName())
+                .build();
+    }
+
+    public Page<ReviewPhotoResponse> reviewPhotoViewList(Pageable pageable) { // 페이징 처리한 Page<ReviewPhotoResponse> 가져옴
+        Page<Review> reviewList = reviewRepository.findAll(pageable); // 페이징 처리한 Page<Review>
+        Page<ReviewPhotoResponse> reviewPhotoViewList = reviewList.map(review -> new ReviewPhotoResponse(review, userService.getUsername(review.getUserId()),
+                getReviewImgFindByReviewId(review.getReviewId()).isEmpty() ? null : getReviewImgFindByReviewId(review.getReviewId()).get(0).getReviewImgSrc()));
+        return reviewPhotoViewList;
     }
 }

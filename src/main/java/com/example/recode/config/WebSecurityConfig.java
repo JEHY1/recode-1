@@ -39,7 +39,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
 
         return httpSecurity.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login/**", "/join/**", "/find/**", "/", "/product/**", "/etc/**", "/user/delete/finish", "/checkLogin", "/notices", "/notice/**", "/qnaList", "/getIncludeNameList").permitAll()
+                .requestMatchers("/login/**", "/join/**", "/find/**", "/", "/product/**", "/etc/**", "/user/delete/finish", "/checkLogin", "/community/**", "/getIncludeNameList").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
         )

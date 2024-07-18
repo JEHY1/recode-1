@@ -17,39 +17,32 @@
 <body>
 
 <th:block th:include="layouts/header"></th:block>
-<th:block th:include="layouts/scroll"></th:block>
 
 <div class="container">
     <div class="content">
         <div class="titleArea">
             <h2>공지사항</h2>
         </div>
-        <form>
-            <table>
-                <tr th:each="notice, iterStat : ${list.content}">
-                    <td th:text="${iterStat.index + 1 + (pageNumber * 10)}"></td>
-                    <td class="txtEm">
-                        <a th:href="@{/notice/{id}(id=${notice.noticeId})}" th:text="${notice.noticeTitle}"></a>
-                    </td>
-                    <td th:text="${notice.userId}"></td>
-                    <td th:text="${#temporals.format(notice.noticeCreateDate, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${notice.noticeViews}"></td>
-                </tr>
-            </table>
+        <table>
+            <tr th:each="notice : ${notices}">
+                <td th:text="${noticeStat.count + (nowPage-1)*10}"></td>
+                <td class="txtEm">
+                    <a th:href="@{/community/notice/{id}(id=${notice.noticeId})}" th:text="${notice.noticeTitle}"></a>
+                </td>
+                <td th:text="${notice.username}"></td>
+                <td th:text="${#temporals.format(notice.noticeCreateDate, 'yyyy-MM-dd')}"></td>
+                <td th:text="${notice.noticeViews}"></td>
+            </tr>
+        </table>
 
-            <div id="pageBox">
-                <a th:href="@{/notices(page=0)}">&lt;&lt;</a>
-
-                <th:block th:each="page : ${#numbers.sequence(startPage, lastPage)}">
-                    <a th:if="${page != currentPage}" th:href="@{/notices(page=${page - 1})}" th:text="${page}"></a>
-                    <strong th:if="${page == currentPage}" th:text="${page}" style="color : red "></strong>
-                </th:block>
-
-                <a th:href="@{/notices(page=${totalPages - 1})}">&gt;&gt;</a>
-            </div>
-        </form>
+        <div id="pageBox">
+            <a th:href="${notices.hasPrevious() ? '/community/notice/list?page=' + (nowPage-2) : 'javascript:void(0)'}" th:style="${notices.hasPrevious() ? '' : 'color:#ccc'}">〈</a>
+            <a th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/community/notice/list?page=' + (page - 1)}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }"></a>
+            <a th:href="${notices.hasNext() ? '/community/notice/list?page=' + nowPage : 'javascript:void(0)'}" th:style="${notices.hasNext() ? '' : 'color:#ccc'}">〉</a>
+        </div>
     </div>
 </div>
+<th:block th:include="layouts/scroll"></th:block>
 
 <th:block th:include="layouts/footer"></th:block>
 <script src="/js/scroll.js"></script>

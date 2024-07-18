@@ -1,9 +1,22 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var table = document.getElementById('userReviewList');
-    var rows = table.getElementsByTagName('tr');
+const moveTopButton = document.getElementById('move-top-btn');
 
-    for (var i = 0; i < rows.length; i++) {
-        var firstTd = rows[i].getElementsByTagName('td')[0];
-        firstTd.innerText = i + 1;
-    }
-});
+if(moveTopButton){
+    moveTopButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+const moveBottomButton = document.getElementById('move-bottom-btn');
+
+if(moveBottomButton){
+    moveBottomButton.addEventListener('click', () => {
+        console.log('click');
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    });
+}

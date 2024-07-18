@@ -22,6 +22,7 @@
         </div>
         <form action="/review/submit" method="post" th:object="${reviewDto}" enctype="multipart/form-data">
             <input type="hidden" name="productId" th:value="${productId}">
+            <input type="hidden" name="paymentDetailId" th:value="${paymentDetailId}">
             <table>
                 <colgroup>
                     <!-- 컬럼 그룹 설정 -->

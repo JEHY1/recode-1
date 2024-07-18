@@ -23,12 +23,12 @@
         <div>
             <table>
                 <tr>
-                    <td>1</td>
+                    <td></td>
                     <td class="txtEm">
                         <p th:text="${review.reviewTitle}"></p>
                     </td>
-                    <td th:text="${review.userId}"></td>
-                    <td th:text="${#temporals.format(review.reviewCreateDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${username}"></td>
+                    <td th:text="${#temporals.format(review.reviewCreateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
                     <td>
                         <div class="star-rating">
@@ -41,10 +41,8 @@
                 <tr>
                     <div>
                         <td class="txtBody" colspan="6">
-                            <div th:if="${#lists.size(reviewImgs) > 0}">
-                                <a href="">
-                                    <img class="userProImg" th:each="img : ${reviewImgs}" th:src="@{/img/{imgSrc}(imgSrc=${img})}">
-                                </a>
+                            <div>
+                                <img class="userProImg" th:each="reviewImg : ${reviewImgs}" th:src="'http://192.168.106.12/fileServer' + ${reviewImg.reviewImgSrc}">
                             </div>
                             <p th:text="${review.reviewContent}"></p>
                         </td>
@@ -54,7 +52,7 @@
         </div>
     </div>
     <div class="btnDiv">
-        <a href="/reviews" class="back-btn">목록</a>
+        <a href="/community/review/list" class="back-btn">목록</a>
     </div>
 </div>
 

@@ -31,7 +31,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         //history가 남아있는지 확인
         if (savedRequest == null) {
             log.info("No saved request found, redirecting to default URL");
-            //없으면 defailt url 로 가도록
+            //없으면 default url 로 가도록
             super.onAuthenticationSuccess(request, response, authentication);
             return;
         }

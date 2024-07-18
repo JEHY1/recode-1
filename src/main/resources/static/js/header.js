@@ -27,17 +27,32 @@ $(function() {
     // scroll - header 색
     $(window).on("scroll", function() {
         if($(window).scrollTop() == 0) {
-            $("header").css({"background-color":"#ffffff00", "border-bottom":"none"});
+            $("header").css("background-color","#ffffff00");
+            if(window.location.pathname == '/') {
+                $("header").css("border-bottom","none");
+            }
         }
         else {
-            $("header").css({"background-color":"#ffffffee", "border-bottom":"1px solid #ccc"});
-
+            $("header").css("background-color","#ffffffee");
+            if(window.location.pathname == '/') {
+                $("header").css("border-bottom","1px solid #ccc");
+            }
         }
     });
 
-    // 메인 페이지 제외하고 header 밑에 선 긋기
-    if(window.location.pathname != '/') {
-        $("header").css("border-bottom","1px solid #ccc");
+    // 메인 페이지이면 header 밑에 선 제거
+    if(window.location.pathname == '/') {
+        $("header").css("border-bottom","none");
+    }
+
+    //이미지 없을 시 특정 이미지 표시
+    const imgs = document.getElementsByTagName('img');
+    console.log(imgs);
+    if(imgs){
+        Array.from(imgs).forEach(img => {
+            checkImageExists(img, '/images/logo_img/noimg_big.gif')
+            img.classList.add('border');
+        });
     }
 
     //검색기능
@@ -116,6 +131,19 @@ $(function() {
         });
     }
 });
+
+//이미지 없을 시 특정 이미지 표시
+function checkImageExists(imgElement, fallbackSrc) {
+    const img = new Image();
+    img.src = imgElement.src;
+    img.onload = function() {
+        // 이미지가 정상적으로 로드되었으므로 아무 작업도 하지 않음
+    };
+    img.onerror = function() {
+        // 이미지가 없으므로 대체 이미지로 설정
+        imgElement.src = fallbackSrc;
+    };
+}
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

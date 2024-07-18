@@ -5,7 +5,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "review_img_tb")
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 public class ReviewImg {
