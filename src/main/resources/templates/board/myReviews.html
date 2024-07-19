@@ -97,6 +97,35 @@
         .p-0{padding:0!important}
         .mx-1{margin-right:.25rem!important;margin-left:.25rem!important}
         .me-auto{margin-right:auto!important}
+
+        .delete-btn{
+            border : none;
+            background-color: #548235;
+            border-radius: 10px;
+            color: white;
+            padding : 5px 10px;
+            cursor : pointer;
+        }
+
+        .update-btn{
+            border: 1px solid #548235;
+            color: #548235;
+            border-radius: 10px;
+            background-color: white;
+            padding : 5px 10px;
+            margin-right: 10px;
+            cursor : pointer;
+        }
+
+        .submit-btn{
+            border: 1px solid #548235;
+            color: #548235;
+            border-radius: 10px;
+            background-color: white;
+            padding : 5px 10px;
+            margin-right: 10px;
+            cursor : pointer;
+        }
     </style>
 
 
@@ -115,16 +144,16 @@
             <input type="hidden" id="currentTap">
         </div>
         <div id="writtenReviews" class="tabContent">
-            <table>
+            <table style="width: 1880px;">
                 <thead>
                 <tr>
                     <td><input type="checkbox"></td>
                     <td>번호</td>
-                    <td>작성 날짜</td>
-                    <td>리뷰 이미지</td>
-                    <td>제목</td>
+                    <td style="width: 130px;">작성 날짜</td>
+                    <td style="width: 100px;">리뷰 이미지</td>
                     <td>상품명</td>
-                    <td>평점</td>
+                    <td style="width: 700px;">제목</td>
+                    <td style="width: 100px;">평점</td>
                     <td>기능</td>
                 </tr>
                 </thead>
@@ -133,21 +162,22 @@
 
                     <td><input type="checkbox" th:value="${review.reviewId}"></td>
                     <td class="writtenReviewNum"></td>
-                    <td th:text="${review.reviewCreateDate}"></td>
-                    <td>
+                    <td th:text="${#temporals.format(review.reviewCreateDate, 'yyyy-MM-dd HH:mm:ss')}" style="width: 130px;"></td>
+                    <td style="width: 100px;">
                         <img th:src="'http://192.168.106.12/fileServer' + ${review.reviewRepImg}" alt="상품 이미지" style="padding: 0px; width: 100px; height: 100px;">
                     </td>
-                    <td th:text="${review.reviewTitle}"></td>
                     <td th:text="${review.productName}"></td>
-                    <td>
-                        <div class="star-rating">
+                    <td th:text="${review.reviewTitle}" style="width: 700px;"></td>
+
+                    <td style="width: 100px;">
+                        <div class="star-rating" >
                             <label th:each="star : ${#numbers.sequence(1, 5)}"
                                    th:classappend="${star <= review.reviewScore} ? 'red' : ''"></label>
                         </div>
                     </td>
                     <td>
-                        <button onclick="writeReview(${review.productId})">리뷰 수정</button>
-                        <button onclick="deleteProduct(${review.productId})">삭제</button>
+                        <button class="update-btn" th:onclick="|location.href='/reviewPost?reviewId=${review.reviewId}'|">수정</button>
+                        <button class="delete-btn" onclick="deleteProduct(${review.productId})">삭제</button>
                     </td>
                 </tr>
                 </tbody>
@@ -166,13 +196,13 @@
         </div>
 
         <div id="writableReviews" class="tabContent">
-            <table>
+            <table style="width: 1880px;">
                 <thead>
                 <tr>
                     <td>번호</td>
                     <td>구매 날짜</td>
-                    <td>상품 이미지</td>
-                    <td>상품명</td>
+                    <td style="width: 100px;">상품 이미지</td>
+                    <td style="width: 800px;">상품명</td>
                     <td>기능</td>
                 </tr>
                 </thead>
@@ -180,14 +210,14 @@
                     <tr th:each="review, iterStat : ${writableReviewPage.myWritableReviewList}">
 
                         <td class="writableReviewNum"></td>
-                        <td th:text="${review.paymentCreateDate}"></td>
-                        <td>
+                        <td th:text="${#temporals.format(review.paymentCreateDate, 'yyyy-MM-dd')} "></td>
+                        <td style="width: 100px;">
                             <img th:src="'http://192.168.106.12/fileServer' + ${review.productRepImg}" alt="상품 이미지" style="padding: 0px; width: 100px; height: 100px;">
                         </td>
-                        <td th:text="${review.productName}"></td>
+                        <td th:text="${review.productName}" style="width: 800px;"></td>
 
                         <td>
-                            <button th:onclick="|location.href='/reviewPost?paymentDetailId=${review.paymentDetailId}&productId=${review.productId}'|">후기등록</button>
+                            <button class="submit-btn" th:onclick="|location.href='/reviewPost?paymentDetailId=${review.paymentDetailId}&productId=${review.productId}'|" style="marin: 0px;">후기등록</button>
                         </td>
                     </tr>
                 </tbody>

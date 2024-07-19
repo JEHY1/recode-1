@@ -318,4 +318,12 @@ public class QnAService {
         return qnAPhotoViewList;
     }
 
+    public Page<QnAPhotoUserViewResponse> qnAPhotoUserViewList(Pageable pageable, Principal principal) { // 페이징 처리한 Page<QnAPhotoViewResponse> 가져옴
+        Page<QnA> qnAList = qnARepository.findByUserId(pageable, userService.getUserId(principal))
+                .orElseThrow(() -> new IllegalArgumentException("not found QnA")); // userId로 페이징처리한 Page<QnA>
+        Page<QnAPhotoUserViewResponse> qnAPhotoUserViewList = qnAList.map(qnA -> new QnAPhotoUserViewResponse(qnA, productService.findProductByProductId(qnA.getProductId())));
+
+        return qnAPhotoUserViewList;
+    }
+
 }

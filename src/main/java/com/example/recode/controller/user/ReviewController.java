@@ -62,10 +62,9 @@ public class ReviewController {
     }
 
     @GetMapping("/reviewPost")
-    public String showReviewForm(@RequestParam long paymentDetailId, long productId, Model model) {
-        model.addAttribute("reviewDto", new ReviewDto());
-        model.addAttribute("productId", productId);
-        model.addAttribute("paymentDetailId", paymentDetailId);
+    public String showReviewForm(@RequestParam(required = false) Long paymentDetailId, @RequestParam(required = false) Long productId, @RequestParam(required = false) Long reviewId, Model model) {
+        model.addAttribute("review", reviewService.getMyReviewInfo(reviewId, productId, paymentDetailId));
+
         return "/board/reviewPost";
     }
 

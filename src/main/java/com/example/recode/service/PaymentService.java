@@ -79,7 +79,11 @@ public class PaymentService {
             product.updateSold(1);
 
             //구매 상품에 대한 히스토리(최근 본 상품) 삭제
-            historyService.delete(historyService.findByProductIdAndUserId(productId, userService.getUserId(principal)));
+            History history = historyService.findByProductIdAndUserId(productId, userService.getUserId(principal));
+            if(history != null){
+                historyService.delete(history);
+            }
+
         });
 
         //구매된 상품에 대한 장바구니 삭제

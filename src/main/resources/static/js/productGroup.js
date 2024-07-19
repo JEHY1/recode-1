@@ -121,7 +121,7 @@ function checkImageExists(imgElement, fallbackSrc) {
     };
 }
 
-const imgs = document.getElementsByTagName('img');
+const imgs = document.getElementsByClassName('productImg');
 console.log(imgs);
 if(imgs){
     Array.from(imgs).forEach(img => {

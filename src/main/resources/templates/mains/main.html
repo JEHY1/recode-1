@@ -14,7 +14,7 @@
 </head>
 <body>
 <th:block th:include="layouts/header"></th:block>
-<th:block th:include="layouts/scroll"></th:block>
+
 <main>
     <div id="slideBox">
         <ul>
@@ -33,7 +33,7 @@
             <div th:each="product : ${newProducts}" th:onclick="|location.href='/product/productDetail/${product.productId}'|"> <!-- 아이템 하나 -->
                 <img th:src="'http://192.168.106.12/fileServer' + ${product.productRepresentativeImgSrc}">
                 <p th:text="${product.productName}"></p>
-                <p th:utext="${'#' + product.productColor + ' #' + product.productType}"></p>
+                <p th:utext="${'#' + product.productType + ' #' + product.productColor}"></p>
                 <p><span th:text="${product.productRegularPrice}" th:style="${product.productDiscountPrice != null ? '' : 'font-size: 25px; text-decoration: none; color: black;'}"></span><span th:text="${product.productDiscountPrice != null ? product.productDiscountPrice : ''}" th:style="${product.productDiscountPrice != null ? '' : 'margin-left: 0;'}"></span>원<span th:if="${product.productDiscountPrice != null}"></span></p>
             </div>
         </div>
@@ -45,13 +45,14 @@
             <div th:each="product : ${bestProducts}" th:onclick="|location.href='/product/productDetail/${product.productId}'|"> <!-- 아이템 하나 -->
                 <img th:src="'http://192.168.106.12/fileServer' + ${product.productRepresentativeImgSrc}">
                 <p th:text="${product.productName}"></p>
-                <p th:utext="${'#' + product.productColor + ' #' + product.productType}"></p>
+                <p th:utext="${'#' + product.productType + ' #' + product.productColor}"></p>
                 <p><span th:text="${product.productRegularPrice}" th:style="${product.productDiscountPrice != null ? '' : 'font-size: 25px; text-decoration: none; color: black;'}"></span><span th:text="${product.productDiscountPrice != null ? product.productDiscountPrice : ''}" th:style="${product.productDiscountPrice != null ? '' : 'margin-left: 0;'}"></span>원<span th:if="${product.productDiscountPrice != null}"></span></p>
             </div>
         </div>
     </div>
 </main>
 <th:block th:include="layouts/footer"></th:block>
-<script src="js/scroll.js"></script>
+<th:block th:include="layouts/scroll"></th:block>
+<script src="/js/scroll.js"></script>
 </body>
 </html>

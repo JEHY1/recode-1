@@ -3,6 +3,7 @@ package com.example.recode.controller.api;
 import com.example.recode.domain.Cart;
 import com.example.recode.dto.*;
 import com.example.recode.service.CartService;
+import com.example.recode.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.security.Principal;
 public class CartApiController {
 
     private final CartService cartService;
+    private final UserService userService;
 
     //장바구니 상품 추가
     @PostMapping("/user/addCart")
@@ -52,5 +54,11 @@ public class CartApiController {
 
         return ResponseEntity.ok()
                 .body(new DeleteCartResponse(cartService.cleanCart(request)));
+    }
+
+    @PostMapping("/user/cart/count") // 장바구니 안 아이템 갯수 체크
+    public String UserCartCount(Principal principal){
+        return cartService.countByUserId(userService.getUserId(principal)).toString();
+
     }
 }

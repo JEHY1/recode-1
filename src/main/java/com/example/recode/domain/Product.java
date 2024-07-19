@@ -62,7 +62,7 @@ public class Product {
     private int productViewCount;
 
     @Builder
-    public Product(long productId, String productName, int productRegularPrice, int productDiscountPrice, String productModel, String productSize, String productMaterial, String productRepresentativeImgSrc, LocalDateTime productRegistrationDate, String productCategory, int productSold, String productColor, String productType, int productViewCount) {
+    public Product(long productId, String productName, int productRegularPrice, Integer productDiscountPrice, String productModel, String productSize, String productMaterial, String productRepresentativeImgSrc, LocalDateTime productRegistrationDate, String productCategory, int productSold, String productColor, String productType, int productViewCount) {
         this.productId = productId;
         this.productName = productName;
         this.productRegularPrice = productRegularPrice;

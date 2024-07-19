@@ -339,6 +339,7 @@ function checkImageExists(imgElement, fallbackSrc) {
     img.onerror = function() {
         // 이미지가 없으므로 대체 이미지로 설정
         imgElement.src = fallbackSrc;
+        img.classList.add('border');
     };
 }
 
@@ -347,6 +348,5 @@ console.log(imgs);
 if(imgs){
     Array.from(imgs).forEach(img => {
         checkImageExists(img, '/images/logo_img/noimg_big.gif')
-        img.classList.add('border');
     });
 }

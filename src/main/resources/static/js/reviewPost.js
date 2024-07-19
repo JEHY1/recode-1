@@ -1,16 +1,22 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const selectAllCheckbox = document.getElementById('selectAll');
-    const rowCheckboxes = document.querySelectorAll('.proList tbody input[type="checkbox"]');
+$(function() {
 
-    selectAllCheckbox.addEventListener('change', function() {
-        rowCheckboxes.forEach(checkbox => {
-            checkbox.checked = selectAllCheckbox.checked;
-        });
+    $("#detailImg").on("change", function(event) {
+
+        var files = event.target.files;
+        if(files.length != 0) {
+            $(".file-list").remove();
+            for(let i = 0; i < files.length; i++) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $(".insert").append($("<img>", {"src" : e.target.result, "class" : "file-list"}));
+                }
+                reader.readAsDataURL(files[i]);
+            }
+        }
+        else {
+            $(".file-list").remove();
+        }
+
     });
 
-      // Numbering rows
-      const rows = document.querySelectorAll('#proList tbody tr');
-      rows.forEach((row, index) => {
-          row.querySelector('td:nth-child(2)').textContent = index + 1;
-      });
-    });
+});

@@ -82,9 +82,10 @@
     width: 70px;
     height: 58px;
     padding: 12px 10px 12px 10px;
-    background-color: gainsboro;
+    background-color: #903c31;
     border-radius: 50%;
     font-size: 25px;
+    color: white;
   }
 
   .product:hover{
@@ -113,8 +114,8 @@
 
   .move-btn{
     position: fixed;
-    right: 50px;
-    bottom: 50px;
+    right: 10px;
+    bottom: 10px;
     background-color: #548235;
     color: white;
     color-white;
@@ -132,7 +133,7 @@
 <body>
 <div class="main" style="width: 1903px;">
   <th:block th:include="layouts/header"></th:block>
-  <th:block th:include="layouts/scroll"></th:block>
+
   <div class="content mx-auto" style="width: 1750px;">
     <div style="height : 200px;"></div>
 
@@ -144,16 +145,16 @@
     <div class="row w-100 mx-auto">
       <div th:each="product: ${products}" class="col-auto p-0 mb-3 product d-flex justify-content-center d-relative" style="width: 402px; height: 550px; margin-left: 17px; margin-right: 17px;">
         <div>
-          <img class="cursor" th:src="'http://192.168.106.12/fileServer' + ${product.productRepresentativeImgSrc}" style="width: 400px; height: 400px;" th:onclick="|location.href='/product/productDetail/ ${product.productId}'|">
+          <img class="cursor productImg" th:src="'http://192.168.106.12/fileServer' + ${product.productRepresentativeImgSrc}" style="width: 400px; height: 400px;" th:onclick="|location.href='/product/productDetail/ ${product.productId}'|">
           <div class="soldOutPanel2 text-center" th:if="${product.productSold == 1}">✕</div>
           <div class="soldOutPanel text-center" th:if="${product.productSold == 1}">sold out</div>
           <div class="ps-2" th:text="${product.productName}" style="font-size: 28px; font-weight: 700;"></div>
           <div class="row mx-auto w-100 ps-2">
-            <div class="col-auto p-0" style="color: gainsboro;" th:text="'#' + ${product.productType}"></div>
-            <div class="col-auto" style="color: gainsboro;" th:text="'#' + ${product.productColor}"></div>
+            <div class="col-auto p-0" style="color: #548235;" th:text="'#' + ${product.productType}"></div>
+            <div class="col-auto" style="color: #548235;" th:text="'#' + ${product.productColor}"></div>
           </div>
           <div class="row w-100 mx-auto ps-2" th:if="${product.productDiscountPrice == null}">
-            <div class="col-auto p-0 price" style="font-size: 25px;" th:text="${product.productRegularPrice}">원가</div>
+            <div class="col-auto p-0 price mt-2" style="font-size: 25px;" th:text="${product.productRegularPrice}">원가</div>
           </div>
           <div class="row w-100 mx-auto ps-2" th:if="${product.productDiscountPrice != null}">
             <del class="col-auto d-flex align-items-center p-0 price" style="font-size: 23px; color: gray;"><div th:text="${product.productRegularPrice}">원가</div></del>
@@ -178,6 +179,7 @@
 </div>
 
 <script src="/js/productGroup.js"></script>
+<th:block th:include="layouts/scroll"></th:block>
 <script src="/js/scroll.js"></script>
 </body>
 </html>

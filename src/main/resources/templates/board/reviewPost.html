@@ -18,11 +18,13 @@
 <div class="container">
     <div class="content">
         <div class="titleArea">
-            <h2>후기작성</h2>
+            <h2 th:if="${review.reviewId == null}">후기작성</h2>
+            <h2 th:if="${review.reviewId != null}">후기수정</h2>
         </div>
-        <form action="/review/submit" method="post" th:object="${reviewDto}" enctype="multipart/form-data">
-            <input type="hidden" name="productId" th:value="${productId}">
-            <input type="hidden" name="paymentDetailId" th:value="${paymentDetailId}">
+        <form action="/review/submit" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="reviewId" th:value="${review.reviewId}">
+            <input type="hidden" name="productId" th:value="${review.productId}">
+            <input type="hidden" name="paymentDetailId" th:value="${review.paymentDetailId}">
             <table>
                 <colgroup>
                     <!-- 컬럼 그룹 설정 -->
@@ -31,7 +33,7 @@
                     <td>제목</td>
                     <td>
                         <div class="txtarea">
-                            <input type="text" name="reviewTitle" placeholder="(제목 필수)" required>
+                            <input type="text" name="reviewTitle" placeholder="(제목 필수)" required th:value="${review.reviewTitle}">
                         </div>
                     </td>
                 </tr>
@@ -39,28 +41,28 @@
                     <td>상품설명</td>
                     <td>
                         <div class="input">
-                            <textarea name="reviewContent" cols="87" rows="10" maxlength="500" placeholder="설명 내용을 입력해주세요(최소 10글자 이상 ~ 500자 내외)" required></textarea>
+                            <textarea name="reviewContent" cols="87" rows="10" maxlength="500" placeholder="설명 내용을 입력해주세요(최소 10글자 이상 ~ 500자 내외)" required th:text="${review.reviewContent}"></textarea>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td>평점</td>
                     <td>
-                        <div class="star-rating">
+                        <div class="star-rating" id="scoreField">
                             <label>
-                                <input type="radio" th:field="*{reviewScore}" value="1"> 1
+                                <input type="radio" name="reviewScore" value="1" th:checked="${review.reviewScore == 1}"> 1
                             </label>
                             <label>
-                                <input type="radio" th:field="*{reviewScore}" value="2"> 2
+                                <input type="radio" name="reviewScore" value="2" th:checked="${review.reviewScore == 2}"> 2
                             </label>
                             <label>
-                                <input type="radio" th:field="*{reviewScore}" value="3"> 3
+                                <input type="radio" name="reviewScore" value="3" th:checked="${review.reviewScore == 3}"> 3
                             </label>
                             <label>
-                                <input type="radio" th:field="*{reviewScore}" value="4"> 4
+                                <input type="radio" name="reviewScore" value="4" th:checked="${review.reviewScore == 4}"> 4
                             </label>
                             <label>
-                                <input type="radio" th:field="*{reviewScore}" value="5"> 5
+                                <input type="radio" name="reviewScore" value="5" th:checked="${review.reviewScore == 5}"> 5
                             </label>
                         </div>
                     </td>
@@ -68,19 +70,20 @@
                 <tr>
                     <td>사진등록</td>
                     <td>
-                        <input type="file" name="files" multiple onchange="addFile(this)"> <!-- 수정된 부분 -->
+                        <input type="file" name="files" id="detailImg" multiple> <!-- 수정된 부분 -->
                         <div class="insert">
-                            <div class="file-list" id="file-list"></div>
+                            <img th:each="src : ${review.reviewImg}" th:src="'http://192.168.106.12/fileServer' + ${src}" class="file-list" id="file-list">
                         </div>
                     </td>
                 </tr>
             </table>
             <div class="btn-list">
-                <a th:href="@{/reviews}" class="back-btn">목록</a>
+                <a th:href="'/myReviews?tap=' + ${review.reviewId == null ? 0 : 1}" class="back-btn">목록</a>
             </div>
             <div class="btn-div">
-                <input type="submit" value="등록">
+                <button th:text="${review.reviewId == null ? '등록' : '수정'}" type="submit"></button>
                 <input type="reset" value="취소">
+
             </div>
         </form>
     </div>
@@ -88,19 +91,7 @@
 
 <th:block th:include="layouts/footer"></th:block>
 
-<script>
-    function addFile(input) {
-        const fileList = document.getElementById('file-list');
-        fileList.innerHTML = '';
-
-        for (let i = 0; i < input.files.length; i++) {
-            const file = input.files[i];
-            const fileElement = document.createElement('div');
-            fileElement.textContent = file.name;
-            fileList.appendChild(fileElement);
-        }
-    }
-</script>
+<script src="/js/reviewPost.js"></script>
 </body>
 
 </html>

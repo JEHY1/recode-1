@@ -29,7 +29,7 @@
                 <a href="javascript:void(0)"></a>
             </li>
             <li>
-                <a href="javascript:void(0)"></a>
+                <a href="/user/myPage"></a>
                 <ul>
                     <li><a href="/login" sec:authorize="isAnonymous()">로그인</a></li>
                     <li><a href="/join/new" sec:authorize="isAnonymous()">회원가입</a></li>
@@ -37,7 +37,7 @@
                     <li><a href="/admin/product/index" sec:authorize="hasRole('ADMIN')">관리자페이지</a></li>
                     <li><a href="/user/myPage" sec:authorize="isAuthenticated()">마이페이지</a></li>
                     <li><a href="/user/orderCheck" sec:authorize="isAuthenticated()">주문조회</a></li>
-                    <li><a href="/user/cart" sec:authorize="isAuthenticated()">장바구니</a></li>
+                    <li><a href="/user/cart" sec:authorize="isAuthenticated()">장바구니<span class="cartCnt"></span></a></li>
                     <li><a href="/product/productGroup?recentViewProduct=1" sec:authorize="isAuthenticated()">최근본상품</a></li>
                 </ul>
             </li>
@@ -78,7 +78,7 @@
                     <li><a href="/admin/product/index" sec:authorize="hasRole('ADMIN')">관리자페이지</a></li>
                     <li><a href="/user/myPage" sec:authorize="isAuthenticated()">마이페이지</a></li>
                     <li><a href="/user/orderCheck" sec:authorize="isAuthenticated()">주문조회</a></li>
-                    <li><a href="/user/cart" sec:authorize="isAuthenticated()">장바구니</a></li>
+                    <li><a href="/user/cart" sec:authorize="isAuthenticated()">장바구니<span class="cartCnt"></span></a></li>
                     <li><a href="/product/productGroup?recentViewProduct=1" sec:authorize="isAuthenticated()">최근본상품</a></li>
                 </ul>
             </li>

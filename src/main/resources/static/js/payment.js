@@ -228,7 +228,7 @@ if(selectBar){
                     return response.json();
                 }
                 else{
-                    throw Error('error');
+                    throw Error('error1');
                 }
             })
             .then(data => {
@@ -639,7 +639,7 @@ if(paymentButton){
                     return response.json();
                 }
                 else{
-                    alert('error1');
+                    alert('error2');
                     throw new error('error');
                 }
             })
@@ -686,7 +686,7 @@ if(paymentButton){
                                 location.replace('/');
                             }
                             else{
-                                alert('error2');
+                                alert('error3');
                             }
                         });
                     }
@@ -704,7 +704,7 @@ if(paymentButton){
                     return response.json();
                 }
                 else{
-                    alert('error');
+                    alert('error4');
                     throw new error('error');
                 }
             })
@@ -751,7 +751,7 @@ if(paymentButton){
                                 location.replace('/');
                             }
                             else{
-                                alert('error');
+                                alert('error5');
                             }
                         });
                     }

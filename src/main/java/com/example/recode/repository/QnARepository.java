@@ -25,6 +25,8 @@ public interface QnARepository extends JpaRepository<QnA, Long> {
     Optional<Page<QnA>> findByQnAAnswerNotNull(Pageable pageable); // 답변완료 상품문의 조회
     Optional<List<QnA>> findByQnAAnswerIsNull(); // 답변미완료 List<QnA> 가져오기
     Optional<List<QnA>> findByQnAAnswerNotNull(); // 답변미완료 List<QnA> 가져오기
+    Optional<Page<QnA>> findByUserId(Pageable pageable, Long userId); // userId로 페이징처리한 Page<QnA> 가져오기
+
 }
 
 

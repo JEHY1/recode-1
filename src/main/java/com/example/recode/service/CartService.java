@@ -159,4 +159,9 @@ public class CartService {
         carts.forEach(cart -> list.add(new CartViewResponse(cart.getCartId(), productService.findProductByProductId(cart.getProductId()))));
         return list;
     }
+
+    public Long countByUserId(Long userId) { // userId로 Cart 갯수 세기
+        return cartRepository.countByUserId(userId);
+    }
+
 }

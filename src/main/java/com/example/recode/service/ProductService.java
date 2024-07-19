@@ -82,7 +82,7 @@ public class ProductService {
                 historyService.delete(history);
             }
 
-            if(historyList.size() < 10){
+            if(historyList.size() < 12){
                 historyService.save(History.builder()
                         .productId(productId)
                         .userId(userId)
@@ -131,7 +131,7 @@ public class ProductService {
                     .productModel(request.getProductModel())
                     .productCategory(request.getProductCategory())
                     .productRegularPrice(request.getProductRegularPrice())
-                    .productDiscountPrice(request.getProductDiscountPrice())
+                    .productDiscountPrice(request.getProductDiscountPrice() != null ? request.getProductDiscountPrice() : null)
                     .productSize(request.getProductSize())
                     .productMaterial(request.getProductMaterial())
                     .productRepresentativeImgSrc("")

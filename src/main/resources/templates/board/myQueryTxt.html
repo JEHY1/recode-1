@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RECODE 문의 내용 페이지</title>
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/boardCss/qnaTxt.css">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/header.js"></script>
+</head>
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+
+<div class="container">
+  <div class="content">
+    <div class="titleArea">
+      <h2>상품문의</h2>
+    </div>
+    <table>
+      <tr>
+        <td>질문</td>
+        <td class="txtEm">
+          <span th:text="${qna.qnAAnswer != null? '답변완료' : '미완료'}" th:style="${qna.qnAAnswer != null ? 'background-color:#548235; color:white;' : 'color:#548235;'}"></span>
+          <span th:utext="${qna.qnAQuestionTitle}"></span>
+        </td>
+        <td></td>
+        <td th:text="${#temporals.format(qna.qnACreateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${qna.qnAViews}"></td>
+      </tr>
+      <tr>
+        <td colspan="6" class="txtBody" th:text="${qna.qnAQuestionContent}"></td>
+      </tr>
+    </table>
+    <div id="Answer" th:if="${qna.qnAAnswer} != null">
+      <p>↳ 답변 <span th:text="${#temporals.format(qna.qnAAnswerDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+      <p th:text="${qna.qnAAnswer}"></p>
+    </div>
+  </div>
+  <div class="btnDiv" th:style="${qna.qnAAnswer != null ? 'border-top: 1px solid #eee;' : ''}">
+    <a href="/user/qna/list" class="back-btn">목록</a>
+  </div>
+</div>
+<th:block th:include="layouts/footer"></th:block>
+</body>
+</html>

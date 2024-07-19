@@ -154,28 +154,30 @@ public class ReviewService {
         if(!request.getFiles().get(0).isEmpty()) {
             // 상품정보 수정 시 새로 업로드 하는 파일이 있으면 DB 에서 기존 productImg 삭제
             if(request.getReviewId() != null) {
+                System.err.println(getReviewImgFindByReviewId(request.getReviewId()));
                 getReviewImgFindByReviewId(request.getReviewId()).forEach(reviewImg -> reviewImgRepository.deleteById(reviewImg.getReviewImgId()));
+            }
+
+            int index = 1;
+            for (MultipartFile file : request.getFiles()) {
+
+                String originalFileName = file.getOriginalFilename();
+                //파일 확장자 추출
+                int extensionIndex = originalFileName.lastIndexOf(".");
+                String extension = originalFileName.substring(extensionIndex);
+
+                ReviewImg reviewImg = ReviewImg.builder()
+                        .reviewId(review.getReviewId())
+                        .reviewImgSrc("/images/reviewImg/review" + review.getReviewId() + "_" + index + extension)
+                        .build();
+                reviewImgRepository.save(reviewImg);
+
+                //파일이름 추출
+                fileUpload(file, review.getReviewId(), extension, "reviewImg", index++);
             }
         }
 
-        int index = 1;
-        for (MultipartFile file : request.getFiles()) {
-            String originalFileName = file.getOriginalFilename();
-            //파일 확장자 추출
-            int extensionIndex = originalFileName.lastIndexOf(".");
-            String extension = originalFileName.substring(extensionIndex);
 
-            ReviewImg reviewImg = ReviewImg.builder()
-                    .reviewId(review.getReviewId())
-                    .reviewImgSrc("/images/reviewImg/review" + review.getReviewId() + "_" + index + extension)
-                    .build();
-            reviewImgRepository.save(reviewImg);
-
-            //파일이름 추출
-
-
-            fileUpload(file, review.getReviewId(), extension, "reviewImg", index++);
-        }
     }
 
     //파일 업로드(파일, 상품 아이디, 파일 확장자, 추가 경로, 파일 번호)
@@ -287,4 +289,18 @@ public class ReviewService {
                 getReviewImgFindByReviewId(review.getReviewId()).isEmpty() ? null : getReviewImgFindByReviewId(review.getReviewId()).get(0).getReviewImgSrc()));
         return reviewPhotoViewList;
     }
+
+    public ReviewShowResponse getMyReviewInfo(Long reviewId, Long productId, Long paymentDetailId){
+        if(reviewId != null){
+            Review review = findById(reviewId);
+            List<String> reviewImgs = getReviewImgFindByReviewId(reviewId).stream().map(ReviewImg::getReviewImgSrc).collect(Collectors.toList());
+            return ReviewShowResponse.builder()
+                    .review(findById(reviewId))
+                    .reviewImg(reviewImgs)
+                    .build();
+        }
+
+        return new ReviewShowResponse(productId, paymentDetailId);
+    }
+
 }

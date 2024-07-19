@@ -4,7 +4,7 @@
     position: relative;
 }
 #slideBox > ul {
-    width: 5709px;
+    width: 5710px;
     list-style: none;
     padding: 0;
     font-size: 0;
@@ -53,6 +53,9 @@
     grid-gap: 22px;
 }
 /* grid 안 product css */
+.productBox > div {
+    cursor: pointer;
+}
 .productBox > div > img {
     width: 421px;
     height: 421px;
@@ -61,16 +64,17 @@
 }
 .productBox > div > p:nth-of-type(1) {
     font-size: 28px;
-    padding: 15px 0;
+    padding: 10px 0 10px 10px;
     font-weight: bold;
 }
 .productBox > div > p:nth-of-type(2) {
     font-size: 23px;
-    color: #999;
+    color: #548235;
+    padding-left: 10px;
 }
 .productBox > div > p:nth-of-type(3) {
     font-size: 25px;
-    padding-top: 12px;
+    padding: 12px 0 0 10px;
     line-height: 58px;
 }
 .productBox > div > p:nth-of-type(3) > span:nth-child(1) {
@@ -87,11 +91,12 @@
     font-size: 25px;
     margin-left: 20px;
     border-radius: 50%;
-    background-color: #eee;
+    background-color: #903C31;
     padding: 12px 10px;
     width: 50px;
     text-align: center;
     line-height: 34px;
+    color: white;
 }
 /* grid 안 product css 끝 */
 #bestBox {

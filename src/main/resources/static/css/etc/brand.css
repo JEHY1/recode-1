@@ -2,10 +2,9 @@
     width: 1903px;
     min-width: 500px;
     text-align: center;
-    margin-top: 180px
+    margin-top: 200px;
 }
 .content {
-    margin-top: 40px;
     text-align: center;
 }
 .imgBox {
@@ -16,7 +15,6 @@
     background-color: #eee;
 }
 .titleArea {
-    margin-top: 20px;
     margin-bottom: 60px;
     min-height: 30px;
     text-align: center;

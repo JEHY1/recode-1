@@ -51,7 +51,6 @@ $(function() {
     if(imgs){
         Array.from(imgs).forEach(img => {
             checkImageExists(img, '/images/logo_img/noimg_big.gif')
-            img.classList.add('border');
         });
     }
 
@@ -130,6 +129,15 @@ $(function() {
             location.href = '/product/productGroup?searchText=' + document.getElementById('searchBar').value;
         });
     }
+
+    $.ajax({
+        url:'/user/cart/count',
+        type : "post",
+        dataType : 'text',
+        success : function(data) {
+            $(".cartCnt").text("(" + data + ")");
+        }
+    });
 });
 
 //이미지 없을 시 특정 이미지 표시
