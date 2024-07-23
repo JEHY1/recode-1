@@ -46,16 +46,21 @@
             border-bottom: 1px solid rgb(204, 204, 204) !important;
         }
 
+        .border-ccc{
+            border: 1px solid #CCC;
+        }
+
         .communityMenu:hover{
             background-color: gainsboro;
         }
+
 
 
     </style>
 </head>
 <body>
 <th:block th:include="layouts/header"></th:block>
-<div class="mx-auto" style="width: 1750px; padding-top: 200px;">
+<div class="mx-auto" style="width: 1750px; padding-top: 160px;">
 
     <div class="mx-auto text-center pb-5" style="font-size: 46px; font-weight: bolder;">마이페이지</div>
     <div class="mt-2 pt-5">
@@ -98,7 +103,7 @@
         </div>
 
         <div class="row w-100 mx-auto mt-5">
-            <div class="col-auto border me-auto cursor" style="width: 425px;" onclick="location.href='/user/orderCheck'">
+            <div class="col-auto border-ccc me-auto cursor" style="width: 425px;" onclick="location.href='/user/orderCheck'">
                 <div class="p-4">ORDER | 주문내역조회</div>
                 <div class="row mx-auto w-100 pb-3 ps-3">
                     <img src="/images/icon_img/list.png" class="col-auto p-0" style="width: 90px; height: 90px;">
@@ -106,7 +111,7 @@
                         주문내역을 확인하실 수 있습니다.</div>
                 </div>
             </div>
-            <div class="col-auto mx-auto border cursor" style="width: 425px;" onclick="location.href='/user/information/confirm/new'">
+            <div class="col-auto mx-auto border-ccc cursor" style="width: 425px;" onclick="location.href='/user/information/confirm/new'">
                 <div class="p-4">PROFILE | 회원 정보</div>
                 <div class="row mx-auto w-100 pb-3 ps-3">
                     <img src="/images/icon_img/Auth.png" class="col-auto p-0"  style="width: 90px; height: 90px;">
@@ -115,7 +120,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-auto mx-auto border cursor" style="width: 425px;" onclick="location.href='/user/cart'">
+            <div class="col-auto mx-auto border-ccc cursor" style="width: 425px;" onclick="location.href='/user/cart'">
                 <div class="p-4">CART | 장바구니</div>
                 <div class="row mx-auto w-100 pb-3 ps-3">
                     <img src="/images/icon_img/shoppingBag.png" class="col-auto p-0" style="width: 90px; height: 90px;">
@@ -124,8 +129,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-auto border ms-auto" style="width: 425px;">
-                <div class="p-4">community | 커뮤니티</div>
+            <div class="col-auto border-ccc ms-auto" style="width: 425px;">
+                    <div class="p-4">COMMUNITY | 커뮤니티</div>
                 <div class="row mx-auto w-100 pb-3 ps-3">
                     <img src="/images/icon_img/View.png" class="col-auto p-0" style="width: 90px; height: 90px;">
                     <div class="col">

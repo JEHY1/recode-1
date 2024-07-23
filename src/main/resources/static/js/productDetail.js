@@ -88,16 +88,18 @@ if(QnATitleButtons){
         button.addEventListener('click', () => {
 
             Array.from(QnATitleButtons).forEach(button2 => {
-                if(button2 !== button){
+                if(button2 !== button && button2.nextElementSibling !== null){
                     button2.nextElementSibling.classList.add('d-hidden')
                 }
             });
 
-            if(button.nextElementSibling.classList.contains('d-hidden')){
-                button.nextElementSibling.classList.remove('d-hidden');
-            }
-            else{
-                button.nextElementSibling.classList.add('d-hidden');
+            if(button.nextElementSibling != null){
+               if(button.nextElementSibling.classList.contains('d-hidden')){
+                   button.nextElementSibling.classList.remove('d-hidden');
+               }
+               else{
+                   button.nextElementSibling.classList.add('d-hidden');
+               }
             }
         });
     });
@@ -254,7 +256,8 @@ if(qnaSubmitButton){
                 body = JSON.stringify({
                     productId : document.getElementById('productId').value,
                     qnaTitle: title,
-                    qnaContent: content
+                    qnaContent: content,
+                    qnaSecret: document.getElementById('qnaSecretCheckBox').checked ? 1 : 0
                 });
 
                 httpRequest(`/user/qna/submit`, 'POST', body)

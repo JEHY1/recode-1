@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<style>
+.main{
+  width: 1500px;
+  height: 1000px;
+  margin-top: 150px;
+}
+.errorNum{
+  font-size: 300px;
+  font-weight: 800;
+  color: #548235;
+}
+
+#main-btn{
+  border: 1px solid #548235;
+  border-radius: 5px;
+  width: 500px;
+  height: 100px;
+  background-color: white;
+  color: #548235;
+  font-size: 50px;
+}
+
+#back-btn{
+  border: none;
+  border-radius: 5px;
+  width: 500px;
+  height: 100px;
+  background-color: #548235;
+  color: white;
+  font-size: 50px;
+}
+
+</style>
+<body>
+
+<div>
+  <div class="main mx-auto row" style="height: 500px;">
+    <div class="col-auto ms-auto" style="height: 500px;">
+      <img src="/images/logo_img/logo.png" style="width: 500px; height: 500px;">
+    </div>
+    <div class="errorNum col-auto me-auto" style="width: 600px; height: 400px; margin-top: 80px;">403</div>
+    <hr style="color: #548235; height: 5px;">
+    <div class="text-center" style="font-size: 30px; color: #548235;">해당페이지 접근 권한이 없습니다.</div>
+    <div class="row w-100 mx-auto mt-4">
+      <button type="button" class="col-auto ms-auto mx-auto" id="main-btn" onclick="location.href='/'">메인으로</button>
+      <button type="button" class="col-auto me-auto mx-auto" id="back-btn" onclick="window.history.back();">이전화면</button>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

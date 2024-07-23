@@ -13,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
@@ -72,12 +73,12 @@ public class ReviewController {
     public String postReview(@ModelAttribute ReviewSubmitRequest request, Model model, Principal principal) {
         reviewService.saveReview(request, principal);
 
-        return "redirect:/myReviews?tap=1";
+        return "redirect:/myReviews?tab=1";
     }
 
     //마이페이지 리뷰(작성가능한 항목)
     @GetMapping("/myReviews")
-    public String getAllMyReviews(Model model, @RequestParam(defaultValue = "0") int page1, @RequestParam(defaultValue = "0") int page2, @RequestParam(required = false, defaultValue = "0") int tap,Principal principal) {
+    public String getAllMyReviews(Model model, @RequestParam(defaultValue = "0") int page1, @RequestParam(defaultValue = "0") int page2, @RequestParam(required = false, defaultValue = "0") int tab, @RequestParam(required = false) Integer isDel, Principal principal) {
 
         Pageable pageable1 = PageRequest.of(page1, 10);
         Pageable pageable2 = PageRequest.of(page2, 10);
@@ -87,6 +88,9 @@ public class ReviewController {
         model.addAttribute("writableReviewPage", reviewService.myWritableReview(pageable1, principal));
         model.addAttribute("writtenReviewPage", reviewService.myWrittenReview(pageable2, principal));
 
+        if(isDel != null && isDel == 0) { // 체크 안하고 삭제 눌렀을 때 팝업창
+            model.addAttribute("msg", "삭제할 리뷰를 선택해주세요.");
+        }
 
         return "/board/myReviews";
     }
@@ -101,6 +105,26 @@ public class ReviewController {
         reviewService.updateViewCount(reviewId);
 
         return "board/myReviewTxt";
+    }
+
+    // 리뷰 삭제
+    @GetMapping("/myReview/{reviewId}/delete")
+    public String deleteMyReviewById(@PathVariable Long reviewId, RedirectAttributes rttr) {
+        reviewService.deleteById(reviewId);
+        rttr.addFlashAttribute("msg", "리뷰가 삭제 되었습니다.");
+        return "redirect:/myReviews";
+    }
+
+    @PostMapping("/myReview/delete")
+    @ResponseBody
+    public String deleteMyReviewSelect(@RequestParam(required = false) List<Long> reviewIds) {
+        if(reviewIds != null) {
+            reviewService.deleteByIds(reviewIds);
+            return "delete";
+        }
+        else {
+            return "null";
+        }
     }
 
 }

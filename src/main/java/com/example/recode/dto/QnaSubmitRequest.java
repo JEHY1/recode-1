@@ -12,4 +12,5 @@ public class QnaSubmitRequest {
     private long productId;
     private String qnaTitle;
     private String qnaContent;
+    private int qnaSecret;
 }

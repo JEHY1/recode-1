@@ -22,6 +22,7 @@ public class UserQnaController {
     //qna 등록
     @PostMapping("/user/qna/submit")
     public ResponseEntity<QnA> submitQna(@RequestBody QnaSubmitRequest request, Principal principal){
+
         return ResponseEntity.ok()
                 .body(qnAService.saveQnA(request, principal));
     }

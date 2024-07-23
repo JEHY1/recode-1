@@ -90,9 +90,14 @@ public class PaymentService {
         if(!request.getCartIds().isEmpty()){
             request.getCartIds().forEach(cartId -> cartRepository.deleteById(cartId));
         }
-        
+        else{
+            Cart cart = cartRepository.findByUserIdAndProductId(userService.getUserId(principal), request.getProductIds().get(0))
+                    .orElse(null);
 
-
+            if(cart != null){
+                cartRepository.delete(cart);
+            }
+        }
 
         return payment;
     }

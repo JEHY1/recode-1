@@ -33,7 +33,7 @@ public class QnAController {
     private final UserService userService;
 
     @GetMapping("/community/qna/list")
-    public String getAllQnAs(Model model, @PageableDefault(page = 0, size = 10, sort = "qnAId", direction = Sort.Direction.DESC) Pageable pageable) {
+    public String getAllQnAs(Model model, @PageableDefault(page = 0, size = 10, sort = "qnAId", direction = Sort.Direction.DESC) Pageable pageable, Principal principal) {
 
         Page<QnAPhotoViewResponse> qnAList = qnAService.qnAPhotoViewList(pageable);
         model.addAttribute("QnAs", qnAList);
@@ -47,18 +47,23 @@ public class QnAController {
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("userId", principal != null ? userService.getUserId(principal) : null);
 
 
         return "/board/queryList";
     }
 
     @GetMapping("/community/qna/{id}")
-    public String getQnaById(@PathVariable Long id, Model model) {
-        QnA qna = qnAService.findById(id);
+    public String getQnaById(@PathVariable Long id, Model model, Principal principal) {
+        QnA qna = qnAService.getQnaInfo(id, principal);
+        if(qna == null){
+
+            return "/error/403";
+        }
+
         model.addAttribute("qna", qna);
 
-        // 조회수 증가
-        qnAService.updateView(id);
+
 
         String username = userService.getUsername(qna.getUserId());
         model.addAttribute("username", username);

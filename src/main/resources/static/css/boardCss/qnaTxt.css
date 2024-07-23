@@ -2,7 +2,7 @@
     width: 1903px;
     min-width: 500px;
     text-align: center;
-    margin-top: 200px;
+    margin-top: 160px;
 }
 .content {
     text-align: center;
@@ -18,19 +18,14 @@
 }
 table{
     margin-left: 20px;
+    border-collapse: collapse;
 }
 td {
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
     padding: 20px;
     text-align: center;
     font-size: 13px;
-}
-.txtEm {
-    color: black;
-    text-decoration: none;
-    padding: 20px;
-
 }
 .txtLight {
     color: gray
@@ -47,11 +42,10 @@ tr > td:nth-child(1) {
     width: 50px;
 }
 tr > td:nth-child(2) {
-    width: 1100px;
-    text-align: left;
-    font-size: 13px;
+    width: 80px;
+    padding-right: 0;
 }
-tr > td:nth-child(2) > span:nth-child(1) {
+tr > td:nth-child(2) > span {
     display: inline-block;
     width: 40px;
     font-size: 10px;
@@ -59,16 +53,18 @@ tr > td:nth-child(2) > span:nth-child(1) {
     border: 1px solid #548235;
     text-align: center;
     vertical-align: top;
-    margin-right: 15px;
     border-radius: 5px;
 }
-tr > td:nth-child(2) > span:nth-child(2) {
-    font-size: 13px;
-}
 tr > td:nth-child(3) {
+    width: 1020px;
+    text-align: left;
+    font-size: 13px;
+    padding-left: 0;
+}
+tr > td:nth-child(4) {
     width: 200px;
 }
-tr > td:nth-child(4), td:nth-child(5){
+tr > td:nth-child(5), td:nth-child(6){
     width: 150px;
     color: #999;
 }
@@ -80,10 +76,10 @@ tr > td:nth-child(4), td:nth-child(5){
 }
 .back-btn {
     width: 100px;
-    border: solid #eee 1px;
+    border: solid #ccc 1px;
     font-size: 13px;
     text-align: center;
-    color: #ccc;
+    color: #999;
     text-decoration: none;
     padding: 10px 30px;
     margin: 5px;
@@ -120,7 +116,7 @@ tr > td:nth-child(4), td:nth-child(5){
 #Answer p span {
     margin-left: 10px;
     font-size: 13px;
-    color: #999;
+    color: #777;
 }
 #Answer p:nth-child(2) {
     line-height: 25px;

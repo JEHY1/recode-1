@@ -23,10 +23,10 @@
         <table>
             <tr>
                 <td>질문</td>
-                <td class="txtEm">
+                <td>
                     <span th:text="${qna.qnAAnswer != null? '답변완료' : '미완료'}" th:style="${qna.qnAAnswer != null ? 'background-color:#548235; color:white;' : 'color:#548235;'}"></span>
-                    <span th:utext="${qna.qnAQuestionTitle}"></span>
                 </td>
+                <td th:text="${qna.qnAQuestionTitle}"></td>
                 <td th:text="${username}"></td>
                 <td th:text="${#temporals.format(qna.qnACreateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${qna.qnAViews}"></td>
@@ -40,7 +40,7 @@
             <p th:text="${qna.qnAAnswer}"></p>
         </div>
     </div>
-    <div class="btnDiv" th:style="${qna.qnAAnswer != null ? 'border-top: 1px solid #eee;' : ''}">
+    <div class="btnDiv" th:style="${qna.qnAAnswer != null ? 'border-top: 1px solid #ccc;' : ''}">
         <a href="/community/qna/list" class="back-btn">목록</a>
     </div>
 </div>

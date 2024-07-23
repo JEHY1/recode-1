@@ -2,7 +2,7 @@
     width: 1903px;
     min-width: 500px;
     text-align: center;
-    margin-top: 200px;
+    margin-top: 160px;
 }
 .content {
     text-align: center;
@@ -24,10 +24,11 @@
 }
 table{
     margin-left: 20px;
-    border-bottom: #eee 1px solid;
+    border-bottom: #CCC 1px solid;
+    border-collapse: collapse;
 }
 td {
-    border-top: 1px solid #eee;
+    border-top: 1px solid #CCC;
     padding: 20px;
     text-align: center;
     font-size: 13px;

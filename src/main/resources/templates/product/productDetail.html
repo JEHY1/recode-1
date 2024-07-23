@@ -40,19 +40,19 @@
 
 
         .border-left-gainsboro{
-            border-left : solid 1px gainsboro;
+            border-left : solid 1px #CCC;
         }
 
         .border-right-gainsboro{
-            border-right : solid 1px gainsboro;
+            border-right : solid 1px #CCC;
         }
 
         .border-top-gainsboro{
-            border-top : solid 1px gainsboro;
+            border-top : solid 1px #CCC;
         }
 
-        .border-bottom-gainsboro{
-            border-bottom: solid 1px gainsboro;
+        .border-bottom-gainsboro{f
+            border-bottom: solid 1px #CCC;
         }
 
         .border-bottom-white{
@@ -64,7 +64,7 @@
         }
 
         .color-gainsboro{
-            color : gainsboro;
+            color : #CCC;
         }
 
         .color-gray{
@@ -106,21 +106,23 @@
         #QnAWrite-btn{
             background-color: #548235;
             color: white;
-            width: 76px;
-            height:36px;
+            width: 100px;
+            height: 50px;
             border: none;
             border-radius: 5px;
-            font-size: 13px;
+            font-weight: 700;
+            font-size: 15px;
         }
 
         #QnAList-btn{
             color: #777;
             background-color: white;
-            width: 59px;
-            height:36px;
+            width: 85px;
+            height:50px;
             border-radius: 5px;
             border: solid 1px gainsboro;
-            font-size: 13px;
+            font-size: 15px;
+            font-weight: 700;
             margin-left : 10px;
         }
 
@@ -146,7 +148,7 @@
 
         .productTag{
             font-size: 30px;
-            color: gainsboro;
+            color: #548235;
         }
 
         .fw-b{
@@ -162,18 +164,18 @@
         }
 
         #cart-btn{
-            border: solid 1px gray;
+            border: solid 1px #548235;
             border-radius: 3px;
-            color: gray;
+            color: #548235;
             background-color: white;
             width: 395px;
             height: 45px;
         }
 
         #cart-btn2{
-            border: solid 1px gray;
+            border: solid 1px #548235;
             border-radius: 3px;
-            color: gray;
+            color: #548235;
             background-color: white;
             width: 395px;
             height: 45px;
@@ -255,7 +257,7 @@
     <div class="h-50 d-flex  justify-content-center" id="move-bottom-btn">&#8744;</div>
 </div>
 
-<div class="w-100" style="height:160px;"></div>
+<div class="w-100" style="height:120px;"></div>
 
 <div class="mx-auto" style="width: 1550px;">
     <div class="row mt-5 w-100 mx-auto">
@@ -289,9 +291,9 @@
                 <hr style="margin-top: 80px;">
 
                 <div class="row p-0 mx-auto" style="margin-top: 60px;">
-                    <button type="button" id="cart-btn" class="col-auto" th:if="${product.productSold == 0 && principal != null}">ADD CART</button>
-                    <button type="button" id="cart-btn2" class="col-auto" th:if="${product.productSold == 0 && principal == null}" onclick="location.href='/login'">ADD CART</button>
-                    <button type="button" id="buy-btn" class="ms-auto" th:if="${product.productSold == 0}">BUY IT NOW</button>
+                    <button type="button" id="cart-btn" class="col-auto" th:if="${product.productSold == 0 && principal != null}">장바구니</button>
+                    <button type="button" id="cart-btn2" class="col-auto" th:if="${product.productSold == 0 && principal == null}" onclick="location.href='/login'">장바구니</button>
+                    <button type="button" id="buy-btn" class="ms-auto" th:if="${product.productSold == 0}">바로구매</button>
                     <button type="submit" class="col" id="soldOut-btn" th:if="${product.productSold == 1}" style="cursor: not-allowed;"><del>SOLD OUT</del></button>
                 </div>
 
@@ -423,9 +425,9 @@
     <div id="product-QnA-tap" class="d-hidden">
         <p class="QnATitle text-center my-5">Q&A</p>
 
-        <div class="row my-3 w-100 mx-auto">
+        <div class="row my-3 mb-5 w-100 mx-auto">
             <button type="button" id="QnAWrite-btn" class="ms-auto" data-bs-toggle="modal" data-bs-target="#qnaWriteModal" onclick="checkLogin()">WRITE</button>
-            <button type="button" id="QnAList-btn" onclick="location.href='/qnaList'">LIST</button>
+            <button type="button" id="QnAList-btn" onclick="location.href='/community/qna/list'">LIST</button>
         </div>
 
         <!-- Modal -->
@@ -438,7 +440,11 @@
                     </div>
                     <div class="modal-body">
                         <input type="text" id="submitQnaTitle" placeholder="제목" autocomplete="off">
-                        <input type="text" id="submitQnaContent" class="mt-4" placeholder="내용" style="height: 500px;" autocomplete="off">
+                        <textArea id="submitQnaContent" class="mt-4 w-100" placeholder="내용" style="height: 500px;" autocomplete="off"></textArea>
+                        <div class="row w-100 mx-auto">
+                            <div class="col-auto">비밀글</div>
+                            <input class="col-auto" type="checkbox" id="qnaSecretCheckBox">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="qnaSubmit-btn" class="btn btn-primary">등록</button>
@@ -454,17 +460,17 @@
 
         <div>
             <div class="d-hidden pages" th:each="QnAPage : ${QnAPages}">
-                <div class="border-top-gainsboro mt-5 color-gray" th:each="QnA : ${QnAPage}">
+                <div class="border-top-gainsboro color-gray" th:each="QnA : ${QnAPage}">
                     <div class="border-bottom-gainsboro row w-100 mx-auto QnATitle-btn" style="height: 60px;">
                         <div class="col-1 d-flex align-items-center justify-content-center" th:text="${QnA.viewIndex}">1</div>
-                        <div class="col-7 d-flex align-items-center" th:text="${QnA.QnAQuestionTitle}">배송문의 합니다.</div>
+                        <div class="col-7 d-flex align-items-center" th:text="${QnA.qnaSecret == 1 && (userId == null || userId != QnA.userId) ? '비밀글입니다.' : QnA.QnAQuestionTitle}">배송문의 합니다.</div>
                         <div class="col-1 d-flex align-items-center justify-content-center" th:text="${QnA.username}">AWESOMED</div>
                         <div class="col-2 d-flex align-items-center justify-content-center" th:text="${#temporals.format(QnA.QnACreateDate, 'yyyy-MM-dd')}">2024-05-17 11:23:32</div>
                         <div class="col-1 d-flex align-items-center justify-content-center" th:text="${QnA.QnAViews}">2</div>
                     </div>
 
 
-                    <div class="border-bottom-gainsboro mt-2 d-hidden">
+                    <div class="border-bottom-gainsboro mt-2 d-hidden" th:if="${!(QnA.qnaSecret == 1 && (userId == null || userId != QnA.userId))}">
                         <div style="width: 1350px;" class="mx-auto mt-4" th:text="${QnA.QnAQuestionContent}">상품 문의 합니다.</div>
                         <div style="height: 45px;"></div>
                         <div class="mx-auto" style="width: 90%;" th:if="${QnA.QnAAnswer != null}">

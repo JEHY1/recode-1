@@ -135,7 +135,7 @@
   <th:block th:include="layouts/header"></th:block>
 
   <div class="content mx-auto" style="width: 1750px;">
-    <div style="height : 200px;"></div>
+    <div style="height : 160px;"></div>
 
 
     <div class="text-center mb-5 fs-30" th:if="${param.productCategory}" th:text="${param.productCategory}">상품카테고리</div>
@@ -174,7 +174,12 @@
     <button class="col-auto me-auto" id="nextPage-btn">〉</button>
   </div>
 
-  <div th:if="${param.recentViewProduct == null && products.totalPages == 0}">상품이 없습니다.</div>
+  <div th:if="${param.recentViewProduct == null && products.totalPages == 0}">
+    <div class="w-100 row mx-auto"><img class="mx-auto p-0" src="/images/icon_img/exclamationMark.png" style="width: 200px; height: 200px;"></div>
+
+    <div class="text-center mt-3" style="font-size: 20px; font-weight: 700;">검색 결과가 없어요</div>
+    <div class="text-center">다른 키워드로 검색해보세요</div>
+  </div>
   <th:block th:include="layouts/footer"></th:block>
 </div>
 

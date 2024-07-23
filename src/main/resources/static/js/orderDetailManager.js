@@ -19,6 +19,21 @@ function toCheckValueList(comps){
     return list;
 }
 
+function toWon(price){
+    let PriceText = '';
+    price += '';
+
+    while(price.length > 3){
+        console.log(price.substring(price.length - 3, price.length));
+        PriceText += ',' + price.substring(price.length - 3, price.length);
+        price = price.substring(0, price.length - 3);
+        console.log(price);
+        console.log(PriceText);
+    }
+    console.log(price + PriceText + '원');
+    return price + PriceText + '원';
+}
+
 const allItemSelectCheckBox = document.getElementById('allItemSelectCheckBox');
 
 if(allItemSelectCheckBox){
@@ -94,5 +109,20 @@ if(itemStatusSelections){
 //넘버링
 if(document.getElementsByClassName('number')){
     Array.from(document.getElementsByClassName('number')).forEach((comp, index) => comp.textContent = index + 1);
+}
+
+//원화표시
+if(document.getElementsByClassName('price')){
+
+    Array.from(document.getElementsByClassName('price')).forEach(comp => {
+
+        console.log('indexOf : ' + comp.textContent.indexOf(' '));
+        if(comp.textContent.indexOf(' ') === -1){
+            comp.textContent = toWon(comp.textContent)
+        }
+        else{
+            comp.textContent = toWon(comp.textContent.substring(0, comp.textContent.indexOf(' '))) + comp.textContent.substring(comp.textContent.indexOf(' '));
+        }
+    });
 }
 

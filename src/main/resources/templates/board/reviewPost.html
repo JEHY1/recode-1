@@ -10,6 +10,47 @@
     <link rel="stylesheet" href="/css/boardCss/reviewPost.css">
     <script src="/js/jquery.js"></script>
     <script src="/js/header.js"></script>
+
+<style>
+#submit-btn{
+    border-radius: 5px;
+    border: 1px solid #548235;
+    background-color: white;
+    color: #548235;
+    padding: 10px 50px;
+    font-size: 25px;
+}
+
+#cancel-btn{
+    border-radius: 5px;
+    border: none;
+    background-color: #548235;
+    color: white;
+    padding: 10px 50px;
+    font-size: 25px;
+}
+
+#list-btn{
+    border: 1px solid #CCC;
+    background-color: white;
+    color: #999;
+    margin-left: 0px;
+    margin-top: 15px;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+#list-btn:hover{
+    transition: 0.9s;
+    color: black;
+    border-color: black;
+}
+
+
+
+
+
+</style>
 </head>
 
 <body>
@@ -77,12 +118,13 @@
                     </td>
                 </tr>
             </table>
-            <div class="btn-list">
-                <a th:href="'/myReviews?tap=' + ${review.reviewId == null ? 0 : 1}" class="back-btn">목록</a>
+            <div class="btn-list" id="list-btn" th:onclick="|location.href='/myReviews?tap=${review.reviewId == null ? 0 : 1}'|"> 목록
+<!--                <a th:href="'/myReviews?tap=' + ${review.reviewId == null ? 0 : 1}" class="back-btn" >목록</a>-->
+
             </div>
             <div class="btn-div">
-                <button th:text="${review.reviewId == null ? '등록' : '수정'}" type="submit"></button>
-                <input type="reset" value="취소">
+                <button id="submit-btn" th:text="${review.reviewId == null ? '등록' : '수정'}" type="submit"></button>
+                <input id="cancel-btn" type="reset" value="취소">
 
             </div>
         </form>

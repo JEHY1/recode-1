@@ -2,6 +2,7 @@ package com.example.recode.controller.product;
 
 import com.example.recode.service.ProductService;
 import com.example.recode.service.QnAService;
+import com.example.recode.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -19,6 +20,7 @@ public class ProductViewController {
 
     private final ProductService productService;
     private final QnAService qnAService;
+    private final UserService userService;
 
 
     //상품 상세 페이지
@@ -28,6 +30,7 @@ public class ProductViewController {
         model.addAttribute("product", productService.getProductInfoByProductId(productId, principal));
         model.addAttribute("QnAPages", qnAService.getQnAByProductIdPaging(productId, 10));
         model.addAttribute("QnATotalSize", qnAService.QnATotalSize(productId));
+        model.addAttribute("userId", principal != null ? userService.getUserId(principal) : null);
         model.addAttribute("principal", principal);
         return "product/productDetail";
     }

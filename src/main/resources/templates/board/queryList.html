@@ -21,31 +21,33 @@
     <div class="titleArea">
       <h2>상품문의</h2>
     </div>
-      <table>
-        <tr th:each="QnA : ${QnAs}">
-          <td th:text="${QnAStat.count + (nowPage-1)*10}"></td>
-          <td>
-            <div>
-              <a th:href="@{/community/qna/{id}(id=${QnA.qnAId})}">
-                <img class="userProImg" th:src="'http://192.168.106.12/fileServer' + ${QnA.productRepresentativeImgSrc}">
-              </a>
-            </div>
-          </td>
-          <td class="txtEm">
-            <span th:text="${QnA.qnAAnswer != null? '답변완료' : '미완료'}" th:style="${QnA.qnAAnswer != null ? 'background-color:#548235; color:white;' : 'color:#548235;'}"></span>
-            <a th:href="@{/community/qna/{id}(id=${QnA.qnAId})}" th:text="${QnA.qnAQuestionTitle}"></a>
-          </td>
-          <td th:text="${QnA.username}"></td>
-          <td th:text="${#temporals.format(QnA.qnACreateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-          <td th:text="${QnA.qnAViews}"></td>
-          <td>
-        </tr>
-      </table>
-      <div id="pageBox">
-        <a th:href="${QnAs.hasPrevious() ? '/community/qna/list?page=' + (nowPage-2) : 'javascript:void(0)'}" th:style="${QnAs.hasPrevious() ? '' : 'color:#ccc'}">〈</a>
-        <a th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/community/qna/list?page=' + (page - 1)}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }"></a>
-        <a th:href="${QnAs.hasNext() ? '/community/qna/list?page=' + nowPage : 'javascript:void(0)'}" th:style="${QnAs.hasNext() ? '' : 'color:#ccc'}">〉</a>
-      </div>
+    <table>
+      <tr th:each="QnA : ${QnAs}">
+        <td th:text="${QnAStat.count + (nowPage-1)*10}"></td>
+        <td>
+          <div>
+            <a th:href="@{/community/qna/{id}(id=${QnA.qnAId})}">
+              <img class="userProImg" th:src="'http://192.168.106.12/fileServer' + ${QnA.productRepresentativeImgSrc}">
+            </a>
+          </div>
+        </td>
+        <td>
+          <span th:text="${QnA.qnAAnswer != null? '답변완료' : '미완료'}" th:style="${QnA.qnAAnswer != null ? 'background-color:#548235; color:white;' : 'color:#548235;'}"></span>
+        </td>
+        <td class="txtEm">
+          <a th:href="@{/community/qna/{id}(id=${QnA.qnAId})}" th:text="${QnA.qnAQuestionTitle}"></a>
+        </td>
+        <td th:text="${QnA.username}"></td>
+        <td th:text="${#temporals.format(QnA.qnACreateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${QnA.qnAViews}"></td>
+        <td>
+      </tr>
+    </table>
+    <div id="pageBox">
+      <a th:href="${QnAs.hasPrevious() ? '/community/qna/list?page=' + (nowPage-2) : 'javascript:void(0)'}" th:style="${QnAs.hasPrevious() ? '' : 'color:#ccc'}">〈</a>
+      <a th:each="page : ${#numbers.sequence(startPage, endPage)}" th:text="${page}" th:href="${page == nowPage ? 'javascript:void(0)' : '/community/qna/list?page=' + (page - 1)}" th:style="${page == nowPage ? 'background-color: #548235; color: white;' : '' }"></a>
+      <a th:href="${QnAs.hasNext() ? '/community/qna/list?page=' + nowPage : 'javascript:void(0)'}" th:style="${QnAs.hasNext() ? '' : 'color:#ccc'}">〉</a>
+    </div>
   </div>
 </div>
 <th:block th:include="layouts/footer"></th:block>

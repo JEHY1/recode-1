@@ -19,7 +19,7 @@ main { /* main 크기 고정 */
     margin-bottom: 40px;
 }
 #showBox div:nth-of-type(1) {
-    padding: 25px 10px;
+    padding: 10px;
 }
 #showBox div:nth-of-type(1) img {
     width: 100px;
@@ -39,7 +39,7 @@ main { /* main 크기 고정 */
     padding: 0;
 }
 #showBox ul li {
-    padding: 25px 10px;
+    padding: 10px;
 }
 #showBox ul li p:nth-child(1) {
     display: inline-block;

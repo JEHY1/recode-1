@@ -2,7 +2,7 @@
     width: 1903px;
     min-width: 500px;
     text-align: center;
-    margin-top: 200px;
+    margin-top: 160px;
 }
 .content {
     text-align: center;
@@ -26,10 +26,11 @@
 }
 table{
     margin-left: 20px;
-    border-bottom: #eee 1px solid;
+    border-bottom: #ccc 1px solid;
+    border-collapse: collapse;
 }
 td {
-    border-top: 1px solid #eee;
+    border-top: 1px solid #ccc;
     padding: 20px;
     text-align: center;
     font-size: 13px;
@@ -69,7 +70,7 @@ tr > td:nth-child(2) {
     width: 70px;
 }
 tr > td:nth-child(3) {
-    width: 800px;
+    width: 950px;
     text-align: left;
     font-size: 13px;
 }
@@ -77,12 +78,15 @@ tr > td:nth-child(4) {
     width: 200px;
 }
 tr > td:nth-child(6) {
-    width: 200px;
-    text-align: center
-
-}
-tr > td:nth-child(5), td:nth-child(7) {
     width: 150px;
+    text-align: center
+}
+tr > td:nth-child(5) {
+    width: 150px;
+    color: #999;
+}
+tr > td:nth-child(7) {
+    width: 50px;
     color: #999;
 }
 .txtBody {

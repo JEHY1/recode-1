@@ -13,4 +13,5 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     Optional<List<Cart>> findAllByCartIdIn(List<Long> cartIds);
     Long countByUserId(Long userId); // userId로 Cart 갯수 세기
 
+
 }

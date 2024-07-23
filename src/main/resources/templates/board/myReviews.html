@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/boardCss/reViews.css">
     <link rel="stylesheet" href="/css/scroll.css">
+
     <script src="/js/jquery.js"></script>
     <script src="/js/header.js"></script>
 
@@ -107,6 +108,16 @@
             cursor : pointer;
         }
 
+        #selectedDelete-btn{
+            border : none;
+            background-color: #548235;
+            border-radius: 10px;
+            color: white;
+            padding : 10px 20px;
+            font-size: 23px;
+            cursor : pointer;
+        }
+
         .update-btn{
             border: 1px solid #548235;
             color: #548235;
@@ -126,6 +137,54 @@
             margin-right: 10px;
             cursor : pointer;
         }
+
+        .row{--bs-gutter-x:1.5rem;--bs-gutter-y:0;display:flex;flex-wrap:wrap;margin-top:calc(var(--bs-gutter-y) * -1);margin-right:calc(var(--bs-gutter-x) * -.5);margin-left:calc(var(--bs-gutter-x) * -.5)}.row>*{flex-shrink:0;width:100%;max-width:100%;padding-right:calc(var(--bs-gutter-x) * .5);padding-left:calc(var(--bs-gutter-x) * .5);margin-top:var(--bs-gutter-y)}
+        .mx-auto{margin-right:auto!important;margin-left:auto!important}
+        .w-100{width:100%!important}
+        .col{flex:100%}
+        .col-auto{flex:0 0 auto;width:auto}
+        .border-b-green{
+            border-bottom: 3px solid #548235;
+        }
+        .border-t-green{
+            border-top: 3px solid #548235;
+        }
+        .border-r-green{
+            border-right: 3px solid #548235;
+        }
+        .border-l-green{
+            border-left: 3px solid #548235;
+        }
+        .border-t-gray{
+            border-top: 3px solid gray;
+        }
+        .border-b-gray{
+            border-bottom: 3px solid gray;
+        }
+        .border-r-gray{
+            border-right: 3px solid gray;
+        }
+        .border-l-gray{
+            border-left: 3px solid gray;
+        }
+
+        .color-green{
+            color: #548235;
+        }
+
+        .color-gray{
+            color: gray;
+        }
+
+        .py-10{
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .cursor{
+            cursor: pointer;
+        }
+
     </style>
 
 
@@ -138,16 +197,23 @@
         <div class="titleArea">
             <h2>내 후기현황</h2>
         </div>
-        <div class="tabArea">
-            <button id="showWritableReview-btn">작성 가능한 후기</button>
-            <button id="showWrittenReview-btn">작성한 후기</button>
-            <input type="hidden" id="currentTap">
+        <div id="tapArea" class="row mx-auto w-100" style="margin-bottom: 40px;">
+
+            <div class="col-auto p-0 border-b-green" style="width: 400px;"></div>
+            <div id="showWritableReview-btn" style="width: 500px; font-size: 23px; font-weight: 700;">작성가능</div>
+            <div id="showWrittenReview-btn" style="width: 500px; font-size: 23px; font-weight: 700;">작성완료</div>
+            <div class="col-auto p-0 border-b-green" style="width: 400px;"></div>
+            <input type="hidden" id="currentTab">
         </div>
         <div id="writtenReviews" class="tabContent">
+            <div class="btnDiv" style="margin-bottom: 10px;">
+                <button id="selectedDelete-btn">삭제</button>
+            </div>
+
             <table style="width: 1880px;">
                 <thead>
                 <tr>
-                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox" id="all"></td>
                     <td>번호</td>
                     <td style="width: 130px;">작성 날짜</td>
                     <td style="width: 100px;">리뷰 이미지</td>
@@ -160,7 +226,7 @@
                 <tbody>
                 <tr th:each="review, iterStat : ${writtenReviewPage.myWrittenReviewList}">
 
-                    <td><input type="checkbox" th:value="${review.reviewId}"></td>
+                    <td><input type="checkbox" class="check" th:value="${review.reviewId}"></td>
                     <td class="writtenReviewNum"></td>
                     <td th:text="${#temporals.format(review.reviewCreateDate, 'yyyy-MM-dd HH:mm:ss')}" style="width: 130px;"></td>
                     <td style="width: 100px;">
@@ -177,14 +243,12 @@
                     </td>
                     <td>
                         <button class="update-btn" th:onclick="|location.href='/reviewPost?reviewId=${review.reviewId}'|">수정</button>
-                        <button class="delete-btn" onclick="deleteProduct(${review.productId})">삭제</button>
+                        <button class="delete-btn" th:onclick="|location.href='/myReview/${review.reviewId}/delete'|">삭제</button>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <div class="btnDiv">
-                <button onclick="deleteSelected()">삭제</button>
-            </div>
+
 
             <div class="row w-100 mx-auto mt-5" style="height: 47px;" th:if="${writtenReviewPage.totalPages != 0}">
                 <input type="hidden" id="writtenReviewTotalPageSize" th:value="${writtenReviewPage.totalPages}">

@@ -21,11 +21,13 @@ public class ProductDetailQnAViewResponse {
     private LocalDateTime QnACreateDate;
     private LocalDateTime QnAAnswerDate;
     private int QnAViews;
+    private long userId;
+    private int qnaSecret;
 
     @Builder
 
     public ProductDetailQnAViewResponse(int viewIndex, long qnAId, String qnAQuestionTitle, String qnAQuestionContent, String username, String qnAAnswer,
-                                        LocalDateTime qnACreateDate, LocalDateTime qnAAnswerDate, int qnAViews) {
+                                        LocalDateTime qnACreateDate, LocalDateTime qnAAnswerDate, int qnAViews, long userId, int qnaSecret) {
         this.viewIndex = viewIndex;
         this.QnAId = qnAId;
         this.QnAQuestionTitle = qnAQuestionTitle;
@@ -35,5 +37,7 @@ public class ProductDetailQnAViewResponse {
         this.QnACreateDate = qnACreateDate;
         this.QnAAnswerDate = qnAAnswerDate;
         this.QnAViews = qnAViews;
+        this.userId = userId;
+        this.qnaSecret = qnaSecret;
     }
 }

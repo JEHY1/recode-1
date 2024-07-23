@@ -46,7 +46,7 @@ function sample6_execDaumPostcode() {
             document.getElementById("sample6_addressAndPostcode").value = addr + ' [' + data.zonecode + "]";
 
             //주소 미입력 경고 삭제
-            if(document.getElementById('sample6_detailAddress').value !== ''){
+            if(document.getElementById('deliveryFeeInfo') != null && document.getElementById('sample6_detailAddress').value !== ''){
                 sample6AddressAndPostcode.parentElement.parentElement.parentElement.classList.remove('border-red');
             }
 

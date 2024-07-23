@@ -96,7 +96,7 @@
         <div class="d-hidden d-fixed" id="searchedField" style="background-color: white; width: 600px;"></div>
     </div>
 </div>
-<div xmlns:th="http://www.w3.org/1999/xhtml" id="notice" th:if="${msg}">
+<div xmlns:th="http://www.w3.org/1999/xhtml" id="notice" th:if="${msg != null}">
     <div>
         <p th:text="${msg}"></p>
         <a href="javascript:void(0)">확인</a>

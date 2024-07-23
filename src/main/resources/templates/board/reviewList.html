@@ -35,13 +35,13 @@
                 </td>
                 <td th:text="${review.username}"></td>
                 <td th:text="${#temporals.format(review.reviewCreateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                <td th:text="${review.reviewViews}"></td>
                 <td>
                     <div class="star-rating">
                         <label th:each="star : ${#numbers.sequence(1, 5)}"
                                th:classappend="${star <= review.reviewScore} ? 'red' : ''"></label>
                     </div>
                 </td>
+                <td th:text="${review.reviewViews}"></td>
             </tr>
         </table>
         <div id="pageBox">

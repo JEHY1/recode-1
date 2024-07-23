@@ -20,9 +20,9 @@
     </div>
       <table>
         <tr>
-          <td></td>
+          <td>공지사항</td>
           <td class="txtEm">
-            <a th:href="@{/notice/{id}(id=${notice.noticeId})}" th:text="${notice.noticeTitle}"></a>
+            <a th:text="${notice.noticeTitle}"></a>
           </td>
           <td th:text="${username}"></td>
           <td th:text="${#temporals.format(notice.noticeCreateDate, 'yyyy-MM-dd')}"></td>

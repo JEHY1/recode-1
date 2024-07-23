@@ -149,7 +149,7 @@
 
         <div class="row w-100 mx-auto">
           <div class="col-3 ms-2 p-0">결제금액</div>
-          <div class="col" th:text="${payment.paymentPrice}">test(sss)</div>
+          <div class="col price" th:text="${payment.paymentPrice}">test(sss)</div>
         </div>
 
         <div class="row w-100 mx-auto">
@@ -220,7 +220,7 @@
           <input type="hidden" th:value="${orderDetail.paymentDetailId}">
           <div class="col-auto number d-flex align-items-center" style="width: 100px;">1</div>
           <div class="col-6 d-flex align-items-center"><img th:src="'http://192.168.106.12/fileServer' + ${orderDetail.productRepImgSrc}" style="width: 130px; height: 130px;"> <div class="ms-3" th:text="${orderDetail.productName}"></div></div>
-          <div class="col text-center d-flex align-items-center justify-content-center" style="width: 150px;" th:text="${orderDetail.productPrice}">금액</div>
+          <div class="col text-center d-flex align-items-center justify-content-center price" style="width: 150px;" th:text="${orderDetail.productPrice}">금액</div>
           <div class="col d-flex align-items-center justify-content-center">
             <div>
               <div class="mb-2 text-center" th:text="${orderDetail.paymentDetailStatus}"></div>
