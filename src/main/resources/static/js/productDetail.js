@@ -90,15 +90,18 @@ if(QnATitleButtons){
             Array.from(QnATitleButtons).forEach(button2 => {
                 if(button2 !== button && button2.nextElementSibling !== null){
                     button2.nextElementSibling.classList.add('d-hidden')
+                    button2.classList.remove('bg-gainsboro');
                 }
             });
 
             if(button.nextElementSibling != null){
                if(button.nextElementSibling.classList.contains('d-hidden')){
                    button.nextElementSibling.classList.remove('d-hidden');
+                   button.classList.add('bg-gainsboro');
                }
                else{
                    button.nextElementSibling.classList.add('d-hidden');
+                   button.classList.remove('bg-gainsboro');
                }
             }
         });

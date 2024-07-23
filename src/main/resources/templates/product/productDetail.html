@@ -463,7 +463,12 @@
                 <div class="border-top-gainsboro color-gray" th:each="QnA : ${QnAPage}">
                     <div class="border-bottom-gainsboro row w-100 mx-auto QnATitle-btn" style="height: 60px;">
                         <div class="col-1 d-flex align-items-center justify-content-center" th:text="${QnA.viewIndex}">1</div>
-                        <div class="col-7 d-flex align-items-center" th:text="${QnA.qnaSecret == 1 && (userId == null || userId != QnA.userId) ? '비밀글입니다.' : QnA.QnAQuestionTitle}">배송문의 합니다.</div>
+                        <div class="col-7 d-flex align-items-center">
+                            <div class="row w-100 mx-auto">
+                                <div class="col-auto pe-1" th:text="${QnA.qnaSecret == 1 && (userId == null || userId != QnA.userId) ? '비밀글입니다.' : QnA.QnAQuestionTitle}"></div>
+                                <img th:if="${QnA.qnaSecret == 1}" class="col-auto p-0 mt-1" src="/images/icon_img/lock.png" style="width: 20px; height: 20px;">
+                            </div>
+                        </div>
                         <div class="col-1 d-flex align-items-center justify-content-center" th:text="${QnA.username}">AWESOMED</div>
                         <div class="col-2 d-flex align-items-center justify-content-center" th:text="${#temporals.format(QnA.QnACreateDate, 'yyyy-MM-dd')}">2024-05-17 11:23:32</div>
                         <div class="col-1 d-flex align-items-center justify-content-center" th:text="${QnA.QnAViews}">2</div>

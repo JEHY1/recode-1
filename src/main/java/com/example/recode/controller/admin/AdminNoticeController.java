@@ -63,7 +63,6 @@ public class AdminNoticeController {
         model.addAttribute("notice", noticeEntity);
         String username = userService.getUsername(noticeEntity.getUserId());
         model.addAttribute("username", username);
-        noticeService.updateView(noticeId); // 조회수 증가 - 사용자 페이지에서 하기
 
         return "admins/admin_notice_show";
     }

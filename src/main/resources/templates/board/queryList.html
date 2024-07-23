@@ -26,7 +26,9 @@
         <td th:text="${QnAStat.count + (nowPage-1)*10}"></td>
         <td>
           <div>
-            <a th:href="@{/community/qna/{id}(id=${QnA.qnAId})}">
+            <input type="hidden" th:value="${QnA.qnASecret == 1 && (userId == null || userId != QnA.userId)}">
+            <input type="hidden" th:value="${QnA.qnAId}">
+            <a onclick="checkAuth(this)" class="cursor">
               <img class="userProImg" th:src="'http://192.168.106.12/fileServer' + ${QnA.productRepresentativeImgSrc}">
             </a>
           </div>
@@ -35,7 +37,12 @@
           <span th:text="${QnA.qnAAnswer != null? '답변완료' : '미완료'}" th:style="${QnA.qnAAnswer != null ? 'background-color:#548235; color:white;' : 'color:#548235;'}"></span>
         </td>
         <td class="txtEm">
-          <a th:href="@{/community/qna/{id}(id=${QnA.qnAId})}" th:text="${QnA.qnAQuestionTitle}"></a>
+          <div>
+            <input type="hidden" th:value="${QnA.qnASecret == 1 && (userId == null || userId != QnA.userId)}">
+            <input type="hidden" th:value="${QnA.qnAId}">
+            <span class="cursor" onclick="checkAuth(this)" th:text="${QnA.qnASecret == 1 && (userId == null || userId != QnA.userId) ? '비밀글입니다.' : QnA.qnAQuestionTitle}"></span>
+            <img src="/images/icon_img/lock.png" th:if="${QnA.qnASecret} == 1">
+          </div>
         </td>
         <td th:text="${QnA.username}"></td>
         <td th:text="${#temporals.format(QnA.qnACreateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
@@ -53,5 +60,6 @@
 <th:block th:include="layouts/footer"></th:block>
 <th:block th:include="layouts/scroll"></th:block>
 <script src="/js/scroll.js"></script>
+<script src="/js/queryList.js"></script>
 </body>
 </html>

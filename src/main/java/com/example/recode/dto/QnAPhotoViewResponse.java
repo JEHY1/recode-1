@@ -19,7 +19,7 @@ public class QnAPhotoViewResponse {
     private String qnAAnswer;
     private LocalDateTime qnACreateDate;
     private int qnAViews;
-    private int qnaSecret;
+    private int qnASecret;
     private long userId;
 
     public QnAPhotoViewResponse(QnA qnA, Product product, String username) {
@@ -31,7 +31,7 @@ public class QnAPhotoViewResponse {
         this.qnAAnswer = qnA.getQnAAnswer();
         this.qnACreateDate = qnA.getQnACreateDate();
         this.qnAViews = qnA.getQnAViews();
-        this.qnaSecret = qnA.getQnaSecret();
+        this.qnASecret = qnA.getQnASecret();
         this.userId = qnA.getUserId();
     }
 }

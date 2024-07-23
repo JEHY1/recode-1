@@ -33,7 +33,10 @@
         </td>
         <td class="txtEm">
           <span th:text="${QnA.qnAAnswer != null? '답변완료' : '미완료'}" th:style="${QnA.qnAAnswer != null ? 'background-color:#548235; color:white;' : 'color:#548235;'}"></span>
+        </td>
+        <td class="txtEm">
           <a th:href="@{/user/qna/{id}(id=${QnA.qnAId})}" th:text="${QnA.qnAQuestionTitle}"></a>
+          <img src="/images/icon_img/lock.png" th:if="${QnA.qnASecret} == 1">
         </td>
         <td></td>
         <td th:text="${#temporals.format(QnA.qnACreateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>

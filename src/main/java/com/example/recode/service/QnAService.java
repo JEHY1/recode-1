@@ -61,7 +61,7 @@ public class QnAService {
                     .qnAAnswerDate(QnA.getQnAAnswerDate())
                     .qnACreateDate(QnA.getQnACreateDate())
                     .qnAViews(QnA.getQnAViews())
-                    .qnaSecret(QnA.getQnaSecret())
+                    .qnaSecret(QnA.getQnASecret())
                     .userId(QnA.getUserId())
                     .build());
             //지정한 수량만큼 담았을 경우 pagingQnAs 에 QnAList 담기, QnAList 에 새로운 리스트 할당
@@ -145,7 +145,7 @@ public class QnAService {
                 .qnAQuestionTitle(request.getQnaTitle())
                 .qnAQuestionContent(request.getQnaContent())
                 .qnAViews(0)
-                .qnaSecret(request.getQnaSecret())
+                .qnASecret(request.getQnaSecret())
                 .build()
         );
     }
@@ -331,7 +331,7 @@ public class QnAService {
 
     public QnA getQnaInfo(long qnaId, Principal principal){
         QnA qna = findById(qnaId);
-        if(qna.getQnaSecret() == 1 && (principal == null || userService.getUserId(principal) != qna.getUserId())){
+        if(qna.getQnASecret() == 1 && (principal == null || userService.getUserId(principal) != qna.getUserId())){
             return null;
         }
 

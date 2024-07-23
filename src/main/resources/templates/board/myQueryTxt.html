@@ -23,9 +23,12 @@
     <table>
       <tr>
         <td>질문</td>
-        <td class="txtEm">
+        <td>
           <span th:text="${qna.qnAAnswer != null? '답변완료' : '미완료'}" th:style="${qna.qnAAnswer != null ? 'background-color:#548235; color:white;' : 'color:#548235;'}"></span>
-          <span th:utext="${qna.qnAQuestionTitle}"></span>
+        </td>
+        <td>
+          <span th:text="${qna.qnAQuestionTitle}"></span>
+          <img src="/images/icon_img/lock.png" th:if="${qna.qnASecret} == 1">
         </td>
         <td></td>
         <td th:text="${#temporals.format(qna.qnACreateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>

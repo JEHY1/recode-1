@@ -26,7 +26,10 @@
                 <td>
                     <span th:text="${qna.qnAAnswer != null? '답변완료' : '미완료'}" th:style="${qna.qnAAnswer != null ? 'background-color:#548235; color:white;' : 'color:#548235;'}"></span>
                 </td>
-                <td th:text="${qna.qnAQuestionTitle}"></td>
+                <td>
+                    <span th:text="${qna.qnAQuestionTitle}"></span>
+                    <img src="/images/icon_img/lock.png" th:if="${qna.qnASecret} == 1">
+                </td>
                 <td th:text="${username}"></td>
                 <td th:text="${#temporals.format(qna.qnACreateDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${qna.qnAViews}"></td>

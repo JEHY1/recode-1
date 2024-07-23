@@ -49,10 +49,10 @@ public class QnA {
     private LocalDateTime qnAAnswerDate;
 
     @Column(name = "qna_secret", nullable = false)
-    private int qnaSecret;
+    private int qnASecret;
 
     @Builder
-    public QnA(Long qnAId, long userId, long productId, String qnAQuestionTitle, String qnAQuestionContent, String qnAAnswer, LocalDateTime qnACreateDate, int qnAViews, LocalDateTime qnAAnswerDate, int qnaSecret) {
+    public QnA(Long qnAId, long userId, long productId, String qnAQuestionTitle, String qnAQuestionContent, String qnAAnswer, LocalDateTime qnACreateDate, int qnAViews, LocalDateTime qnAAnswerDate, int qnASecret) {
         this.qnAId = qnAId;
         this.userId = userId;
         this.productId = productId;
@@ -62,7 +62,7 @@ public class QnA {
         this.qnACreateDate = qnACreateDate;
         this.qnAViews = qnAViews;
         this.qnAAnswerDate = qnAAnswerDate;
-        this.qnaSecret = qnaSecret;
+        this.qnASecret = qnASecret;
     }
 
     public QnA saveAnswer(QnaAnswerRequest dto) { // 상품문의 답변 등록&수정

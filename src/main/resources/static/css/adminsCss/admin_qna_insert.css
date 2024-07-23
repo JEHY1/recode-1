@@ -54,6 +54,13 @@ main { /* main 크기 고정 */
     width: 400px;
     padding: 7px 9px;
 }
+#showBox ul li p:nth-child(2) img {
+    width: 23px;
+    height: 23px;
+    margin-top: 2px;
+    margin-left: 3px;
+    vertical-align: top;
+}
 .buttonBox {
     text-align: center;
     margin-top: 30px;

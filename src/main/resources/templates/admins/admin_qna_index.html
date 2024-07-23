@@ -62,7 +62,10 @@
                             <td th:text="${QnAStat.count + (nowPage-1)*10}"></td>
                             <td th:text="${QnA.productName}"></td>
                             <td><span th:text="${QnA.qnAAnswer == null ? '미완료' : '답변완료'}" th:style="${QnA.qnAAnswer == null ? '' : 'background-color:#548235; color:white;'}"></span></td>
-                            <td><a th:href="'/admin/qna/' + ${QnA.qnAId} + '/show'" th:text="${QnA.qnAQuestionTitle}"></a></td>
+                            <td>
+                                <a th:href="${QnA.qnAAnswer == null ? '/admin/qna/' + QnA.qnAId + '/insert' : '/admin/qna/' + QnA.qnAId + '/show'}" th:text="${QnA.qnAQuestionTitle}"></a>
+                                <img src="/images/icon_img/lock.png" th:if="${QnA.qnASecret} == 1">
+                            </td>
                             <td><a th:href="'/admin/user/' + ${QnA.userId} + '/show'" th:text="${QnA.username}"></a></td>
                             <td th:text="${QnA.qnAViews}"></td>
                             <td th:text="${#temporals.format(QnA.qnACreateDate, 'yyyy-MM-dd')}"></td>

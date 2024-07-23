@@ -22,8 +22,10 @@
                 <ul>
                     <li>
                         <p>제목</p>
-                        <p th:text="${QnA.qnAQuestionTitle}"></p>
-                        <p></p>
+                        <p>
+                            <span th:text="${QnA.qnAQuestionTitle}"></span>
+                            <img src="/images/icon_img/lock.png" th:if="${QnA.qnASecret} == 1">
+                        </p>
                     </li>
                     <li>
                         <p>내용</p>
