@@ -236,7 +236,7 @@ if(selectBar){
                     document.getElementById('deliveryFeeInfo').textContent = toWon(parseInt(document.getElementById('deliveryFeeInfo').textContent.substring(0, document.getElementById('deliveryFeeInfo').textContent.length - 1).replace(/,/g, '')) - 5000);
                     document.getElementById('deliveryFee').textContent = '+' + toWon(parseInt(document.getElementById('deliveryFee').textContent.replace(/,/g, '')) - 5000);
                     document.getElementById('totalPaymentPrice').textContent = toWon(parseInt(document.getElementById('totalPaymentPrice').textContent.replace(/,/g, '')) - 5000);
-                    paymentButton.textContent = toWon(parseInt(document.getElementById('totalPaymentPrice').textContent).replace(/,/g, '')) + ' 결제하기';
+                    paymentButton.textContent = toWon(parseInt(document.getElementById('totalPaymentPrice').textContent.replace(/,/g, ''))) + ' 결제하기';
                 }
                 else if(!document.getElementById('sample6_address').value.includes('제주특별자치도') && data.addressRoadNameAddress.includes('제주특별자치도')){
                     document.getElementById('deliveryFeeInfo').textContent = toWon(parseInt(document.getElementById('deliveryFeeInfo').textContent.substring(0, document.getElementById('deliveryFeeInfo').textContent.length - 1).replace(/,/g, '')) + 5000);
