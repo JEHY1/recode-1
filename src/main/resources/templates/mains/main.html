@@ -37,6 +37,8 @@
                 <p><span th:text="${product.productRegularPrice}" th:style="${product.productDiscountPrice != null ? '' : 'font-size: 25px; text-decoration: none; color: black;'}"></span><span th:text="${product.productDiscountPrice != null ? product.productDiscountPrice : ''}" th:style="${product.productDiscountPrice != null ? '' : 'margin-left: 0;'}"></span>원<span th:if="${product.productDiscountPrice != null}"></span></p>
             </div>
         </div>
+        <div id="arrowLeft">〈</div>
+        <div id="arrowRight">〉</div>
     </div>
     <div id="bestBox">
         <p>베스트</p>

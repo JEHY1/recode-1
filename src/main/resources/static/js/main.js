@@ -30,6 +30,13 @@ $(function(){
         $("#newBox > .productBox > div:first-child").insertAfter("#newBox > .productBox > div:last-child");
       });
     };
+    // 화살표 클릭
+    $("#arrowLeft").on("click", function() {
+      $("#newBox > .productBox > div:last-child").insertBefore("#newBox > .productBox > div:first-child");
+    });
+    $("#arrowRight").on("click", function() {
+      $("#newBox > .productBox > div:first-child").insertAfter("#newBox > .productBox > div:last-child");
+    });
 
     // 신상품
     for(let i = 1; i <= $("#newBox > .productBox > div").length; i++) {
