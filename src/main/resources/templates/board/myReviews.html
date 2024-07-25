@@ -199,10 +199,10 @@
         </div>
         <div id="tabArea" class="row mx-auto w-100" style="margin-bottom: 40px;">
 
-            <div class="col-auto p-0 border-b-green" style="width: 400px;"></div>
+            <div class="col-auto p-0 border-b-green" style="width: 417px;"></div>
             <div id="showWritableReview-btn" style="width: 500px; font-size: 23px; font-weight: 700;">작성가능</div>
             <div id="showWrittenReview-btn" style="width: 500px; font-size: 23px; font-weight: 700;">작성완료</div>
-            <div class="col-auto p-0 border-b-green" style="width: 400px;"></div>
+            <div class="col-auto p-0 border-b-green" style="width: 417px;"></div>
             <input type="hidden" id="currentTab">
         </div>
         <div id="writtenReviews" class="tabContent">
@@ -215,9 +215,9 @@
                 <tr>
                     <td><input type="checkbox" id="all"></td>
                     <td>번호</td>
-                    <td style="width: 130px;">작성 날짜</td>
+                    <td style="width: 150px;">작성 날짜</td>
                     <td style="width: 100px;">리뷰 이미지</td>
-                    <td>상품명</td>
+                    <td style="width: 230px;">상품명</td>
                     <td style="width: 700px;">제목</td>
                     <td style="width: 100px;">평점</td>
                     <td>기능</td>
@@ -264,7 +264,7 @@
                 <thead>
                 <tr>
                     <td>번호</td>
-                    <td>구매 날짜</td>
+                    <td style="width: 200px;">구매 날짜</td>
                     <td style="width: 100px;">상품 이미지</td>
                     <td style="width: 800px;">상품명</td>
                     <td>기능</td>
@@ -274,7 +274,7 @@
                     <tr th:each="review, iterStat : ${writableReviewPage.myWritableReviewList}">
 
                         <td class="writableReviewNum"></td>
-                        <td th:text="${#temporals.format(review.paymentCreateDate, 'yyyy-MM-dd')} "></td>
+                        <td th:text="${#temporals.format(review.paymentCreateDate, 'yyyy-MM-dd HH:mm:ss')} "></td>
                         <td style="width: 100px;">
                             <img th:src="'http://192.168.106.12/fileServer' + ${review.productRepImg}" alt="상품 이미지" style="padding: 0px; width: 100px; height: 100px;">
                         </td>

@@ -69,7 +69,6 @@ tr > td:nth-child(2) {
 }
 tr > td:nth-child(3) {
     width: 800px;
-    text-align: left;
     font-size: 13px;
 }
 tr > td:nth-child(4) {
@@ -82,7 +81,6 @@ tr > td:nth-child(6) {
 }
 tr > td:nth-child(5), td:nth-child(7) {
     width: 150px;
-    color: #999;
 }
 .txtBody {
     text-align: left;
