@@ -94,7 +94,7 @@ public class JoinController {
     @PostMapping("find/id/create") // find_id 페이지 post
     public String createFindId(FindIdRequest request, RedirectAttributes rttr) {
         User userEntity = userService.findByUserEmail(request.getUserEmail());
-        if(userEntity != null && request.getUserRealName().equals(userEntity.getUserRealName())) {
+        if(userEntity != null && userEntity.getUserDeleteDate() == null && request.getUserRealName().equals(userEntity.getUserRealName())) {
             return "redirect:/find/id/" + userEntity.getUserId() + "/finish";
         }
         else {
@@ -118,7 +118,7 @@ public class JoinController {
     @PostMapping("/find/pw/create") // find_pw 페이지 post
     public String createFindPw(FindPwRequest request, RedirectAttributes rttr) {
         User userEntity = userService.findByUserEmail(request.getUserEmail());
-        if(userEntity != null && request.getUsername().equals(userEntity.getUsername()) && request.getUserRealName().equals(userEntity.getUserRealName())) {
+        if(userEntity != null && userEntity.getUserDeleteDate() == null && request.getUsername().equals(userEntity.getUsername()) && request.getUserRealName().equals(userEntity.getUserRealName())) {
             return "redirect:/find/pw/" + userEntity.getUserId() + "/finish/new";
         }
         else {

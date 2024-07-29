@@ -276,6 +276,11 @@ if(document.getElementsByTagName('header')){
     document.getElementsByTagName('header')[0].classList.add('border-b-header');
 }
 
+if(getUrlParameter('startDate') !== null){
+    document.getElementById('period1').setAttribute('class', 'bg-white me-3 br-5');
+}
+
+
 //페이징
 const pageButtonField = document.getElementById('pageButtonField');
 

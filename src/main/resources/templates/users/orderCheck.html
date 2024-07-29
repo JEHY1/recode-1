@@ -206,7 +206,7 @@
       <div class="row w-100 mx-auto">
         <div class="col-auto fw-b mx-3 py-4">구매기간</div>
         <div class="col-10 row py-4">
-          <button th:class="${(unitPeriod == null || unitPeriod == 1) ? 'color-white bg-gray me-3 br-5' : 'bg-white me-3 br-5'}" style="width: 100px;" onclick="location.href='/user/orderCheck?unitPeriod=1'">1개월</button>
+          <button th:class="${(unitPeriod == null || unitPeriod == 1) ? 'color-white bg-gray me-3 br-5' : 'bg-white me-3 br-5'}" style="width: 100px;" onclick="location.href='/user/orderCheck?unitPeriod=1'" id="period1">1개월</button>
           <button th:class="${unitPeriod == 3 ? 'color-white bg-gray me-3 br-5' : 'bg-white me-3 br-5'}" style="width: 100px;" onclick="location.href='/user/orderCheck?unitPeriod=3'">3개월</button>
           <button th:class="${unitPeriod == 6 ? 'color-white bg-gray me-3 br-5' : 'bg-white me-3 br-5'}" style="width: 100px;" onclick="location.href='/user/orderCheck?unitPeriod=6'">6개월</button>
           <button th:class="${unitPeriod == 12 ? 'color-white bg-gray br-5' : 'bg-white br-5'}" style="width: 100px;" onclick="location.href='/user/orderCheck?unitPeriod=12'">12개월</button>

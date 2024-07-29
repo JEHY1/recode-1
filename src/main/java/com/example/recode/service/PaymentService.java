@@ -187,7 +187,7 @@ public class PaymentService {
         }
         else if(startDate != null && endDate != null){
             LocalDateTime start = LocalDate.parse(startDate, formatter).atStartOfDay();
-            LocalDateTime end = LocalDate.parse(endDate, formatter).atStartOfDay();
+            LocalDateTime end = LocalDate.parse(endDate, formatter).plusDays(1).atStartOfDay();
             payments = paymentRepository.findByUserIdAndPaymentDateBetweenOrderByPaymentDateDesc(userService.getUserId(principal), start, end, pageable)
                     .orElse(null);
             allPayment = paymentRepository.findByUserIdAndPaymentDateBetween(userService.getUserId(principal), start, end)
