@@ -121,6 +121,13 @@
         .move-btn div:hover{
             color: black;
         }
+
+        .underStood-btn{
+            background-color: #548235;
+            border: none;
+            color: white;
+
+        }
     </style>
 </head>
 <body>
@@ -400,7 +407,7 @@
                 <div class="col-auto pe-0 d-flex align-items-center justify-content-center mt-3">할부기간</div>
                 <div class="col-auto d-flex align-items-center justify-content-center ps-1 mt-3" style="font-size: 25px; color: green;">*</div>
                 <select class="col-10 mx-auto border mt-3" id="paymentInstallment">
-                    <option>일시불</option>
+                    <option value="1">일시불</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
@@ -773,7 +780,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary d-hidden" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="termsAndConditionsAgreement(this)">Understood</button>
+                <button type="button" class="btn underStood-btn" onclick="termsAndConditionsAgreement(this)">동의합니다</button>
             </div>
         </div>
     </div>
@@ -823,7 +830,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary d-hidden" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="PrivacyAgreement-btn" onclick="PrivacyAgreement(this)">Understood</button>
+                <button type="button" class="btn underStood-btn" id="PrivacyAgreement-btn" onclick="PrivacyAgreement(this)">동의합니다</button>
             </div>
         </div>
     </div>
